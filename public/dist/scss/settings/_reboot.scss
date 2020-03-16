@@ -1,0 +1,45 @@
+html,
+body {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 16px;
+    color: #666;
+}
+
+[class^="col"] {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+[class^="container"],
+[class^="container-"]{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.row{
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
+
+a{
+    &[href]{
+        &:hover{
+            text-decoration: none;
+        }
+    }
+}
+
+ul{
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    margin-bottom: 0;
+}
+

@@ -1,0 +1,40 @@
+.form-control{
+    background-color: var(--bg-bw);
+    color: var(--text-paragraph);
+    border: 1px solid var(--border);
+
+    &:focus{
+        background-color: var(--bg-bw);
+        color: var(--text-paragraph);
+        border-color: var(--primary);
+        
+        @include boxShadow(0,0,0.2rem, var(--primary));
+    }
+}
+
+.form-group{
+    label{
+        color: var(--text-subtitle);
+    }
+}
+
+.input-group{
+    .input-group-prepend,
+    .input-group-append {
+        .input-group-text{
+            background-color: var(--bg-bw);
+            color: var(--text-paragraph);
+            border-color: var(--border);
+        }
+
+        .btn{
+            border-color: var(--border);
+            color: var(--text-paragraph);
+
+            &:hover{
+                background-color: var(--text-paragraph);
+                color: var(--white);
+            }
+        }
+    }
+}

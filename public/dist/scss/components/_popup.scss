@@ -1,0 +1,149 @@
+.popup{
+    width: 100%;
+    height: 100%;
+
+    padding: 1rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1071;
+
+    display: none;
+
+    @include translate(-50%, -50%);
+
+    &:focus{
+        outline: none;
+    }
+
+    &.show{
+        &.fade {
+            .popup-dialog {
+                .popup-content {
+                    opacity: 1;
+
+                    @include scale(1, 1);
+
+                    @include transition(300ms);
+                }
+            }
+        }
+
+        .popup-dialog {
+            .popup-content {
+                opacity: 1;
+
+                @include scale(1, 1);
+            }
+        }
+    }
+
+    .popup-dialog{
+        width: 100%;
+        height: 100%;
+
+        position: relative;
+        z-index: 1;
+
+        @include d-flex(column, center, center);
+
+        &.popup-dialog-top {
+            justify-content: flex-start;
+        }
+
+        &.popup-dialog-bottom{
+            justify-content: flex-end;
+        }
+
+        &.popup-dialog-left {
+            align-items: flex-start;
+        }
+
+        &.popup-dialog-right {
+            align-items: flex-end;
+        }
+
+        &.popup-dialog-75{
+            .popup-content{
+                width: 75%;
+            }
+        }
+
+        .popup-content{
+            width: 100%;
+            max-height: 100%;
+
+            background-color: var(--bg-bw);
+
+            @include borderRadius(0.25rem);
+            @include boxShadowDf();
+
+            opacity: 0;
+            @include scale(0.9, 0.9);
+
+            @include transition(300ms);
+
+            .popup-header{
+                height: 48px;
+
+                padding: 0.5rem 1rem;
+
+                @include d-flex(row, space-between, center);
+            }
+
+            .popup-body{
+                height: calc(100% - 96px);
+
+                padding: 1rem;
+
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            .popup-footer{
+                height: 48px;
+
+                padding: 0.5rem 1rem;
+
+                @include d-flex(row, flex-end, center);
+
+                .btn{
+                    min-width: 120px;
+
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+    }
+}
+
+.popup-backdrop {
+    width: 100vw;
+    height: 100vh;
+
+    background-color: transparentize($color-black, 0.5);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1070;
+
+    opacity: 0;
+
+    @include transition(300ms);
+
+    &.show{
+        opacity: 1;
+    }
+
+    &.fade{
+        opacity: 1;
+
+        @include transition(300ms);
+    }
+
+    &.focus{
+        backdrop-filter: blur(0.25rem);
+    }
+}

@@ -1,0 +1,77 @@
+@use "var";
+@use "mixin";
+
+$button-colors: (
+    'default': $color-black,
+
+    'primary': $color-primary,
+    'secondary': $color-secondary,
+
+    'success': $color-success,
+    'warning': $color-warning,
+    'danger': $color-danger,
+
+    'link': $color-link
+);
+
+.btn {
+    font-weight: 500;
+    
+    color: var(--text-title);
+
+    @include borderRadius(0.25rem);
+
+    @each $key, $value in $button-colors {
+        &.btn-#{$key} {
+            @if ($key == 'link'){
+                color: #{$value};
+
+                &:hover{
+                    color: lighten($value, 10%);
+
+                    text-decoration: none;
+                }
+            } @else if ($key == 'default') {
+                background-color: var(--btn-default);
+                border: 1px solid var(--btn-default);
+                color: var(--text-subtitle);
+
+                &:hover{
+                    background-color: var(--btn-default-hover);
+                }
+            } @else{
+                background-color: #{$value};
+                border: 1px solid #{$value};
+                color: $color-white;
+
+                &:hover {
+                    background-color: lighten($value, 10%);
+                }
+            }
+        }
+
+        &.btn-outline-#{$key} {
+            @if ($key=='default') {
+                background-color: transparent;
+                border: 1px solid var(--text-subtitle);
+                color: var(--text-subtitle);
+
+                &:hover {
+                    background-color: var(--text-subtitle);
+                    color: var(--white);
+                }
+            } @else {
+                background-color: transparent;
+                border: 1px solid #{$value};
+                color: #{$value};
+
+                &:hover {
+                    background-color: #{$value};
+                    color: var(--white);
+                }
+            }
+        }
+    }
+
+    ;
+}

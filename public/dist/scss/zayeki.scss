@@ -1,0 +1,28 @@
+/*
+=========================================================
+EDULIVE STYLESHEET
+
+Author: hungluong
+=========================================================
+*/
+
+// BASIC SETUP
+@import "settings/var";
+@import "settings/reboot";
+@import "settings/type";
+
+@import "settings/mixin";
+
+// COMPONENTS
+@import "components/buttons";
+@import "components/badges";
+@import "components/card";
+@import "components/dropdown";
+@import "components/form";
+@import "components/poal";
+@import "components/popup";
+@import "components/table";
+
+// COMMON
+@import "components/header";
+@import "components/list_items";

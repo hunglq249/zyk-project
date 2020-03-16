@@ -1,0 +1,128 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 6rem;
+    font-weight: 500;
+
+    letter-spacing: -1.5 / 16 + rem;
+}
+
+h2 {
+    font-size: 3.75rem;
+    font-weight: 500;
+
+    letter-spacing: -0.5 / 16 + rem;
+}
+
+h3 {
+    font-size: 3rem;
+    font-weight: 500;
+}
+
+h4 {
+    font-size: 2.125rem;
+    font-weight: 500;
+
+    letter-spacing: 0.25 / 16 + rem;
+}
+
+h5 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+h6 {
+    font-size: 1.25rem;
+    font-weight: 500;
+
+    letter-spacing: 0.15 / 16 + rem;
+
+    &.subtitle-md {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    &.subtitle-sm {
+        font-size: 0.875rem;
+        font-weight: 500;
+
+        letter-spacing: 0.1 / 16 + rem;
+    }
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 400;
+
+    letter-spacing: 0.5 / 16 + rem;
+
+    &.p-sm {
+        font-size: 0.875rem;
+
+        letter-spacing: 0.25 / 16 + rem;
+    }
+
+    &.p-caption {
+        font-size: 0.75rem;
+
+        letter-spacing: 0.4 / 16 + rem;
+    }
+
+    &.p-overline {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+
+        letter-spacing: 1.5 / 16 + rem;
+    }
+}
+
+.p-sm {
+    font-size: 0.875rem;
+    font-weight: 400;
+
+    letter-spacing: 0.5 / 16 + rem;
+}
+
+.p-caption {
+    font-size: 0.75rem;
+    font-weight: 400;
+
+    letter-spacing: 0.5 / 16 + rem;
+}
+
+.p-overline {
+    font-size: 0.625rem;
+    font-weight: 400;
+
+    color: var(--color-overline);
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.5 / 16 + rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5{
+    color: var(--text-title);
+}
+
+h6,
+p.p-overline,
+p.p-caption{
+    color: var(--text-subtitle);
+}
+
+p{
+    color: var(--text-paragraph);
+}

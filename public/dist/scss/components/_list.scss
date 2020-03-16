@@ -1,0 +1,46 @@
+.list-items{
+    &.view-list{
+        .item{
+            width: 100%;
+
+            padding: 1rem;
+            margin-bottom: 1rem;
+
+            background-color: var(--white);
+
+            @include d-flex(row, normal, normal);
+
+            &:hover{
+                outline: 1px dashed var(--black);
+            }
+
+            .item-image{
+                width: 24px;
+                height: 30px;
+
+                margin-right: 1rem;
+
+                .mask{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .item-main-info{
+                width: calc(100% - 124px - 2rem);
+
+                margin-right: 1rem;
+
+                h6{
+                    a{
+                        color: var(--black);
+                    }
+                }
+            }
+
+            .item-sub-info{
+                width: 100px;
+            }
+        }
+    }
+}

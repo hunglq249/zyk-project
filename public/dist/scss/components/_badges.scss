@@ -1,0 +1,30 @@
+@use "var";
+
+$badge-colors: (
+    'default': #666,
+
+    'primary': $color-primary,
+    'secondary': $color-secondary,
+
+    'success': $color-success,
+    'warning': $color-warning,
+    'danger': $color-danger,
+
+    'info': $color-link
+);
+
+.badge{
+    @include borderRadius(0.25rem);
+
+    @each $key, $value in $badge-colors {
+        &.badge-#{$key} {
+            background-color: #{$value};
+            border: 1px solid #{$value};
+            color: $color-white;
+
+            @if ($key == ''){
+
+            }
+        }
+    }
+}
