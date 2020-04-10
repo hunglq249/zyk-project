@@ -28,16 +28,24 @@ Route::group(['prefix' => 'components'], function () {
         return view('components.badges');
     });
 
-    Route::get('/list-items', function(){
-        return view('components.list_items');
+    Route::get('/guide', function(){
+        return view('components.guide');
     });
 
     Route::get('/header', function(){
         return view('components.header');
     });
 
+    Route::get('/list-items', function(){
+        return view('components.list_items');
+    });
+
     Route::get('/popup', function(){
         return view('components.popup');
+    });
+
+    Route::get('/slider', function(){
+        return view('components.slider');
     });
 
     Route::get('/theme', function(){

@@ -1,0 +1,54 @@
+.guide{
+    min-width: 150px;
+    max-width: 300px;
+
+    background-color: var(--bg-bw);
+
+    position: absolute;
+    z-index: 1060;
+
+    @include borderRadius(0.25rem);
+    @include boxShadowDf();
+    
+    .guide-header{
+        padding: 0.5rem;
+    }
+
+    .guide-body {
+        padding: 0.5rem;
+
+        img{
+            width: 100%;
+            max-height: 300px;
+
+            margin: 0.5rem auto 0.75rem;
+
+            object-fit: contain;
+        }
+    }
+
+    .guide-footer{
+        padding: 0.5rem;
+
+        @include d-flex(row, space-between, center);
+    }
+}
+
+.guide-target{
+    position: fixed;
+    z-index: 1060;
+}
+
+.backdrop-guide{
+    width: 100vw;
+    height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1059;
+
+    &.focus{
+        background-color: transparentize($color-black, 0.5);
+    }
+}

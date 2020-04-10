@@ -10,8 +10,8 @@ Author: hungluong
 @import "settings/var";
 @import "settings/reboot";
 @import "settings/type";
-
 @import "settings/mixin";
+@import "settings/common";
 
 // COMPONENTS
 @import "components/buttons";
@@ -19,8 +19,11 @@ Author: hungluong
 @import "components/card";
 @import "components/dropdown";
 @import "components/form";
+@import "components/guide";
 @import "components/poal";
+@import "components/popover";
 @import "components/popup";
+@import "components/slider";
 @import "components/table";
 
 // COMMON

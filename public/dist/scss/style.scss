@@ -1,5 +1,4 @@
 @import "settings/mixin";
-@import "settings/main";
 
 body,
 html {
@@ -188,7 +187,7 @@ PAGES
                                                 width: 32px;
                                                 height: 32px;
 
-                                                border: 1px solid var(--bg-submain);
+                                                border: 1px solid var(--border);
                                                 @include borderRadius(0.5rem);
                                             }
                                         }
@@ -220,6 +219,12 @@ PAGES
                         .list-items{
                             
                         }
+                    }
+                }
+
+                &.section-guide {
+                    .section-body {
+                        min-height: 100vh;
                     }
                 }
             }
