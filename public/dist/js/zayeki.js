@@ -30,7 +30,7 @@ const zykUtil = {
     },
 
     configSpread(source) {
-        let obj = []; 
+        let obj = [];
         for (let i = 0; i< arguments.length; i++){
             let sourceArg = arguments[i] != null ? arguments[i] : {}
 
@@ -81,11 +81,11 @@ class Poal {
             'confirmButtonText': 'Confirm',
         };
 
-        this.options = {
+        this.config = {
             ...defaultOptions,
             ...options
         };
-        
+
         this.$btn = $('.btn-poal');
 
         this.fire();
@@ -115,29 +115,29 @@ class Poal {
 
     template() {
         let popup = `
-            <div class="poal poal-${this.options.type}">
+            <div class="poal poal-${this.config.type}">
                 <div class="poal-backdrop"></div>
                 <div class="poal-dialog">
                     <div class="poal-content">
                         <div class="poal-header">
                             <h3>
-                                ${this.options.title}
+                                ${this.config.title}
                             </h3>
                         </div>
 
                         <div class="poal-body">
                             <p>
-                                ${this.options.message}
+                                ${this.config.message}
                             </p>
                         </div>
 
                         <div class="poal-actions">
-                            <button class="btn ${this.options.cancelButtonClass} btn-cancel" type="button">
-                                ${this.options.cancelButtonText}
-                            </button> 
-                            <button class="btn ${this.options.confirmButtonClass} btn-confirm" type="button">
-                                ${this.options.confirmButtonText}
-                            </button>                        
+                            <button class="btn ${this.config.cancelButtonClass} btn-cancel" type="button">
+                                ${this.config.cancelButtonText}
+                            </button>
+                            <button class="btn ${this.config.confirmButtonClass} btn-confirm" type="button">
+                                ${this.config.confirmButtonText}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -158,6 +158,71 @@ class Poal {
 
     callbackConfirm(){
         console.log('callback');
+    }
+}
+
+let guide_data = {};
+guide_data['buttonPrimary'] = 'This is btn primary'
+guide_data['buttonSuccess'] = 'This is btn success'
+
+class Guide {
+    constructor(target, options) {
+        let defaultOptions = {
+            trigger: 'manual',
+            container: 'body',
+            html: true,
+            content: guide_data[target],
+            template: `
+                <div class="popover popover-guide" role="tooltip">
+                    <div class="arrow"></div>
+                    <h3 class="popover-header"></h3>
+                    <div class="popover-body"></div>
+                </div>
+            `
+        }
+
+        this.config = {
+            ...defaultOptions,
+            ...options
+        }
+
+        this.fire(target)
+    }
+
+    fire(element) {
+        const _this = this
+
+        // Remove all shown popover
+        $('body').find('.popover').remove()
+
+        // Set config for Guide
+        $('#' + element).popover(_this.config)
+
+        // Show Guide
+        $('#' + element).popover('show')
+
+        // Init hide Guide
+
+        $(document).on('click.el.guide', function (e) {
+            if (
+                !$('body').find('.popover').is(e.target) &&
+                $('body').find('.popover').has(e.target).length === 0
+            ) {
+                $(document).off('click.el.guide')
+
+                return _this.hide(element)
+            }
+        })
+
+        $('#' + element).on('click.el.guidedismiss', function () {
+            $('#' + element).off('click.el.guidedismiss')
+
+            _this.hide(element)
+        })
+    }
+
+    hide(element) {
+        $('#' + element).popover('hide')
     }
 }
 
@@ -219,7 +284,7 @@ const POPUP_VAR = {
     IS_SHOWN: false,
     IGNOREBACKDROPCLICK: false,
     IS_TRANSITION: false,
-    TRANSITION: 100 
+    TRANSITION: 100
 }
 
 var Popup = function(){
@@ -363,7 +428,7 @@ var Popup = function(){
 
             // Append POPUP BACKDROP to BODY
             $(this.backdrop).appendTo($('body'));
-            
+
             if (this.hasFade) {
                 setTimeout(function(){
                     $(_this.backdrop).addClass(POPUP_CLASSNAME.FADE)
@@ -512,10 +577,10 @@ const LISTVIEW_CLASSNAME = {
 }
 
 const LISTVIEW_SELECTOR = {
-    CONTROL: `.${POPUP_CLASSNAME.CONTROL}`,
-    HEADER: `.${POPUP_CLASSNAME.HEADER}`,
-    BODY: `.${POPUP_CLASSNAME.BODY}`,
-    FOOTER: `.${POPUP_CLASSNAME.FOOTER}`,
+    CONTROL: `.${LISTVIEW_CLASSNAME.CONTROL}`,
+    HEADER: `.${LISTVIEW_CLASSNAME.HEADER}`,
+    BODY: `.${LISTVIEW_CLASSNAME.BODY}`,
+    FOOTER: `.${LISTVIEW_CLASSNAME.FOOTER}`,
 }
 
 const LISTVIEW_VIEW_OPTIONS = {
@@ -574,7 +639,7 @@ const NAVHEADER_CLASSNAME = {
     NAV_MENU: '.nav-menu',
 
     BTN_EXPAND: '.btn-expand-nav',
-    
+
     SHOW: 'show',
     ACTIVE: 'active'
 }
@@ -618,3 +683,271 @@ class Navheader{
     }
 }
 
+/*
+=========================================================
+SLIDER
+=========================================================
+*/
+const SLIDER_NAME = 'slider';
+const SLIDER_EVENT_KEY = `${DATA_KEY}.${SLIDER_NAME}`;
+
+const SLIDER_CLASSNAME = {
+    ACTIVE: 'active',
+    ITEM : 'slider-item',
+    ITEM_ACTIVE: 'slider-item.active',
+    ITEM_PREV: 'slider-item-prev',
+    ITEM_NEXT: 'slider-item-next',
+    ITEM_PREPARE: 'slider-item-prepare'
+}
+
+const SLIDER_SELECTOR = {
+    SLIDER: `.zyk-${SLIDER_NAME}`,
+
+    ITEM : `.${SLIDER_CLASSNAME.ITEM}`,
+    ITEM_ACTIVE: `.${SLIDER_CLASSNAME.ITEM_ACTIVE}`,
+    ITEM_NEXT: `.${SLIDER_CLASSNAME.ITEM_NEXT}`,
+    ITEM_PREV: `.${SLIDER_CLASSNAME.ITEM_PREV}`,
+    ITEM_FIRST: `.${SLIDER_CLASSNAME.ITEM}:first-child`,
+    ITEM_LAST: `.${SLIDER_CLASSNAME.ITEM}:last-child`,
+
+    CONTROL_NEXT: `[data-slider-control="next"]`,
+    CONTROL_PREV: `[data-slider-control="prev"]`,
+}
+
+const SLIDER_MOVEMENT = {
+    NEXT: 'next',
+    PREV: 'prev'
+}
+
+const SLIDER_DEFAULT = {
+    transition: 1000,
+    loop: true,
+    autoplay: true,
+    indicator: true
+};
+
+const SLIDER_EVENT = {
+    CLICK: `click.${SLIDER_EVENT_KEY}`,
+
+    SWITCH: `switch.${SLIDER_EVENT_KEY}`,
+    SWITCHED: `switched.${SLIDER_EVENT_KEY}`
+}
+
+var Slider = function () {
+    function Slider(element, config) {
+        this.config = this.getConfig(config);
+        this.element = element;
+        this.slideLength = $(this.element).find(SLIDER_SELECTOR.ITEM).length;
+
+        this.controlNext = $(this.element).find(SLIDER_SELECTOR.CONTROL_NEXT);
+        this.controlPrev = $(this.element).find(SLIDER_SELECTOR.CONTROL_PREV);
+    }
+
+    const _proto = Slider.prototype;
+
+    _proto.getConfig = function getConfig(config){
+        config = zykUtil.configSpread(SLIDER_DEFAULT, config);
+
+        return config;
+    }
+
+    _proto.getActiveSlide = function getActiveSlide() {
+        let activeSlide = $(this.element).find(SLIDER_SELECTOR.ITEM_ACTIVE);
+        return activeSlide;
+    }
+
+    _proto.autoplay = function autoplay(target){
+        // console.log('AUTOPLAY');
+
+        // this.getPrepare();
+        // this.next();
+    }
+
+    _proto.getPrepare = function getPrepare(movement){
+        const _this = this;
+
+        if (typeof movement == 'string') {
+            if (movement == SLIDER_MOVEMENT.NEXT || movement == SLIDER_MOVEMENT.PREV) {
+                let activeSlide = this.getActiveSlide();
+
+                if (movement == SLIDER_MOVEMENT.NEXT) {
+                    if ($(activeSlide).index() < _this.slideLength - 1) {
+                        $(activeSlide)
+                            .next()
+                            .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
+                            .addClass(SLIDER_CLASSNAME.ITEM_NEXT);
+                    } else {
+                        if (_this.config.loop == true) {
+                            $(_this.element).find(SLIDER_SELECTOR.ITEM_FIRST)
+                                .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
+                                .addClass(SLIDER_CLASSNAME.ITEM_NEXT);
+                        } else {
+                            return;
+                        }
+                    }
+
+                    setTimeout(function(){
+                        _this.switchSlide(SLIDER_MOVEMENT.NEXT)
+                    }, 100);
+                } else if (movement == SLIDER_MOVEMENT.PREV) {
+                    if ($(activeSlide).index() > 0) {
+                        $(activeSlide)
+                            .prev()
+                            .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
+                            .addClass(SLIDER_CLASSNAME.ITEM_PREV);
+                    } else if ($(activeSlide).index() == 0) {
+                        if (_this.config.loop == true) {
+                            $(_this.element).find(SLIDER_SELECTOR.ITEM_LAST)
+                                .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
+                                .addClass(SLIDER_CLASSNAME.ITEM_PREV);
+                        } else {
+                            return;
+                        }
+                    }
+
+                    setTimeout(function () {
+                        _this.switchSlide(SLIDER_MOVEMENT.PREV)
+                    }, 100);
+                } else {
+                    throw new TypeError('Wrong Request');
+                }
+            }
+        } else if (typeof movement == 'number') {
+            if (movement < 0) {
+                throw new TypeError('Wrong Request');
+            }
+        }
+    }
+
+    _proto.getSliderId = function getSliderId(element){
+        let sliderId = $(element).closest('.slider');
+        return sliderId;
+    }
+
+    _proto.next = function next(target){
+        let switchEvent = $.Event(SLIDER_EVENT.SWITCH, {
+            target: target
+        });
+
+        $(this.element).trigger(switchEvent);
+
+        this.getPrepare(SLIDER_MOVEMENT.NEXT);
+    }
+
+    _proto.prev = function prev(target) {
+        let switchEvent = $.Event(SLIDER_EVENT.SWITCH, {
+            target: target
+        });
+
+        $(this.element).trigger(switchEvent);
+
+        this.getPrepare(SLIDER_MOVEMENT.PREV);
+    }
+
+    _proto.switchSlide = function switchSlide(movement, target) {
+        let activeSlide = this.getActiveSlide();
+        activeSlide.removeClass(SLIDER_CLASSNAME.ACTIVE);
+
+        if (typeof movement == 'string') {
+            if (movement == SLIDER_MOVEMENT.NEXT) {
+                let $currentSlide = $(this.element).find(SLIDER_SELECTOR.ITEM_NEXT);
+
+                $currentSlide
+                    .removeClass(SLIDER_CLASSNAME.ITEM_NEXT)
+                    .removeClass(SLIDER_CLASSNAME.ITEM_PREPARE)
+                    .addClass(SLIDER_CLASSNAME.ACTIVE);
+            } else if (movement == SLIDER_MOVEMENT.PREV) {
+                let $currentSlide = $(this.element).find(SLIDER_SELECTOR.ITEM_PREV);
+
+                $currentSlide
+                    .removeClass(SLIDER_CLASSNAME.ITEM_PREV)
+                    .removeClass(SLIDER_CLASSNAME.ITEM_PREPARE)
+                    .addClass(SLIDER_CLASSNAME.ACTIVE);
+            }
+        } else if (typeof movement == 'number') {
+
+        }
+
+        let switchedEvent = $.Event(SLIDER_EVENT.SWITCHED, {
+            target: target
+        });
+
+        $(this.element).trigger(switchedEvent);
+
+        this.setControlVisible();
+    }
+
+    _proto.setControlVisible = function setControlVisible(){
+        if(this.config.loop === false){
+            if ($(this.getActiveSlide()).index() == this.slideLength - 1) {
+                $(this.element).find(SLIDER_SELECTOR.CONTROL_NEXT).hide();
+            } else {
+                $(this.element).find(SLIDER_SELECTOR.CONTROL_NEXT).show();
+            }
+
+            if ($(this.getActiveSlide()).index() == 0) {
+                $(this.element).find(SLIDER_SELECTOR.CONTROL_PREV).hide();
+            } else {
+                $(this.element).find(SLIDER_SELECTOR.CONTROL_PREV).show();
+            }
+        }
+    }
+
+    Slider.jqueryInterface = function jqueryInterface(config, target) {
+        return this.each(function () {
+            let data = $(this).data(SLIDER_EVENT_KEY);
+
+            let _config = zykUtil.configSpread(SLIDER_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+
+            if(!data){
+                data = new Slider(this, _config);
+                $(this).data(SLIDER_EVENT_KEY, data);
+            }
+
+            if(typeof config == 'string'){
+                if(typeof data[config] == 'undefined'){
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data[config](target);
+            } else if(data.config.autoplay){
+                data.autoplay(target);
+            }
+        });
+    }
+
+    return Slider;
+}();
+
+$(document).on(SLIDER_EVENT.CLICK, SLIDER_SELECTOR.CONTROL_NEXT, function (e) {
+    let target = $(this).closest(SLIDER_SELECTOR.SLIDER);
+
+    let config = $(target).data(SLIDER_EVENT_KEY) ? $(target).data(SLIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data());
+
+    if(this.tagName == 'a'){
+        e.preventDefault();
+    }
+
+    let data = $(target).data(SLIDER_EVENT_KEY);
+    data.next(target);
+
+    Slider.jqueryInterface.call($(target), config, this);
+});
+
+$(document).on(SLIDER_EVENT.CLICK, SLIDER_SELECTOR.CONTROL_PREV, function (e) {
+    let target = $(this).closest(SLIDER_SELECTOR.SLIDER);
+
+    let config = $(target).data(SLIDER_EVENT_KEY) ? $(target).data(SLIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data());
+
+    if (this.tagName == 'a') {
+        e.preventDefault();
+    }
+
+    let data = $(target).data(SLIDER_EVENT_KEY);
+    data.prev(target);
+
+    Slider.jqueryInterface.call($(target), config, this);
+});
+
+$.fn[SLIDER_NAME] = Slider.jqueryInterface;
+$.fn[SLIDER_NAME].constructor = Slider;

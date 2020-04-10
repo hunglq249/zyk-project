@@ -11,6 +11,10 @@
         Badges
     </a>
 
+    <a href="/components/guide" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'guide') active @endif">
+        Guide
+    </a>
+    
     <a href="/components/header" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'header') active @endif">
         Header
     </a>
@@ -21,6 +25,10 @@
 
     <a href="/components/popup" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'popup') active @endif">
         Popup
+    </a>
+
+    <a href="/components/slider" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'slider') active @endif">
+        Slider
     </a>
 
     <a href="/components/theme" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'theme') active @endif">
