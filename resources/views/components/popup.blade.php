@@ -168,7 +168,7 @@
                 </div>
 
                 <div class="popup fade focus" id="popupFullScreen">
-                    <div class="popup-dialog popup-dialog-75">
+                    <div class="popup-dialog">
                         <div class="popup-content">
                             <div class="popup-header">
                                 <h5>Popup full-screen</h5>
@@ -181,7 +181,7 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -192,7 +192,7 @@
 @section('js')
     <script>
         $(document).ready(function(){
-            
+
         })
     </script>
 @endsection

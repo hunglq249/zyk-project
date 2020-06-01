@@ -11,6 +11,14 @@
         Badges
     </a>
 
+    <a href="/components/calendar" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'calendar') active @endif">
+        Calendar
+    </a>
+
+    <a href="/components/timepicker" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'timepicker') active @endif">
+        Timepicker
+    </a>
+
     <a href="/components/guide" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'guide') active @endif">
         Guide
     </a>
@@ -21,6 +29,10 @@
 
     <a href="/components/list-items" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'list-items') active @endif">
         List items
+    </a>
+
+    <a href="/components/list-table" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'list-table') active @endif">
+        List table
     </a>
 
     <a href="/components/popup" class="nav-side-item @if(Request::segment(1) == 'components' && Request::segment(2) == 'popup') active @endif">

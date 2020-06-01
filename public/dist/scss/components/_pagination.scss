@@ -1,0 +1,31 @@
+/*
+TEMPLATE
+    <div class="pagination"></div>
+*/
+
+.pagination {
+    margin: 0 auto;
+
+    display: none;
+
+    &.show {
+        @include d-flex(row, center, center);
+    }
+
+    .pagination-item {
+        width: 20px;
+        height: 20px;
+
+        margin: 0 0.5rem;
+        padding: 0;
+
+        color: var(--text-paragraph);
+
+        @include borderRadius(50%);
+
+        &.active {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+    }
+}

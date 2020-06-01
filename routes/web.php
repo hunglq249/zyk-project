@@ -28,6 +28,14 @@ Route::group(['prefix' => 'components'], function () {
         return view('components.badges');
     });
 
+    Route::get('/calendar', function(){
+        return view('components.calendar');
+    });
+
+    Route::get('/timepicker', function(){
+        return view('components.timepicker');
+    });
+
     Route::get('/guide', function(){
         return view('components.guide');
     });
@@ -38,6 +46,10 @@ Route::group(['prefix' => 'components'], function () {
 
     Route::get('/list-items', function(){
         return view('components.list_items');
+    });
+
+    Route::get('/list-table', function(){
+        return view('components.list_table');
     });
 
     Route::get('/popup', function(){

@@ -1,0 +1,173 @@
+.calendar{
+    width: 100%;
+    height: 100%;
+
+    background-color: #fff;
+
+    padding: 0.5rem;
+
+    .calendar-header{
+        height: 50px;
+
+        @include d-flex(row, space-between, center);
+    }
+
+    .calendar-body {
+        height: calc(100% - 50px);
+
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        &.calendar-body-week{
+            .calendar-table{
+                .calendar-table-row {
+                    .calendar-table-col {
+                        max-width: calc((100% - 3rem) / 7);
+
+                        &.calendar-table-col-hour {
+                            max-width: 3rem;
+
+                            font-size: 0.875rem;
+                        }
+                    }
+                }
+
+                .calendar-table-header{
+                    border-bottom: 1px solid var(--gray-1);
+                }
+
+                .calendar-table-body {
+                    .calendar-table-row{
+                        border-bottom: 1px solid var(--gray-1);
+
+                        &:last-of-type{
+                            border-bottom: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        .calendar-table{
+            .calendar-table-row{
+                width: 100%;
+
+                @include d-flex(row, normal, center);
+                flex-wrap: wrap;
+
+                .calendar-table-col{
+                    max-width: calc(100% / 7);
+                    flex: 1 1 100%;
+                }
+            }
+
+            .calendar-table-header {
+                background-color: #fff;
+
+                position: sticky;
+                position: -webkit-sticky;
+                top: 0;
+                z-index: 1;
+
+                .calendar-table-row{
+                    .calendar-table-col{
+                        &.calendar-table-col-day {
+                            font-size: 0.75rem;
+                        }
+
+                        padding: 0.25rem 0;
+
+                        font-weight: 600;
+
+                        @include d-flex(row, center, center);
+
+                        span{
+                            &.calendar-span-today{
+                                width: 2rem;
+                                height: 2rem;
+
+                                font-weight: 600;
+
+                                background-color: var(--primary);
+                                color: var(--white);
+
+                                @include borderRadius(50%);
+
+                                @include d-flex(row, center, center);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .calendar-table-body {
+                .calendar-table-row {
+                    .calendar-table-col {
+                        &.calendar-table-col-faded{
+                            opacity: 0.5;
+                        }
+
+                        &.calendar-table-day-disabled {
+                            background-color: var(--gray-1);
+
+                            a{
+                                &:hover {
+                                    cursor: default;
+                                }
+                            }
+                        }
+
+                        a {
+                            width: 100%;
+                            height: 100%;
+
+                            color: var(--text-paragraph);
+
+                            position: relative;
+                            @include d-flex(row, center, center);
+
+                            &.calendar-table-day{
+                                b{
+                                    width: 24px;
+                                    height: 24px;
+
+                                    background-color: var(--success);
+                                    color: var(--white);
+
+                                    @include borderRadius(50%);
+
+                                    font-size: 0.75rem;
+
+                                    position: absolute;
+                                    top: 0;
+                                    right: 0;
+                                    z-index: 1;
+
+                                    @include d-flex(row, center, center);
+                                }
+                                
+                                &.calendar-table-today{
+                                    span{
+                                        width: 2rem;
+                                        height: 2rem;
+
+                                        font-weight: 600;
+
+                                        background-color: var(--primary);
+                                        color: var(--white);
+
+                                        @include borderRadius(50%);
+
+                                        @include d-flex(row, center, center);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .calendar-footer {}
+}

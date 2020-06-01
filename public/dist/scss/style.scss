@@ -227,6 +227,90 @@ PAGES
                         min-height: 100vh;
                     }
                 }
+
+                &.section-calendar{
+                    .section-body{
+                        .test-calendar{
+                            width: 100%;
+
+                            margin-bottom: 1rem;
+
+                            @include d-flex(row, space-between, flex-start);
+
+                            .calendar-append{
+                                width: 600px;
+                                height: 600px;
+
+                                background-color: var(--gray-1);
+
+                                &.calendar-append-lg{
+                                    width: 700px;
+                                }
+                            }
+
+                            .calendar-code{
+                                width: 400px;
+                                height: 400px;
+
+                                overflow: auto;
+
+                                background-color: var(--gray-1);
+
+                                code{
+                                    padding: 1rem;
+
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.section-timepicker {
+                    .section-body {
+                        .test-picker {
+                            width: 100%;
+
+                            margin-bottom: 1rem;
+
+                            @include d-flex(row, space-between, flex-start);
+
+                            .picker-append {
+                                width: 600px;
+                                height: 600px;
+
+                                background-color: var(--gray-1);
+
+                                &.calendar-append-lg {
+                                    width: 700px;
+                                }
+                            }
+
+                            .picker-code {
+                                width: 400px;
+                                height: 400px;
+
+                                overflow: auto;
+
+                                background-color: var(--gray-1);
+
+                                code {
+                                    padding: 1rem;
+
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.section-table{
+                    .section-body{
+                        .list-table-responsive{
+                            height: 600px;
+                        }
+                    }
+                }
             }
         }
     }

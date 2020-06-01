@@ -222,4 +222,70 @@ PAGES
 .wrapper .main-content > .container-fluid .section.section-guide .section-body {
   min-height: 100vh;
 }
+
+.wrapper .main-content > .container-fluid .section.section-calendar .section-body .test-calendar {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.wrapper .main-content > .container-fluid .section.section-calendar .section-body .test-calendar .calendar-append {
+  width: 600px;
+  height: 600px;
+  background-color: var(--gray-1);
+}
+
+.wrapper .main-content > .container-fluid .section.section-calendar .section-body .test-calendar .calendar-append.calendar-append-lg {
+  width: 700px;
+}
+
+.wrapper .main-content > .container-fluid .section.section-calendar .section-body .test-calendar .calendar-code {
+  width: 400px;
+  height: 400px;
+  overflow: auto;
+  background-color: var(--gray-1);
+}
+
+.wrapper .main-content > .container-fluid .section.section-calendar .section-body .test-calendar .calendar-code code {
+  padding: 1rem;
+  display: block;
+}
+
+.wrapper .main-content > .container-fluid .section.section-timepicker .section-body .test-picker {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.wrapper .main-content > .container-fluid .section.section-timepicker .section-body .test-picker .picker-append {
+  width: 600px;
+  height: 600px;
+  background-color: var(--gray-1);
+}
+
+.wrapper .main-content > .container-fluid .section.section-timepicker .section-body .test-picker .picker-append.calendar-append-lg {
+  width: 700px;
+}
+
+.wrapper .main-content > .container-fluid .section.section-timepicker .section-body .test-picker .picker-code {
+  width: 400px;
+  height: 400px;
+  overflow: auto;
+  background-color: var(--gray-1);
+}
+
+.wrapper .main-content > .container-fluid .section.section-timepicker .section-body .test-picker .picker-code code {
+  padding: 1rem;
+  display: block;
+}
+
+.wrapper .main-content > .container-fluid .section.section-table .section-body .list-table-responsive {
+  height: 600px;
+}
 /*# sourceMappingURL=style.css.map */
