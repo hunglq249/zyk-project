@@ -1,77 +1,198 @@
-@use "var";
-@use "mixin";
-
-$button-colors: (
-    'default': $color-black,
-
+$btn-colors: (
     'primary': $color-primary,
     'secondary': $color-secondary,
-
     'success': $color-success,
     'warning': $color-warning,
-    'danger': $color-danger,
-
-    'link': $color-link
+    'danger': $color-danger
 );
 
-.btn {
-    font-weight: 500;
+.btn{
+    padding: 0.5rem 0.75rem;
     
-    color: var(--text-title);
+    font-family: var(--webfont-family);
+    font-size: 1rem;
+    
+    border: 1px solid transparent;
+    @include borderRadius();
 
-    @include borderRadius(0.25rem);
+    display: inline-block;
 
-    @each $key, $value in $button-colors {
-        &.btn-#{$key} {
-            @if ($key == 'link'){
-                color: #{$value};
+    vertical-align: middle;
+    
+    &:hover{
+        cursor: pointer;
+    }
 
-                &:hover{
-                    color: lighten($value, 10%);
+    &.focus,
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
 
-                    text-decoration: none;
-                }
-            } @else if ($key == 'default') {
-                background-color: var(--btn-default);
-                border: 1px solid var(--btn-default);
-                color: var(--text-subtitle);
+    &.disabled,
+    &:disabled {
+        opacity: 0.65;
 
-                &:hover{
-                    background-color: var(--btn-default-hover);
-                }
-            } @else{
-                background-color: #{$value};
-                border: 1px solid #{$value};
-                color: $color-white;
-
-                &:hover {
-                    background-color: lighten($value, 10%);
-                }
-            }
+        &:hover {
+            cursor: default;
+            user-select: none;
         }
+    }
 
-        &.btn-outline-#{$key} {
-            @if ($key=='default') {
-                background-color: transparent;
-                border: 1px solid var(--text-subtitle);
-                color: var(--text-subtitle);
+    &.btn-sm{
+        padding: 0.25rem 0.5rem;
 
-                &:hover {
-                    background-color: var(--text-subtitle);
-                    color: var(--white);
-                }
-            } @else {
-                background-color: transparent;
-                border: 1px solid #{$value};
-                color: #{$value};
+        font-size: 0.75rem;
+    }
 
+    &.btn-lg {
+        font-size: 1.25rem;
+    }
+
+    &.btn-default{
+        background-color: var(--gray-2);
+        color: var(--text-paragraph);
+
+        &:hover{
+            background-color: var(--gray-3);
+        }
+    }
+
+    &.btn-link {
+        color: $color-link;
+
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+
+    &.btn-light {
+        background-color: var(--bg-bw);
+        color: var(--bg-bw-rv);
+    }
+
+    &.btn-dark {
+        background-color: var(--bg-bw-rv);
+        color: var(--bg-bw);
+    }
+
+    @each $key, $value in $btn-colors {
+        &.btn-#{$key} {
+            background-color: #{$value};
+            color: var(--white);
+
+            &:hover {
+                background-color: lighten($value, 5%);
+                border-color: lighten($value, 5%);
+            }
+
+            &.disabled,
+            &:disabled {
                 &:hover {
                     background-color: #{$value};
-                    color: var(--white);
                 }
             }
         }
     }
 
-    ;
+    &.btn-outline-default {
+        border-color: var(--gray-2);
+        color: var(--text-paragraph);
+
+        &:hover{
+            background-color: var(--gray-3);
+        }
+
+        &.disabled,
+        &:disabled {
+            &:hover {
+                border-color: var(--gray-2);
+                color: var(--text-paragraph);
+            }
+        }
+    }
+
+    &.btn-outline-link {
+        border-color: $color-link;
+        color: $color-link;
+
+        &:hover{
+            background-color: lighten($color-link, 5%);
+            border-color: lighten($color-link, 5%);
+            color: var(--white);
+        }
+
+        &.disabled,
+        &:disabled {
+            &:hover {
+                background-color: transparent;
+                border-color: $color-link;
+                color: $color-link;
+            }
+        }
+    }
+
+    &.btn-outline-dark {
+        border-color: var(--bg-bw-rv);
+        color: var(--bg-bw-rv);
+
+        &:hover{
+            background-color: var(--bg-bw-rv);
+            border-color: var(--bg-bw-rv);
+            color: var(--bg-bw);
+
+            &.disabled,
+            &:disabled {
+                &:hover {
+                    background-color: transparent;
+                    border-color: var(--bg-bw-rv);
+                    color: var(--bg-bw-rv);
+                }
+            }
+        }
+    }
+
+    @each $key, $value in $btn-colors {
+        &.btn-outline-#{$key} {
+            border-color: #{$value};
+            color: #{$value};
+
+            &:hover {
+                background-color: lighten($value, 5%);
+                border-color: lighten($value, 5%);
+                color: var(--white);
+            }
+
+            &.disabled,
+            &:disabled {
+                &:hover {
+                    background-color: transparent;
+                    border-color: #{$value};
+                    color: #{$value};
+                }
+            }
+        }
+    }
+}
+
+.btn-group{
+    @include d-flex(row, normal, center);
+
+    .btn{
+        @include borderRadius(0);
+
+        &:first-child {
+            @include borderRadiusCustom(top, left);
+            @include borderRadiusCustom(bottom, left);
+        }
+
+        &:last-child{
+            @include borderRadiusCustom(top, right);
+            @include borderRadiusCustom(bottom, right);
+        }
+
+        &:not(:first-child){
+            margin-left: -1px;
+        }
+    }
 }

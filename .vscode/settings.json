@@ -22,7 +22,10 @@
         "**/vendor/**"
     ],
     "liveServer.settings.port": 5503,
-    "liveSassCompile.settings.autoprefix": null,
+    "liveSassCompile.settings.autoprefix": [
+        "> 1%",
+        "last 2 versions"
+    ],
     "liveSassCompile.settings.showOutputWindow": false,
     "[html]": {
         "editor.defaultFormatter": "HookyQR.beautify"

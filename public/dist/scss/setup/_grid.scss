@@ -1,0 +1,76 @@
+[class^="container"]{
+    width: 100%;
+
+    padding: 0 $grid-gutter/2;
+    margin: 0 auto;
+}
+
+@each $keyBreakpoint,
+$valueBreakpoint in $grid-breakpoints {
+    @each $keyMaxWidth,
+    $valueMaxWidth in $container-max-widths {
+        @if($keyBreakpoint == $keyMaxWidth) {
+            @media screen and (min-width: #{$valueBreakpoint}) {
+                .container {
+                    max-width: $valueMaxWidth;
+                }
+            }
+        }
+    }
+}
+
+.row{
+    margin: 0 -1 * $grid-gutter / 2;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    &.row-no-gutters{
+        margin: 0;
+
+        [class^="col"] {
+            padding: 0;
+            margin-bottom: 0;
+        }
+    }
+}
+
+[class^="col"] {
+    width: 100%;
+    flex: 0 0 auto;
+
+    margin-bottom: $grid-gutter;
+
+    padding: 0 $grid-gutter/2;
+}
+
+@each $value in $grid-index {
+    .col-#{$value} {
+        width: calc(100% / 12 * #{$value});
+        flex: 0 0 auto;
+    }
+}
+
+@each $keyBreakpoint,
+$valueBreakpoint in $grid-breakpoints {
+    @each $keyMaxWidth,
+    $valueMaxWidth in $container-max-widths {
+        @if($keyBreakpoint==$keyMaxWidth) {
+            @media screen and (min-width: #{$valueBreakpoint}) {
+                .col {
+                    width: auto;
+                    max-width: 100%;
+                }
+
+                @each $value in $grid-index {
+                    .col-#{$keyMaxWidth}-#{$value} {
+                        width: calc(100% / 12 * #{$value});
+                        flex: 0 0 auto;
+
+                        padding: 0 $grid-gutter/2;
+                    }
+                }
+            }
+        }
+    }
+}

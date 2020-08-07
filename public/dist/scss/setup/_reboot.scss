@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    &:before,
+    &:after{
+        box-sizing: border-box;
+    }
+}
+
+a{
+    color: var(--link);
+
+    text-decoration: none;
+
+    &:hover{
+        text-decoration: none;
+    }
+}
+
+input,
+select,
+textarea{
+    box-shadow: none;
+
+    &:focus{
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+textarea{
+    resize: none;
+}
+
+button{
+    background-color: transparent;
+}

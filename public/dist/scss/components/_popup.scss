@@ -1,31 +1,27 @@
-.popup{
+.popup {
     width: 100%;
     height: 100%;
 
     padding: 1rem;
 
-    background-color: transparentize($color-black, 0.5);
-
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: 1071;
+    z-index: 1040;
 
     display: none;
 
     @include translate(-50%, -50%);
 
-    &:focus{
+    &:focus {
         outline: none;
     }
 
-    &.show{
+    &.show {
         &.fade {
             .popup-dialog {
                 .popup-content {
                     opacity: 1;
-
-                    @include scale(1, 1);
 
                     @include transition(300ms);
                 }
@@ -35,13 +31,21 @@
         .popup-dialog {
             .popup-content {
                 opacity: 1;
-
-                @include scale(1, 1);
             }
         }
     }
 
-    .popup-dialog{
+    &.popup-full{
+        position: fixed;
+
+        .popup-dialog{
+            .popup-content{
+                height: 100%;
+            }
+        }
+    }
+
+    .popup-dialog {
         width: 100%;
         height: 100%;
 
@@ -66,13 +70,19 @@
             align-items: flex-end;
         }
 
-        &.popup-dialog-75{
-            .popup-content{
+        &.popup-dialog-75 {
+            .popup-content {
                 width: 75%;
             }
         }
 
-        .popup-content{
+        &.popup-dialog-50 {
+            .popup-content {
+                width: 50%;
+            }
+        }
+
+        .popup-content {
             width: 100%;
             max-height: 100%;
 
@@ -82,37 +92,69 @@
             @include boxShadowDf();
 
             opacity: 0;
-            @include scale(0.9, 0.9);
 
             @include transition(300ms);
 
-            .popup-header{
+            .popup-header {
                 height: 48px;
+
+                padding: 0 1rem;
+
+                @include d-flex(row, space-between, center);
+
+                .container{
+                    height: 100%;
+
+                    @include d-flex(row, space-between, center);
+                }
+            }
+
+            .popup-body {
+                //height: calc(100% - 96px);
+
+                padding: 0 1rem 1rem;
 
                 background-color: var(--gray-1);
 
-                padding: 0.5rem 1rem;
+                //@include overflow-y();
 
-                @include d-flex(row, space-between, center);
+                .container{
+                    height: 100%;
+
+                    //@include overflow-y();
+                }
+
+                .popup-loading{
+                    width: 100%;
+                    height: 100%;
+
+                    background-color: transparentize($color-black, 0.5);
+
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 2;
+
+                    display: none;
+
+                    &.show{
+                        @include d-flex(row, center, center);
+                    }
+
+                    img{
+                        width: 64px;
+                    }
+                }
             }
 
-            .popup-body{
-                height: calc(100% - 96px);
-
-                padding: 1rem;
-
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
-
-            .popup-footer{
+            .popup-footer {
                 height: 48px;
 
                 padding: 0.5rem 1rem;
 
                 @include d-flex(row, flex-end, center);
 
-                .btn{
+                .btn {
                     min-width: 120px;
 
                     margin-left: 0.5rem;
@@ -126,28 +168,28 @@
     width: 100vw;
     height: 100vh;
 
-    //background-color: transparentize($color-black, 0.5);
+    background-color: transparentize($color-black, 0.5);
 
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1070;
+    z-index: $zindex-popup-backdrop;
 
     opacity: 0;
 
     @include transition(300ms);
 
-    &.show{
+    &.show {
         opacity: 1;
     }
 
-    &.fade{
+    &.fade {
         opacity: 1;
 
         @include transition(300ms);
     }
 
-    &.focus{
+    &.focus {
         backdrop-filter: blur(0.25rem);
     }
 }

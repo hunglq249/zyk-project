@@ -1,224 +1,194 @@
-$item-row-index: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-
 .list-items{
-    width: 100%;
+    // COMMON ITEM ROW
+    $grid-list-index: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
-    &.list-switchable,
-    &.list-unswitchable {
-        .list-control {
-            padding: 0.75rem 0;
+    .item-row {
+        @include d-flex(row, normal, stretch);
+        flex-wrap: wrap;
 
-            @include d-flex(row, space-between, center);
+        [class^="item-col"] {
+            width: auto;
 
-            .list-control-right {
-                .btn{
-                    &.btn-list-active{
-                        color: var(--primary);
+            flex: 1 0 auto;
+
+            > * {
+                &:not(.item-row) {
+                    min-height: 1.125rem;
+                    
+                    padding: 0.75rem;
+                }
+            }
+
+            .item-row {
+                margin: -1px;
+            }
+        }
+
+        @each $value in $grid-list-index {
+            @if($value !=0) {
+                .item-col-#{$value} {
+                    width: calc(100% / 12 * #{$value});
+                    flex: 0 0 auto;
+
+                    @include d-flex(column, center, normal);
+                }
+            }
+
+            .item-col-#{$value}-half {
+                width: calc(100% / 12 * (#{$value} + 0.5));
+                flex: 0 0 auto;
+
+                @include d-flex(column, center, normal);
+            }
+        }
+    }
+
+    // LIST TABLE
+    &.list-table{
+        &.list-table-bordered{
+            .item-row {
+                [class^="item-col"] {
+                    border: 1px solid var(--border);
+                }
+            }
+            
+            .list-items-header {
+                border-bottom: 1px solid var(--border);
+
+                .item-row{
+                    .item-before-actions {
+                        border-right-color: transparent;
+                    }
+                    
+                    .item-actions {
+                        border-left-color: transparent;
+                    }
+                }
+            }
+
+            .list-items-body {
+                .item-row {
+                    border-bottom: none;
+
+                    &:hover{
+                        box-shadow: none;
+                    }
+
+                    .item-before-actions {
+                        border-right-color: transparent;
+                    }
+
+                    .item-actions{
+                        border-left-color: transparent;
                     }
                 }
             }
         }
 
-        .list-header {
+        &.list-table-borderless{
+            .list-items-header {
+                border-bottom: none;
+            }
 
-        }
-
-        .list-body {
-            .item{
-                position: relative;
+            .list-items-body {
+                .item-row {
+                    border-bottom: none;
+                }
             }
         }
 
-        .list-footer{
-
+        .list-items-header{
+            border-bottom: 2px solid var(--border);
         }
 
-        &.view-list{
-            max-height: 75vh;
+        .list-items-body {
+            > .item-row{
+                border-bottom: 1px solid var(--border);
+                @include transition();
 
-            overflow-x: hidden;
-            overflow-y: auto;
+                &:hover{
+                    @include boxShadowDf();
+                    @include transition();
+                }
 
-            .item{
-                padding: 0 0 0.75rem;
+                &:last-of-type{
+                    border-bottom: none;
+                }
+            }
+        }
 
-                @include d-flex(row, normal, center);
+        .item-row{
+            &:hover{
+                .item-actions {
+                    .btn-group {
+                        opacity: 1;
 
-                color: var(--text-paragraph);
-
-                .item-wrapper{
-                    width: calc(100% - 32px);
-
-                    margin: 0 -0.5rem;
-
-                    color: var(--text-paragraph);
-
-                    @include d-flex(row, normal, center);
-                    flex-wrap: wrap;
-
-                    [class^="item-col-"],
-                    [class^="item-col"] {
-                        padding: 0 0.5rem;
+                        @include transition();
                     }
+                }
+            }
 
-                    .item-col {
-                        max-width: 100%;
-                        flex: 1 1 100%;
-                    }
+            .item-actions {
+                text-align: right;
 
-                    @each $value in $item-row-index {
-                        .item-col-#{$value} {
-                            max-width: #{$value * 100% / 12};
-                            flex: 0 0 #{$value * 100% / 12};
+                position: relative;
+
+                @include positionSticky(right);
+
+                .btn-group {
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    z-index: 1;
+
+                    opacity: 0;
+
+                    @include translate(0, -50%);
+                    @include transition();
+                }
+            }
+        }
+    }
+
+    // LIST TREE
+    &.list-tree{
+        .list-items-body{
+            > .item-row{
+                background-color: var(--bg-bw);
+
+                @include positionSticky();
+            }
+
+            .item-row{
+                .item-wrapper-control{
+                    i{
+                        @include transition();
+
+                        &.rotated{
+                            @include rotate(90deg);
+                            @include transition();
                         }
                     }
                 }
 
                 .item-actions{
-                    width: 32px;
-                }
-
-                // Items's elements
-                .dropdown{
-                    [data-toggle="dropdown"]{
-                        color: var(--text-subtitle);
-                        opacity: 0.15;
-
-                        &:hover{
-                            opacity: 1;
-                        }
+                    .form-check-group{
+                        justify-content: flex-end;
                     }
                 }
 
-                .mask {
-                    width: 32px;
-                    height: 32px;
-                }
+                .item-wrapper{
+                    width: 100%;
 
-                span{
-                    @include textWrapper(100%, 1.625rem, 1);
-
-                    &.item-title{
-                        font-size: 1.125rem;
-                    }
-
-                    &.item-subtitle {
-                        height: 1.5rem;
-
-                        font-size: 1rem;
-                    }
-
-                    &.item-text {
-                        height: 1.25rem;
-
-                        font-size: 0.875rem;
-                    }
-
-                    &.item-index {
-                        height: 1.25rem;
-
-                        font-size: 0.875rem;
-                    }
+                    display: none;
                 }
             }
 
-            .list-control{
-                height: 60px;
-
-                background-color: var(--bg-bw);
-
-                position: sticky;
-                position: -webkit-sticky;
-                top: 0;
-                z-index: 1;
-            }
-
-            .list-header {
-                background-color: var(--bg-bw);
-
-                position: sticky;
-                position: -webkit-sticky;
-                top: 60px;
-                z-index: 1;
-
-                .item{
-                    padding: 0.75rem 0 0.75rem;
-
-                    .item-wrapper {
-                        font-weight: 500;
-
-                        color: var(--text-title);
-                    }
-                }
-            }
-        }
-
-        &.view-grid {
-            .list-header{
-                display: none;
-            }
-
-            .list-body{
-                margin: 0 -1rem;
-
-                @include d-flex(row, normal, normal);
-                flex-wrap: wrap;
-
-                .item{
-                    max-width: 25%;
-                    flex: 1 1 25%;
-
-                    margin: 0 0 2rem;
-                    padding: 0 1rem;
-
-                    .item-wrapper{
-                        .item-index{
-                            display: none;
-                        }
-
-                        .mask{
-                            width: 100%;
-                            height: 140px;
-                        }
-
-                        span {
-                            &.item-title {
-                                font-size: 1.5rem;
-
-                                color: var(--text-title);
-
-                                @include textWrapper(100%, 2rem, 1);
-                            }
-
-                            &.item-subtitle {
-                                font-size: 1rem;
-
-                                color: var(--text-subtitle);
-
-                                @include textWrapper(100%, 1.5rem, 1);
-                            }
-
-                            &.item-text {
-                                font-size: 0.875rem;
-
-                                color: var(--text-paragraph);
-
-                                @include textWrapper(100%, 2.5rem, 2);
-                            }
-                        }
-                    }
-
-                    .item-actions{
-                        position: absolute;
-                        top: 0.25rem;
-                        right: calc(1rem + 0.25rem);
-                        z-index: 1;
-
-                        .dropdown{
-                            [data-toggle="dropdown"]{
-                                color: var(--white);
-                                @include textShadowDf();
-                            }
+            @for $i from 1 to 10 {
+                .item-wrapper-#{$i} {
+                    .item-row {
+                        .item-wrapper-control {
+                            padding-left: calc(#{$i} * 0.75rem);
                         }
                     }
                 }
@@ -226,269 +196,61 @@ $item-row-index: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         }
     }
 
-    &.list-table {
-        height: 100%;
+    // LIST SWITCH
+    &.list-switch{
+        .list-items-control{
+            margin-bottom: 0.75rem;
 
-        &.list-table-hover {
-            .list-items-body {
-                .item {
-                    &:hover {
-                        background-color: var(--gray-2);
-                    }
+            @include d-flex(row, flex-end, center);
 
-                    .item-row{
-                        .float-action{
-                            .btn-group{
-                                background-color: var(--gray-2);
-                            }
-                        }
-                    }
-                }
+            .btn{
+                margin-left: 0.5rem;
             }
         }
 
-        &.list-table-borderless {
-            .list-items-header,
-            .list-items-body {
-                .item {
-                    border-bottom: none;
-                }
-            }
-        }
-
-        &.list-table-bordered {
-            .list-items-header,
-            .list-items-body {
-                .item {
-                    border: 1px solid var(--border);
-
-                    .item-row{
-                        [class^="item-col-"]{
-                            border-right: 1px solid var(--border);
-
-                            &:last-child{
-                                border-right: none;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        &.list-table-striped {
-            .list-items-body {
-                .item {
-                    &:nth-of-type(even){
-                        background-color: var(--gray-1);
-
-                        .item-row {
-                            .float-action {
-                                .btn-group {
-                                    background-color: var(--gray-1);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        .list-items-header {
-            .item {
-                min-height: 34px;
-
-                border-bottom: 3px solid var(--border);
-
-                .item-row {
-                    align-items: flex-end;
-
-                    [class^="item-col"] {
-                        padding-top: 0.5rem;
-                        padding-bottom: 0.5rem;
-                    }
-                }
-            }
-        }
-
-        .list-items-body {
-            height: calc(100% - 40px);
-
-            overflow-x: hidden;
-            overflow-y: overlay;
-
-            &::-webkit-scrollbar {
-                width: 6px;
-
-                background-color: transparent;
+        &[data-view="grid"]{
+            .list-items-header{
+                display: none;
             }
 
-            &::-webkit-scrollbar-thumb {
-                width: 6px;
-
-                background-color: var(--gray-3);
-
-                @include borderRadius(3px);
-                @include transition(300ms);
-
-                &:hover {
-                    background-color: var(--gray-5);
-
-                    cursor: pointer;
-
-                    @include transition(300ms);
-                }
-            }
-
-            .item {
-                background-color: var(--bg-bw);
-
-                border-bottom: 1px solid var(--border);
-
-                &:last-of-type {
-                    border-bottom: none;
-                }
-
-                &:hover {
-                    .item-row {
-                        .item-options {
-                            .dropdown {
-                                >.btn {
-                                    opacity: 1;
-                                }
-                            }
-                        }
-
-                        .float-action {
-                            .btn-group {
-                                opacity: 1;
-                            }
-                        }
-                    }
-                }
-
-                .item-row {
-                    padding: 0;
-
-                    [class^="item-col"] {
-                        padding-top: 1rem;
-                        padding-bottom: 1rem;
-
-                        .item-row{
-                            margin-top: -0.5rem;
-                            margin-bottom: -0.5rem;
-
-                            [class^="item-col"] {
-                                padding-top: 0;
-                                padding-bottom: 0;
-                            }
-                        }
-                    }
-
-                    p {
-                        a {
-                            color: var(--primary);
-                        }
-                    }
-
-                    .item-options {
-                        text-align: right;
-
-                        .dropdown {
-                            >.btn {
-                                opacity: 0;
-                            }
-                        }
-                    }
-
-                    .float-action {
-                        position: relative;
-
-                        .btn-group {
-                            background-color: var(--bg-bw);
-
-                            position: absolute;
-                            top: 50%;
-                            right: 0;
-                            z-index: 1;
-
-                            @include translate(0, -50%);
-
-                            opacity: 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        .item {
-            width: 100%;
-
-            .item-row {
-                @include d-flex(row, normal, center);
+            .list-items-body{
+                @include d-flex(row, normal, normal);
                 flex-wrap: wrap;
 
-                $rowIndex: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+                .item-row{
+                    margin-bottom: $grid-gutter;
 
-                [class^="item-col-"] {
-                    width: 100%;
-
-                    padding-left: 1rem;
-                    padding-right: 1rem;
-
-                    position: relative;
-                }
-
-                .item-col {
-                    max-width: 100%;
-
-                    padding-left: 1rem;
-                    padding-right: 1rem;
-
-                    flex-grow: 1;
-                    flex-basis: 0;
-                }
-
-                @each $key in $rowIndex {
-                    @if($key !=0) {
-                        .item-col-#{$key} {
-                            max-width: 100% / 12 * $key;
-                            flex: 0 0 100% / 12 * $key;
-                        }
+                    .item-index{
+                        display: none;
                     }
 
-                    .item-col-#{$key}-half {
-                        max-width: 100% / 12 * ($key + 0.5);
-                        flex: 0 0 100% / 12 * ($key + 0.5);
+                    .item-cover{
+                        .mask{
+                            width: 100%;
+                            min-height: 230px;
+
+                            padding: 0;
+                        }
+
+                        p {
+                            display: block;
+                        }
                     }
                 }
             }
         }
 
-        .list-items-footer {
-            .pagination {
-                margin: 2rem auto 0;
+        &[data-view="list"]{
+            .list-items-body{
+                .item-row{
+                    .item-cover{
+                        .mask{
+                            display: none;
+                        }
 
-                display: none;
-
-                &.show {
-                    @include d-flex(row, center, center);
-                }
-
-                .pagination-item {
-                    width: 28px;
-                    height: 28px;
-
-                    margin: 0 0.5rem;
-                    padding: 0;
-
-                    color: var(--text-paragraph);
-
-                    @include borderRadius(50%);
-                    @include d-flex(row, center, center);
-
-                    &.active {
-                        background-color: var(--primary);
-                        color: var(--white);
+                        p{
+                            display: block;
+                        }
                     }
                 }
             }
@@ -498,43 +260,24 @@ $item-row-index: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
 .list-table-responsive {
     width: 100%;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    @include d-flex(column, normal, normal);
-
-    &::-webkit-scrollbar {
-        height: 6px;
-
-        background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        height: 6px;
-
-        background-color: var(--gray-3);
-
-        @include borderRadius(3px);
-        @include transition(300ms);
-
-        &:hover{
-            background-color: var(--gray-5);
-
-            cursor: pointer;
-
-            @include transition(300ms);
-        }
-    }
 }
 
-@media(max-width: 992px) {
-    .list-table-responsive {
-        overflow-x: auto;
+@each $keyBreakpoint,
+$valueBreakpoint in $grid-breakpoints {
+    @each $keyMaxWidth,
+    $valueMaxWidth in $container-max-widths {
+        @if($keyBreakpoint==$keyMaxWidth) {
+            @media screen and (max-width: #{$valueBreakpoint}) {
+                .list-table-responsive {
+                    @include overflow-x();
+                    //@include overflow-y();
 
-        .list-items {
-            &.list-table {
-                min-width: 1120px;
+                    .list-items {
+                        &.list-table {
+                            min-width: $valueMaxWidth;
+                        }
+                    }
+                }
             }
         }
     }

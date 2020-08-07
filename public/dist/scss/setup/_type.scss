@@ -1,0 +1,66 @@
+html,
+body{
+    font-family: var(--webfont-family);
+    font-size: var(--webfont-size);
+
+    color: var(--text-paragraph);
+}
+
+@each $key, $value in $font-heading-size{
+    h#{$key},
+    .h#{$key}{
+        font-size: $value;
+        font-weight: 500;
+
+        color: var(--text-title);
+    }
+}
+
+h6{
+    &.subtitle-md{
+        font-size: 0.875rem;
+    }
+
+    &.subtitle-sm {
+        font-size: 0.75rem;
+    }
+}
+
+@each $key,
+$value in $font-display-size {
+    .d#{$key} {
+        font-size: $value;
+        font-weight: 300;
+
+        color: var(--text-paragraph);
+    }
+}
+
+p{
+    font-size: 0.875rem;
+
+    color: var(--text-paragraph);
+
+    &.p-lead{
+        font-size: 1.25rem;
+
+        font-weight: 300;
+    }
+
+    &.p-lg {
+        font-size: 1rem;
+    }
+    
+    &.p-sm {
+        font-size: 0.75rem;
+    }
+
+    &.p-overline{
+        font-size: 0.625rem;
+        
+        text-transform: uppercase;
+
+        color: var(--text-overline);
+    }
+}
+

@@ -12,7 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('public/home');
+    return view('test');
+});
+
+Route::get('/updateTest', function () {
+    $html = view('_test')->render();
+    return response()->json(['html'=>$html]);
 });
 
 Route::group(['prefix' => 'components'], function () {
@@ -30,6 +35,10 @@ Route::group(['prefix' => 'components'], function () {
 
     Route::get('/calendar', function(){
         return view('components.calendar');
+    });
+
+    Route::get('/chart', function(){
+        return view('components.chart');
     });
 
     Route::get('/timepicker', function(){

@@ -8,11 +8,18 @@ Author: hungluong
 
 /*
 =========================================================
+REQUIRE CALENDAR LANG
+=========================================================
+*/
+document.write(`<script type="text/javascript" src="/dist/js/zayeki-calendar-lang.js"></script>`);
+
+/*
+=========================================================
 ZYK GLOBAL VARIABLES
 =========================================================
 */
 
-const DATA_KEY = 'zyk'
+const ZYK_DATA_KEY = 'zyk';
 
 /*
 =========================================================
@@ -25,43 +32,47 @@ const zykKeys = {
 }
 
 const zykUtil = {
-    typeOf(obj){
-        return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase()
+    typeOf(obj) {
+        return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
     },
 
     configSpread(source) {
-        let obj = []
-        for (let i = 0; i< arguments.length; i++){
-            let sourceArg = arguments[i] != null ? arguments[i] : {}
+        let obj = [];
+        for (let i = 0; i < arguments.length; i++) {
+            let sourceArg = arguments[i] != null ? arguments[i] : {};
 
-            if(this.typeOf(sourceArg) == 'object'){
-                obj.push(sourceArg)
+            if (this.typeOf(sourceArg) == 'object') {
+                obj.push(sourceArg);
             }
         }
 
-        source = obj.reduce(function(r, c){
-            return Object.assign(r, c)
-        }, {})
+        source = obj.reduce(function (r, c) {
+            return Object.assign(r, c);
+        }, {});
 
-        return source
+        return source;
     },
 
-    bodyBlock(option){
-        if(option){
-            $('body').removeClass('overflow-on')
-            $('body').addClass('overflow-off')
+    bodyBlock(option) {
+        if (option) {
+            $('body').addClass('overflow-on');
         } else {
-            $('body').removeClass('overflow-off')
-            $('body').addClass('overflow-on')
+            $('body').removeClass('overflow-on');
+        }
+    },
+
+    checkPopper(){
+        let hasPopper = false;
+
+        if(typeof Popper == 'object'){
+            hasPopper = true;
+        }
+
+        if(!hasPopper){
+            throw new TypeError('Require Popper js');
         }
     }
 }
-
-/*
-=========================================================
-Helper functions
-=========================================================
-*/
 
 /*
 =========================================================
@@ -79,38 +90,38 @@ class Poal {
             'cancelButtonText': 'Cancel',
             'confirmButtonClass': 'btn-success',
             'confirmButtonText': 'Confirm',
-        }
+        };
 
         this.config = {
             ...defaultOptions,
             ...options
-        }
+        };
 
-        this.$btn = $('.btn-poal')
+        this.$btn = $('.btn-poal');
 
-        this.fire()
+        this.fire();
     }
 
     fire() {
-        $('body').append(this.template())
+        $('body').append(this.template());
 
-        let _self = this
+        let _self = this;
 
         setTimeout(() => {
-            _self.transition()
+            _self.transition();
         }, 100)
 
-        this.initEvent()
+        this.initEvent();
     }
 
     transition() {
-        $(document).find('.poal').addClass('show')
+        $(document).find('.poal').addClass('show');
     }
 
     initEvent() {
-        $(document).on('click', '.btn-cancel', this.dismiss.bind(this))
-        $(document).on('click', '.btn-confirm', this.confirm.bind(this))
-        $(document).on('click', '.poal-backdrop', this.dismiss.bind(this))
+        $(document).on('click', '.btn-cancel', this.dismiss.bind(this));
+        $(document).on('click', '.btn-confirm', this.confirm.bind(this));
+        $(document).on('click', '.poal-backdrop', this.dismiss.bind(this));
     }
 
     template() {
@@ -142,22 +153,22 @@ class Poal {
                     </div>
                 </div>
             </div>
-        `
-        return popup
+        `;
+        return popup;
     }
 
-    dismiss(e){
-        $(e.target).closest('.poal').remove()
+    dismiss(e) {
+        $(e.target).closest('.poal').remove();
     }
 
-    confirm(e){
-        $(e.target).closest('.poal').remove()
+    confirm(e) {
+        $(e.target).closest('.poal').remove();
 
-        this.callbackConfirm()
+        this.callbackConfirm();
     }
 
-    callbackConfirm(){
-        console.log('callback')
+    callbackConfirm() {
+        console.log('callback');
     }
 }
 
@@ -232,7 +243,6 @@ class Guide {
     }
 }
 
-
 /*
 =========================================================
 CALENDAR
@@ -243,165 +253,174 @@ class Calendar{
         let defaultOptions = {
             view: 'month',
             lang: 'en',
+            bordered: false,
 
             header: {
-                'controls': ['control', 'today'],
-                'title': true,
-                'views': ['month', 'week', 'day']
+                controls: ['today'],
+                title: true,
+                views: ['month', 'week', 'day']
             },
 
             body:{
-                'tableHeader': {
-                    'type': 'daysOfWeek',
+                tableHeader: {
+                    type: 'daysOfWeek',
                 },
-                'tableBody': {
-                    'disablePast': false
+                tableBody: {
+                    disablePast: false
                 }
             },
 
             buttonClass: {
-                'default': 'btn btn-sm btn-default',
-                'active': 'btn btn-sm btn-primary',
+                default: 'btn btn-sm btn-default',
+                active: 'btn btn-sm btn-primary',
             },
 
             icons: {
-                'prev': 'fas fa-caret-left',
-                'next': 'fas fa-caret-right'
+                prev: 'els el-lg el-caret-left',
+                next: 'els el-lg el-caret-right'
             },
 
             dayRatio: 0.5,
             dayFormat: 'd/m/y',
 
+            date: null,
+            month: null,
+            year: null,
+
             events: [],
-            eventOnClick: function(){
-                console.log('Click on Event')
-            },
-        }
+            eventOnClick: false,
+            eventOnClickNext: false,
+            eventOnClickPrev: false,
+            eventOnClickToday: false,
+        };
 
         this.config = {
             ...defaultOptions,
             ...options
-        }
+        };
 
-        this.date = new Date()
-        this.currentDate = this.getDate()
-        this.currentMonth = this.getMonth()
-        this.currentYear = this.getYear()
+        this.date = new Date();
+        this.currentDate = this.getDate();
+        this.currentMonth = this.getMonth();
+        this.currentYear = this.getYear();
 
-        this.contentText = zayekiCalendarLang[this.config.lang]
+        this.contentText = zayekiCalendarLang[this.config.lang];
 
-        this.target = target
+        this.target = target;
 
-        this.render(target)
+        this.render(target);
     }
 
     render(element){
-        const _this = this
+        const _this = this;
 
         // Require zayeki-calendar-lang.js for language in Calendar
         if (typeof zayekiCalendarLang == 'undefined') {
-            throw new TypeError('Reuire zayeki-calendar-lang.js')
-
-            return
-        }
+            throw new TypeError('Require zayeki-calendar-lang.js');
+        };
 
         // RESET CALENDAR INNER HTML
-        $(element).html('')
+        $(element).html('');
+
+        // ADD BORDER FOR CALENDAR
+        if(_this.config.bordered){
+            $(element).addClass('calendar-bordered');
+        }
 
         // APPEND CALENDAR HEADER
         if (_this.config.header && _this.config.header != '') {
-            $(element).append('<div class="calendar-header"></div>')
-            $(element).find('.calendar-header').html(_this.getCalendarHeader())
+            $(element).append('<div class="calendar-header"></div>');
+            $(element).find('.calendar-header').html(_this.getCalendarHeader());
         }
 
         // APPEND CALENDAR BODY
-        let calendarBodyExtra = ''
+        let calendarBodyExtra = '';
 
         if(this.config.view == 'week'){
-            calendarBodyExtra = 'calendar-body-week'
+            calendarBodyExtra = 'calendar-body-week';
         } else if (this.config.view == 'day'){
-            calendarBodyExtra = 'calendar-body-day'
+            calendarBodyExtra = 'calendar-body-day';
         }
 
-        $(element).append(`<div class="calendar-body ${calendarBodyExtra} overflow-y"></div>`)
-        $(element).find('.calendar-body').html(_this.getCalendarBody())
+        $(element).append(`<div class="calendar-body ${calendarBodyExtra} overflow-y"></div>`);
+        $(element).find('.calendar-body').html(_this.getCalendarBody());
 
-        this.setTableColSize()
+        this.setTableColSize();
 
-        this.getEvents()
+        this.getEvents();
 
-        this.initActions()
+        this.initActions();
     }
 
 
     getYear(){
-        let year = this.date.getFullYear()
+        let year = this.config.year == null ? this.date.getFullYear() : this.config.year;
 
-        return year
+        return year;
     }
 
     getPrevYear(){
-        let year = this.currentYear
+        let year = this.currentYear;
 
-        let prevYear = year - 1
+        let prevYear = year - 1;
 
-        return prevYear
+        return prevYear;
     }
 
     getNextYear() {
-        let year = this.currentYear
+        let year = this.currentYear;
 
-        let nextYear = year + 1
+        let nextYear = year + 1;
 
-        return nextYear
+        return nextYear;
     }
 
     getMonth(){
-        let month = this.date.getMonth()
+        let month = this.config.month == null ? this.date.getMonth() : this.config.month;
 
-        return month
+        return month;
     }
 
     getPrevMonth() {
-        let prevMonth
+        let prevMonth;
 
-        let currentMonth = this.currentMonth
+        let currentMonth = this.currentMonth;
 
         if (currentMonth > 0) {
-            prevMonth = currentMonth - 1
+            prevMonth = currentMonth - 1;
 
-            return prevMonth
+            return prevMonth;
         } else {
-            prevMonth = 11
+            prevMonth = 11;
 
-            return prevMonth
+            return prevMonth;
         }
     }
 
     getNextMonth(){
-        let nextMonth
+        let nextMonth;
 
-        let currentMonth = this.currentMonth
+        let currentMonth = this.currentMonth;
 
         if (currentMonth < 11) {
-            nextMonth = currentMonth + 1
+            nextMonth = currentMonth + 1;
 
-            return nextMonth
+            return nextMonth;
         } else {
-            nextMonth = 0
+            nextMonth = 0;
 
-            return nextMonth
+            return nextMonth;
         }
     }
 
     getDate(){
-        let date = this.date.getDate()
+        let date = this.config.date == null ? this.date.getDate() : this.config.date;
 
-        return date
+        return date;
     }
 
     getToday(date, month, year){
-        const _this = this
+        const _this = this;
 
         if (
             date == this.date.getDate()
@@ -410,56 +429,56 @@ class Calendar{
             &&
             year == this.date.getFullYear()
         ) {
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
     }
 
     getDaysInMonth(month, year){
-        return 32 - new Date(year, month, 32).getDate()
+        return 32 - new Date(year, month, 32).getDate();
     }
 
     getDaysInWeek(date = this.currentDate, month = this.currentMonth, year = this.currentYear){
-        const _this = this
+        const _this = this;
 
-        let daysInWeek = []
+        let daysInWeek = [];
 
-        let dayInWeek
+        let dayInWeek;
 
         if(date > _this.getDaysInMonth(month, year)){
-            date = date - _this.getDaysInMonth(month, year)
+            date = date - _this.getDaysInMonth(month, year);
         }
 
         if (new Date(`${year}-${month + 1}-${date}`).getDay() - 1 < 0){
-            dayInWeek = 6
+            dayInWeek = 6;
         } else {
-            dayInWeek = new Date(`${year}-${month + 1}-${date}`).getDay() - 1
+            dayInWeek = new Date(`${year}-${month + 1}-${date}`).getDay() - 1;
         }
 
         for(let i = 0; i < 7; i++){
-            let offset = date - dayInWeek
+            let offset = date - dayInWeek;
 
             //daysInWeek[i] = i + offset
 
             if(i + offset > _this.getDaysInMonth(month, year)){
-                daysInWeek[i] = i + offset - _this.getDaysInMonth(month, year)
+                daysInWeek[i] = i + offset - _this.getDaysInMonth(month, year);
             } else {
-                daysInWeek[i] = i + offset
+                daysInWeek[i] = i + offset;
             }
         }
 
-        return daysInWeek
+        return daysInWeek;
     }
 
     getFirstDay(month, year){
-        return (new Date(year, month)).getDay()
+        return (new Date(year, month)).getDay();
     }
 
     getCalendarHeader(){
-        const _this = this
+        const _this = this;
 
-        let calendarHeader = ''
+        let calendarHeader = '';
 
         if(_this.config.header && _this.config.header != ''){
 
@@ -472,30 +491,16 @@ class Calendar{
             })
         }
 
-        return calendarHeader
+        return calendarHeader;
     }
 
     getCalendarHeaderElements(part){
-        const _this = this
+        const _this = this;
 
-        let partElements = ``
+        let partElements = ``;
 
         if(part == 'controls'){
             if (_this.config.header && _this.config.header != ''){
-                if (_this.config.header.controls.indexOf('control') > -1){
-                    partElements += `
-                        <div class="btn-group">
-                            <button class="${_this.config.buttonClass.default} btn-calendar-prev" type="button">
-                                <i class="${_this.config.icons.prev}"></i>
-                            </button>
-
-                            <button class="${_this.config.buttonClass.default} btn-calendar-next" type="button">
-                                <i class="${_this.config.icons.next}"></i>
-                            </button>
-                        </div>
-                    `
-                }
-
                 if (_this.config.header.controls.indexOf('today') > -1) {
                     partElements += `
                         <button class="${_this.config.buttonClass.default} btn-calendar-today" type="button">
@@ -504,13 +509,72 @@ class Calendar{
                     `
                 }
             } else {
-                throw new TypeError('Calendar configs header controls failed!')
+                throw new TypeError('Calendar configs header controls failed!');
             }
         } else if (part == 'title'){
             if(_this.date != null || _this.config.header.title){
                 if(_this.config.view == 'month'){
                     partElements += `
-                        <h6>${_this.contentText.months[_this.currentMonth]} ${_this.currentYear}</h6>
+                        <button class="${_this.config.buttonClass.default} btn-calendar-prev" type="button">
+                            <i class="${_this.config.icons.prev}"></i>
+                        </button>
+                    `;
+
+                    if(_this.config.view == 'month'){
+                        let monthpickerButtons = '';
+
+                        $.each(_this.contentText.monthsShort, function (key, value) {
+                            monthpickerButtons += `
+                                <button class="${_this.config.buttonClass.default} btn-calendar-monthpicker" data-month="${key}" type="button">
+                                    ${value}
+                                </button>
+                            `;
+                        })
+                        partElements += `
+                            <div class="dropdown">
+                                <button class="${_this.config.buttonClass.default}" data-toggle="dropdown" data-placement="bottom" type="button">
+                                    <h6>
+                                        ${_this.contentText.months[_this.currentMonth]} ${_this.currentYear}
+                                    </h6>
+                                </button>
+
+                                <div class="dropdown-menu">
+                                    <div class="calendar-monthpicker-wrapper">
+                                        <div class="calendar-monthpicker-header">
+                                            <button class="${_this.config.buttonClass.default} btn-calendar-monthpicker-year-prev" type="button">
+                                                <i class="els el-lg el-caret-left"></i>
+                                            </button>
+
+                                            <h6 class="subtitle-md">
+                                                ${_this.currentYear}
+                                            </h6>
+
+                                            <button class="${_this.config.buttonClass.default} btn-calendar-monthpicker-year-next" type="button">
+                                                <i class="els el-lg el-caret-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="calendar-monthpicker-body">
+                                            ${monthpickerButtons}
+                                        </div>
+                                    </div>
+                                    
+                                    <input type="hidden" value="${_this.currentMonth}">
+                                    <input type="hidden" value="${_this.currentYear}">
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        partElements += `
+                            <h6>
+                                ${_this.contentText.months[_this.currentMonth]} ${_this.currentYear}
+                            </h6>
+                        `;
+                    }
+
+                    partElements += `
+                        <button class="${_this.config.buttonClass.default} btn-calendar-next" type="button">
+                            <i class="${_this.config.icons.next}"></i>
+                        </button>
                     `
                 } else if (_this.config.view == 'week'){
                     if(_this.config.dayFormat == 'd/m/y'){
@@ -530,7 +594,7 @@ class Calendar{
                     }
                 }
             } else if (_this.date == null) {
-                throw new TypeError('Can\'t get Date from your computer!')
+                throw new TypeError('Can\'t get Date from your computer!');
             }
         } else if (part == 'views'){
             let buttons = ''
@@ -550,189 +614,206 @@ class Calendar{
             `
         }
 
-        return partElements
+        return partElements;
     }
 
     getCalendarBody() {
-        const _this = this
+        const _this = this;
 
-        let tableHeader = ''
-        let tableHeaderContent = ''
-        let tableBody = ''
+        let tableHeader = '';
+        let tableHeaderContent = '';
+        let tableBody = '';
 
 
         if(this.config.view == 'month'){
             if (Object.keys(_this.contentText).indexOf(_this.config.body.tableHeader.type) > -1) {
                 $.each(_this.contentText[_this.config.body.tableHeader.type], (key, value) => {
                     tableHeaderContent += _this.getTableCol(value, '', '', false)
-                })
+                });
 
-                tableHeader += _this.getTableRow(tableHeaderContent)
+                tableHeader += _this.getTableRow(tableHeaderContent);
             } else {
-                throw new TypeError('There is no type of Calendar Table Header Type')
+                throw new TypeError('There is no type of Calendar Table Header Type');
             }
-
-            tableBody += _this.getTable('month')
         } else if (this.config.view == 'week'){
-            tableHeaderContent += _this.getTableCol('', '', '', false, 'calendar-table-col-hour')
+            tableHeaderContent += _this.getTableCol('', '', '', false, 'calendar-table-col-hour');
 
-            $.each(_this.contentText['daysOfWeekShort'], (key, value) => {
-                tableHeaderContent += _this.getTableCol(value, '', '', false, 'calendar-table-col-day')
+            $.each(_this.contentText[_this.config.body.tableHeader.type], (key, value) => {
+                tableHeaderContent += _this.getTableCol(value, '', '', false, 'calendar-table-col-day');
             })
 
-            tableHeaderContent += _this.getTableCol('', '', '', false, 'calendar-table-col-hour')
+            tableHeaderContent += _this.getTableCol('', '', '', false, 'calendar-table-col-hour');
             $.each(_this.getDaysInWeek(), function(key, value){
-                tableHeaderContent += _this.getTableCol(value, _this.currentMonth, _this.currentYear, false)
+                tableHeaderContent += _this.getTableCol(value, _this.currentMonth, _this.currentYear, false);
             })
 
-            tableHeader += _this.getTableRow(tableHeaderContent)
-
-            tableBody += _this.getTable('week')
+            tableHeader += _this.getTableRow(tableHeaderContent);
         } else if (this.config.view == 'day'){
 
         }
+
+        tableBody += _this.getTable(_this.config.view);
 
         let table = `
             <div class="calendar-table">
                 <div class="calendar-table-header">${tableHeader}</div>
                 <div class="calendar-table-body">${tableBody}</div>
             </div>
-        `
+        `;
 
-        return table
+        return table;
     }
 
     getTable(view, month = this.currentMonth, year = this.currentYear){
-        const _this = this
+        const _this = this;
 
-        let tableContent = ''
+        let tableContent = '';
 
         if(view == 'month'){
-            let date = 1
-            let firstDay
+            let date = 1;
+            let firstDay;
 
             if(_this.getFirstDay(month, year) - 1 < 0){
-                firstDay = 6
+                firstDay = 6;
             } else {
-                firstDay = _this.getFirstDay(month, year) - 1
+                firstDay = _this.getFirstDay(month, year) - 1;
             }
 
             for (let r = 0; r < 6; r++) {
-                let rowContent = ''
+                let rowContent = '';
 
                 for (let c = 0; c < 7; c++) {
                     if (r == 0 && c < firstDay) {
                         // GET DATE OF PREV MONTH ON VIEW
-                        let prevDays
+                        let prevDays;
 
                         if(month == 0){
-                            prevDays = _this.getDaysInMonth(_this.getPrevMonth(), _this.getPrevYear())
+                            prevDays = _this.getDaysInMonth(_this.getPrevMonth(), _this.getPrevYear());
 
-                            rowContent += _this.getTableCol(prevDays + firstDay * -1 + 1 + c, _this.getPrevMonth(), _this.getPrevYear())
+                            rowContent += _this.getTableCol(prevDays + firstDay * -1 + 1 + c, _this.getPrevMonth(), _this.getPrevYear());
                         } else {
-                            prevDays = _this.getDaysInMonth(_this.getPrevMonth(), year)
+                            prevDays = _this.getDaysInMonth(_this.getPrevMonth(), year);
 
-                            rowContent += _this.getTableCol(prevDays + firstDay * -1 + 1 + c, _this.getPrevMonth(), year)
+                            rowContent += _this.getTableCol(prevDays + firstDay * -1 + 1 + c, _this.getPrevMonth(), year);
                         }
 
-                        prevDays--
+                        prevDays--;
                     } else if (r > 0 && date > _this.getDaysInMonth(month, year)){
                         // GET DATE OF NEXT MONTH ON VIEW
                         if(month == 11){
-                            rowContent += _this.getTableCol(date - _this.getDaysInMonth(month, year), _this.getNextMonth(), _this.getNextYear())
+                            rowContent += _this.getTableCol(date - _this.getDaysInMonth(month, year), _this.getNextMonth(), _this.getNextYear());
                         } else {
-                            rowContent += _this.getTableCol(date - _this.getDaysInMonth(month, year), _this.getNextMonth(), year)
+                            rowContent += _this.getTableCol(date - _this.getDaysInMonth(month, year), _this.getNextMonth(), year);
                         }
 
-                        date++
+                        date++;
                     } else {
                         // GET DATE OF MONTH ON VIEW
-                        rowContent += _this.getTableCol(date, month, year)
-                        date++
+                        rowContent += _this.getTableCol(date, month, year);
+                        date++;
                     }
                 }
 
-                tableContent += _this.getTableRow(rowContent)
+                tableContent += _this.getTableRow(rowContent);
             }
         } else if(view == 'week'){
             for(let h = 0; h < 24; h++){
-                let rowContent = ''
-                let timeText
+                let rowContent = '';
+                let timeText;
                 if(h < 10){
-                    timeText = '0' + h + ':' + '00'
+                    timeText = '0' + h + ':' + '00';
                 } else {
-                    timeText = h + ':' + '00'
+                    timeText = h + ':' + '00';
                 }
 
-                rowContent += _this.getTableCol(timeText, _this.currentMonth, '', false, 'calendar-table-col-hour')
+                rowContent += _this.getTableCol(timeText, _this.currentMonth, '', false, 'calendar-table-col-hour');
 
                     for(let c = 0; c < 7; c++){
-                        rowContent += _this.getTableCol('', _this.currentMonth, '')
+                        rowContent += _this.getTableCol('', _this.currentMonth, '');
                     }
 
-                tableContent += _this.getTableRow(rowContent)
+                tableContent += _this.getTableRow(rowContent);
             }
         }
 
-        return tableContent
+        return tableContent;
     }
 
     getTableRow(rowContent){
         return `
             <div class="calendar-table-row">${rowContent}</div>
-        `
+        `;
     }
 
     getTableCol(colContent, month, year, tableBodyDays = true, extraClass = ''){
-        const _this = this
+        const _this = this;
 
         return `
-            <div class = "calendar-table-col ${extraClass} ${(tableBodyDays && month != _this.currentMonth) ? 'calendar-table-col-faded' : ''}">
+            <div class = "calendar-table-col ${extraClass} ${(tableBodyDays && month != _this.currentMonth) ? 'calendar-table-col-disabled' : ''}">
                 ${(() => {
                     if(tableBodyDays){
                         return `
                             <a href="#" class="calendar-table-day ${_this.getToday(colContent, month, year) ? 'calendar-table-today' : ''}" data-calendar-day="${year}-${(month + 1) >= 10 ? month + 1 : '0' + (month + 1)}-${(colContent >= 10) ? colContent : '0' + colContent}">
-                                <span>${colContent}</span>
+                                <span class="day-text">${colContent}</span>
                             </a>
-                        `
+                        `;
                     } else {
-                        return `<span class="${_this.getToday(colContent, month, year) ? 'calendar-span-today' : ''}" data-calendar-day="${year}-${(month + 1) >= 10 ? month + 1 : '0' + (month + 1)}-${(colContent >= 10) ? colContent : '0' + colContent}">${colContent}</span>`
+                        return `
+                            <span class="${_this.getToday(colContent, month, year) ? 'calendar-span-today' : ''}" data-calendar-day="${year}-${(month + 1) >= 10 ? month + 1 : '0' + (month + 1)}-${(colContent >= 10) ? colContent : '0' + colContent}">
+                                ${colContent}
+                            </span>
+                        `;
                     }
                 })()}
             </div>
-        `
+        `;
     }
 
     setTableColSize(){
-        const _this = this
+        const _this = this;
 
         $(this.target).find('.calendar-table-day').each(function(){
             if(_this.config.view == 'month'){
-                $(this).css({
-                    height: $(this).width() * _this.config.dayRatio + 'px'
-                })
+                if (_this.config.dayRatio != 'auto'){
+                    $(this).css({
+                        height: $(this).width() * _this.config.dayRatio + 'px'
+                    })
+                }
             } else if (_this.config.view == 'week'){
                 $(this).css({
                     height: $(this).width() * 1 + 'px'
                 })
             }
-
         })
     }
 
     getEvents(){
-        const _this = this
+        const _this = this;
 
-        if (Object.keys(_this.config.events).length > 0) {
-            $('.calendar-table-day').each(function () {
-                let eventDay = $(this).data('calendar-day')
-                if (Object.keys(_this.config.events).indexOf(eventDay) > -1) {
-                    $(this).append(`<b>${_this.config.events[eventDay].length} <i class="els el-stream"></i></b>`)
+        let eventsKeys = Object.keys(_this.config.events);
+        let eventsLength = eventsKeys.length;
+
+        if (eventsLength > 0) {
+            $(_this.target).find('.calendar-table-day').each(function () {
+                let eventDay = $(this).data('calendar-day');
+
+                if (eventsKeys.indexOf(eventDay) > -1) {
+                    $(this).append(`
+                        <span class="day-events"></span>
+                    `);
+
+                    for (let i = 0; i < Object.keys(_this.config.events[eventDay]).length; i++){
+                        $(this).find('span.day-events').append(`
+                            <i>
+                                ${Object.keys(_this.config.events[eventDay][i]).length}
+                            </i>
+                        `);
+                    }
                 }
 
                 $(this).unbind().on('click', function () {
                     if (_this.config.eventOnClick) {
-                        _this.config.eventOnClick(this)
+                        _this.config.eventOnClick(this);
                     }
                 })
             })
@@ -740,90 +821,138 @@ class Calendar{
     }
 
     initActions(){
-        this.actionHeader()
+        this.actionHeader();
     }
 
     actionHeader(){
-        this.getCalendarNext()
-        this.getCalendarPrev()
-        this.getCalendarToday()
+        this.getCalendarNext();
+        this.getCalendarPrev();
+        this.getCalendarToday();
 
-        this.changeCalendarView()
+        this.changeCalendarView();
+
+        this.monthPicker();
     }
 
     getCalendarNext(){
-        const _this = this
+        const _this = this;
 
         $(this.target).find('.btn-calendar-next').unbind().on('click', function(){
             if(_this.config.view == 'month'){
                 if(_this.currentMonth == 11){
-                    _this.currentMonth = _this.getNextMonth()
-                    _this.currentYear = _this.getNextYear()
-
-                    _this.render(_this.target)
-                } else {
-                    _this.currentMonth = _this.getNextMonth()
-
-                    _this.render(_this.target)
+                    _this.currentYear = _this.getNextYear();
+                    _this.config.year = _this.currentYear;
                 }
+
+                _this.currentMonth = _this.getNextMonth();
+                _this.config.month = _this.currentMonth;
             } else if(_this.config.view == 'week'){
                 if (_this.currentDate + 7 > _this.getDaysInMonth(_this.currentMonth, _this.currentYear)){
-                    _this.currentDate = _this.currentDate + 7 - _this.getDaysInMonth(_this.currentMonth, _this.currentYear)
+                    _this.currentDate = _this.currentDate + 7 - _this.getDaysInMonth(_this.currentMonth, _this.currentYear);
                 } else {
-                    _this.currentDate = _this.currentDate + 7
+                    _this.currentDate = _this.currentDate + 7;
                 }
-
-                _this.render(_this.target)
             }
+
+            if (typeof _this.currentDate == 'undefined'){
+                _this.currentDate = ''
+            }
+
+            if(_this.config.eventOnClickNext){
+                _this.config.eventOnClickNext(_this.config);
+            }
+
+            _this.render(_this.target);
         })
     }
 
     getCalendarPrev() {
-        const _this = this
+        const _this = this;
 
         $(this.target).find('.btn-calendar-prev').unbind().on('click', function () {
             if (_this.config.view == 'month') {
                 if (_this.currentMonth == 0) {
-                    _this.currentMonth = _this.getPrevMonth()
-                    _this.currentYear = _this.getPrevYear()
-
-                    _this.render(_this.target)
-                } else {
-                    _this.currentMonth = _this.getPrevMonth()
-
-                    _this.render(_this.target)
+                    _this.currentYear = _this.getPrevYear();
+                    _this.config.year = _this.currentYear;
                 }
+
+                _this.currentMonth = _this.getPrevMonth();
+                _this.config.month = _this.currentMonth;
             }
+
+            if (typeof _this.currentDate == 'undefined') {
+                _this.currentDate = ''
+            }
+
+            if (_this.config.eventOnClickPrev) {
+                _this.config.eventOnClickPrev(_this.config);
+            }
+
+            _this.render(_this.target);
         })
     }
 
     getCalendarToday(){
-        const _this = this
+        const _this = this;
 
-        $(this.target).find('.btn-calendar-today').unbind().on('click', function () {
+        $(_this.target).find('.btn-calendar-today').unbind().on('click', function () {
             if (_this.config.view == 'month') {
-                _this.currentMonth = _this.date.getMonth()
-                _this.currentYear = _this.date.getFullYear()
+                _this.currentMonth = _this.date.getMonth();
+                _this.currentYear = _this.date.getFullYear();
 
-                _this.render(_this.target)
+                _this.config.month = _this.currentMonth;
+                _this.config.year = _this.currentYear;
             }
+
+            if(_this.config.eventOnClickToday){
+                _this.config.eventOnClickToday(_this.config);
+            }
+
+            _this.render(_this.target);
         })
     }
 
     changeCalendarView(){
-        const _this = this
+        const _this = this;
 
-        $(this.target).find('.btn-calendar-view').unbind().on('click', function () {
-            let dataView = $(this).data('view')
+        $(_this.target).find('.btn-calendar-view').unbind().on('click', function () {
+            let dataView = $(this).data('view');
 
-            _this.config.view = dataView
+            _this.config.view = dataView;
 
-            // RESET CURRENT TIME WHEN CHANGE VIEW
-            // _this.currentDate = _this.date.getDate()
-            // _this.currentMonth = _this.date.getMonth()
-            // _this.currentYear = _this.date.getYear()
+            _this.render(_this.target);
+        })
+    }
 
-            _this.render(_this.target)
+    monthPicker(){
+        const _this = this;
+
+        let year = _this.currentYear;
+
+        $(_this.target).find('.btn-calendar-monthpicker-year-next').unbind().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            year++;
+            $(this).siblings('h6').text(year);
+        })
+
+        $(_this.target).find('.btn-calendar-monthpicker-year-prev').unbind().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            year--;
+            $(this).siblings('h6').text(year);
+        })
+
+        $(_this.target).find('.btn-calendar-monthpicker').unbind().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            _this.currentMonth = $(this).data('month');
+            _this.currentYear = year;
+
+            _this.render(_this.target);
         })
     }
 }
@@ -1010,12 +1139,151 @@ class Datepicker {
 
 /*
 =========================================================
+CHART
+=========================================================
+*/
+
+const CHART_DEFAULT = {
+    TYPE: 'bar',
+    WIDTH: 400,
+    HEIGHT: 400,
+    COLORS: {
+        BORDER: '#e5e5ea'
+    },
+
+}
+
+class Chart {
+    constructor(wrapper, options) {
+        let defaultOptions = {
+
+        };
+
+        this.config = {
+            ...defaultOptions,
+            ...options
+        };
+
+        this.wrapper = $(wrapper);
+
+        this.render();
+    }
+
+    render(){
+
+    }
+}
+
+/*
+=========================================================
+ZYKOWL
+=========================================================
+*/
+
+class Zykowl {
+    constructor(target, options){
+        let defaultOptions = {
+            loop: true,
+            transition: 1500,
+            autoplay: false,
+            indicator: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 3
+                },
+                1200: {
+                    items: 5
+                }
+            },
+            margin: 16
+        };
+
+        this.config = {
+            ...defaultOptions,
+            ...options
+        };
+
+        this.target = target;
+
+        this.render(target);
+    }
+
+    render(element){
+        const _this = this;
+
+        $(element).children('div').each(function(){
+            $(this).addClass('zykowl-item');
+        })
+
+        $(element).append(`<div class="zykowl-wrapper"></div>`);
+
+        const $wrapper = $(element).find('.zykowl-wrapper');
+
+        $(element).find('.zykowl-item').appendTo($wrapper);
+
+        let res = _this.checkResponsive();
+
+        if (res.result) {
+            $wrapper.find('.zykowl-item').each(function (k, item) {
+                _this.style(item, {
+                    flex: `1 0 ${$wrapper.width() / _this.config.responsive[res.breakpoint].items - _this.config.margin}px`,
+                    margin: `0 ${_this.config.margin / 2}px`
+                })
+            })
+        } else {
+            _this.style(item, {
+                flex: `1 0 ${$(item).width()}px`,
+                margin: `0 ${_this.config.margin / 2}px`
+            })
+        }
+    }
+
+    style(element, style){
+        $(element).css(style);
+    }
+
+    checkResponsive(){
+        const _this = this;
+
+        let res = [];
+
+        if (_this.config.responsive) {
+            let resWidthArr = Object.keys(_this.config.responsive);
+            let breakpoint = resWidthArr[0];
+
+            for (let i = resWidthArr.length - 1; i >= 0 ; i--) {
+                if (
+                    resWidthArr[i] >= $(window).width()
+                    &&
+                    $(window).width() >= resWidthArr[i-1]
+                ) {
+                    breakpoint = resWidthArr[i];
+                }
+            }
+
+            res.result = true;
+            res.breakpoint = breakpoint;
+        }
+        else{
+            res.push({
+                result: false
+            })
+        }
+        return res;
+    }
+}
+
+/*
+=========================================================
 POPUP
 =========================================================
 */
 
-const POPUP_NAME = 'popup'
-const POPUP_EVENT_KEY = `${DATA_KEY}.${POPUP_NAME}`
+const POPUP_NAME = 'popup';
+const POPUP_EVENT_KEY = `${ZYK_DATA_KEY}.${POPUP_NAME}`;
 
 const POPUP_CLASSNAME = {
     SHOW: 'show',
@@ -1069,281 +1337,281 @@ const POPUP_VAR = {
     TRANSITION: 100
 }
 
-var Popup = function(){
-    function Popup(element, config){
+var Popup = function () {
+    function Popup(element, config) {
 
-        this.config = this.getConfig(config)
+        this.config = this.getConfig(config);
 
-        this.backdrop = POPUP_VAR.BACKDROP
-        this.isShown = POPUP_VAR.IS_SHOWN
-        this.ignoreBackdropClick = POPUP_VAR.IGNOREBACKDROPCLICK
-        this.isTransition = POPUP_VAR.IS_TRANSITION
+        this.backdrop = POPUP_VAR.BACKDROP;
+        this.isShown = POPUP_VAR.IS_SHOWN;
+        this.ignoreBackdropClick = POPUP_VAR.IGNOREBACKDROPCLICK;
+        this.isTransition = POPUP_VAR.IS_TRANSITION;
 
-        this.element = element
-        this.dialog = element.querySelector(POPUP_SELECTOR.DIALOG)
+        this.element = element;
+        this.dialog = element.querySelector(POPUP_SELECTOR.DIALOG);
 
-        this.hasFade = $(this.element).hasClass(POPUP_CLASSNAME.FADE)
+        this.hasFade = $(this.element).hasClass(POPUP_CLASSNAME.FADE);
     }
 
-    const _proto = Popup.prototype
+    const _proto = Popup.prototype;
 
-    _proto.getConfig = function getConfig(config){
-        config = zykUtil.configSpread(POPUP_DEFAULT, config)
+    _proto.getConfig = function getConfig(config) {
+        config = zykUtil.configSpread(POPUP_DEFAULT, config);
 
-        return config
+        return config;
     }
 
-    _proto.toggle = function toggle(target){
-        return this.isShown ? this.hide() : this.show(target)
+    _proto.toggle = function toggle(target) {
+        return this.isShown ? this.hide() : this.show(target);
     }
 
     _proto.show = function show(target) {
-        const _this = this
+        const _this = this;
 
         if(this.isShown){
             return;
         }
 
         // Block body
-        zykUtil.bodyBlock(true)
+        zykUtil.bodyBlock(true);
 
         let showEvent = $.Event(POPUP_EVENT.SHOW, {
             target: target
-        })
+        });
 
-        $(this.element).trigger(showEvent)
+        $(this.element).trigger(showEvent);
 
-        this.isShown = true
+        this.isShown = true;
 
-        this.keepOnViewPort()
+        this.keepOnViewPort();
 
-        this.setEscapeEvent()
+        this.setEscapeEvent();
 
         $(this.element).one(POPUP_EVENT.CLICK_DISMISS, POPUP_SELECTOR.DISMISS, function(e){
-            return _this.hide(e)
-        })
+            return _this.hide(e);
+        });
 
-        $(this.dialog).off(POPUP_EVENT.CLICK_DISMISS)
+        $(this.dialog).off(POPUP_EVENT.CLICK_DISMISS);
         $(this.dialog).on(POPUP_EVENT.CLICK_DISMISS, function (e) {
             if($(_this.dialog).is(e.target)){
-                return _this.hide(e)
+                return _this.hide(e);
             }
-        })
+        });
 
-        this.showBackdrop(function(){
-            return _this.showElement(target)
-        })
+        this.showBackdrop(function () {
+            return _this.showElement(target);
+        });
     }
 
-    _proto.hide = function hide(e){
-        const _this = this
+    _proto.hide = function hide(e) {
+        const _this = this;
 
-        if(e){
-            e.preventDefault()
+        if (e) {
+            e.preventDefault();
         }
 
-        let hideEvent = $.Event(POPUP_EVENT.HIDE)
+        let hideEvent = $.Event(POPUP_EVENT.HIDE);
 
-        $(this.element).trigger(hideEvent)
+        $(this.element).trigger(hideEvent);
 
-        this.isShown = false
+        this.isShown = false;
 
-        this.hideElement()
+        this.hideElement();
     }
 
-    _proto.showElement = function showElement(target){
-        const _this = this
+    _proto.showElement = function showElement(target) {
+        const _this = this;
 
-        this.element.style.display = 'block'
+        this.element.style.display = 'block';
 
         if (this.hasFade) {
-            setTimeout(function(){
-                $(_this.element).addClass(POPUP_CLASSNAME.SHOW)
+            setTimeout(function () {
+                $(_this.element).addClass(POPUP_CLASSNAME.SHOW);
             }, POPUP_VAR.TRANSITION)
         } else {
-            $(this.element).addClass(POPUP_CLASSNAME.SHOW)
+            $(this.element).addClass(POPUP_CLASSNAME.SHOW);
         }
 
-        if($(this.element).attr('tabindex') == null){
+        if ($(this.element).attr('tabindex') == null) {
             $(this.element).attr('tabindex', -1)
         }
 
-        if(this.config.focus){
-            this.forceFocus()
+        if (this.config.focus) {
+            this.forceFocus();
         }
 
         let shownEvent = $.Event(POPUP_EVENT.SHOWN, {
             target: target
         })
 
-        $(_this.element).trigger(shownEvent)
+        $(_this.element).trigger(shownEvent);
     }
 
-    _proto.hideElement = function hideElement(){
-        const _this = this
+    _proto.hideElement = function hideElement() {
+        const _this = this;
 
-        $(this.element).removeClass(POPUP_CLASSNAME.SHOW)
+        $(this.element).removeClass(POPUP_CLASSNAME.SHOW);
 
         if (this.hasFade) {
-            setTimeout(function(){
-                _this.element.style.display = 'none'
+            setTimeout(function () {
+                _this.element.style.display = 'none';
             }, POPUP_VAR.TRANSITION)
         } else {
-            this.element.style.display = 'none'
+            this.element.style.display = 'none';
         }
 
-        this.removeBackdrop()
+        this.removeBackdrop();
 
-        $(this.element).trigger(POPUP_EVENT.HIDDEN)
+        $(this.element).trigger(POPUP_EVENT.HIDDEN);
 
         // Unlock body
-        zykUtil.bodyBlock(false)
+        zykUtil.bodyBlock(false);
     }
 
-    _proto.showBackdrop = function showBackdrop(callback){
-        const _this = this
+    _proto.showBackdrop = function showBackdrop(callback) {
+        const _this = this;
 
-        let focus = $(this.element).hasClass(POPUP_CLASSNAME.FOCUS)
+        let focus = $(this.element).hasClass(POPUP_CLASSNAME.FOCUS);
 
-        if(this.isShown && this.config.backdrop){
-            this.backdrop = $(`<div class="${POPUP_CLASSNAME.BACKDROP}"></div>`)
+        if (this.isShown && this.config.backdrop) {
+            this.backdrop = $(`<div class="${POPUP_CLASSNAME.BACKDROP}"></div>`);
 
-            if(focus){
-                $(this.backdrop).addClass(POPUP_CLASSNAME.FOCUS)
+            if (focus) {
+                $(this.backdrop).addClass(POPUP_CLASSNAME.FOCUS);
             }
 
             // Append POPUP BACKDROP to BODY
-            $(this.backdrop).appendTo($('body'))
+            $(this.backdrop).appendTo($('body'));
 
             if (this.hasFade) {
-                setTimeout(function(){
+                setTimeout(function () {
                     $(_this.backdrop).addClass(POPUP_CLASSNAME.FADE)
                 }, POPUP_VAR.TRANSITION)
             } else {
-                $(this.backdrop).addClass(POPUP_CLASSNAME.SHOW)
+                $(this.backdrop).addClass(POPUP_CLASSNAME.SHOW);
             }
 
             $(this.backdrop).on(POPUP_EVENT.CLICK_DISMISS, function (e) {
-                if(_this.config.backdrop == 'static'){
-                    return
-                } else{
-                    _this.hide()
+                if (_this.config.backdrop == 'static') {
+                    return;
+                } else {
+                    _this.hide();
                 }
             })
         }
 
-        if(callback){
-            callback()
+        if (callback) {
+            callback();
         }
     }
 
-    _proto.removeBackdrop = function removeBackdrop(){
-        const _this = this
+    _proto.removeBackdrop = function removeBackdrop() {
+        const _this = this;
 
-        if(this.backdrop){
-            $(this.backdrop).remove()
+        if (this.backdrop) {
+            $(this.backdrop).remove();
 
-            this.backdrop = null
+            this.backdrop = null;
         }
     }
 
-    _proto.keepOnViewPort = function keepOnViewPort(){
-        const _this = this
+    _proto.keepOnViewPort = function keepOnViewPort() {
+        const _this = this;
 
-        let offsetTop = $(this.element).offset().top
-        let vpHeight = window.innerHeight
+        let offsetTop = $(this.element).offset().top;
+        let vpHeight = window.innerHeight;
 
-        if(offsetTop > vpHeight){
-            let scrollTop = offsetTop - vpHeight * 10 / 100
+        if (offsetTop > vpHeight) {
+            let scrollTop = offsetTop - vpHeight * 10 / 100;
 
-            $(window).scrollTop(scrollTop)
+            $(window).scrollTop(scrollTop);
         }
     }
 
-    _proto.forceFocus = function forceFocus(){
-        const _this = this
+    _proto.forceFocus = function forceFocus() {
+        const _this = this;
 
-        $(this.element).focus()
+        $(this.element).focus();
 
-        // $(document).off(POPUP_EVENT.FOCUSIN)
+        // $(document).off(POPUP_EVENT.FOCUSIN);
         // $(document).on(POPUP_EVENT.FOCUSIN, function(e){
-        //     console.log(e)
+        //     console.log(e);
         //     if (document !== e.target && _this.element !== e.target && $(_this.element).has(e.target).length === 0){
-        //         $(_this.element).focus()
+        //         $(_this.element).focus();
         //     }
         // })
     }
 
-    _proto.setEscapeEvent = function setEscapeEvent(){
-        const _this = this
+    _proto.setEscapeEvent = function setEscapeEvent() {
+        const _this = this;
 
-        if(this.isShown && this.config.keyboard){
-            $(this.element).one(POPUP_EVENT.KEYDOWN_DISMISS, function(e){
-                if(e.which === zykKeys.escapeKey){
-                    e.preventDefault()
+        if (this.isShown && this.config.keyboard) {
+            $(this.element).one(POPUP_EVENT.KEYDOWN_DISMISS, function (e) {
+                if (e.which === zykKeys.escapeKey) {
+                    e.preventDefault();
 
-                    _this.hide()
+                    _this.hide();
                 }
             })
-        } else if (!this.isShown){
-            $(this.element).off(POPUP_EVENT.KEYDOWN_DISMISS)
+        } else if (!this.isShown) {
+            $(this.element).off(POPUP_EVENT.KEYDOWN_DISMISS);
         }
     }
 
     Popup.jqueryInterface = function jqueryInterface(config, target) {
-        return this.each(function(){
-            let data = $(this).data(POPUP_EVENT_KEY)
+        return this.each(function () {
+            let data = $(this).data(POPUP_EVENT_KEY);
 
-            let _config = zykUtil.configSpread(POPUP_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {})
+            let _config = zykUtil.configSpread(POPUP_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
 
-            if(!data){
-                data = new Popup(this, _config)
-                $(this).data(POPUP_EVENT_KEY, data)
+            if (!data) {
+                data = new Popup(this, _config);
+                $(this).data(POPUP_EVENT_KEY, data);
             }
 
-            if(typeof config == 'string'){
-                if(typeof data[config] == 'undefined'){
-                    throw new TypeError('No method named ' + '"' + config + '"')
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
                 }
 
-                data[config](target)
-            } else if(_config.toggle){
-                data.show(target)
+                data[config](target);
+            } else if (_config.toggle) {
+                data.show(target);
             }
         })
     }
 
-    return Popup
-}()
+    return Popup;
+}();
 
 $(document).on(POPUP_EVENT.CLICK, POPUP_SELECTOR.TOGGLE, function (e) {
-    const _this = this
+    const _this = this;
 
-    let target = $(this).data('target')
+    let target = $(this).data('target');
 
-    let config = $(target).data(POPUP_EVENT_KEY) ? 'toggle' : zykUtil.configSpread($(target).data(), $(this).data())
+    let config = $(target).data(POPUP_EVENT_KEY) ? 'toggle' : zykUtil.configSpread($(target).data(), $(this).data());
 
-    if(this.tagName == 'a'){
-        e.preventDefault()
+    if (this.tagName == 'A') {
+        e.preventDefault();
     }
 
     var $target = $(target).one(POPUP_EVENT.SHOW, function (showEvent) {
-        if(showEvent.isDefaultPrevented()){
-            return
+        if (showEvent.isDefaultPrevented()) {
+            return;
         }
 
-        $target.one(POPUP_EVENT.HIDDEN, function(){
+        $target.one(POPUP_EVENT.HIDDEN, function () {
             // if($(_this).is(':visible')){
-            //     console.log('visible')
+            //     console.log('visible');
             // }
         })
-    })
+    });
 
-    Popup.jqueryInterface.call($(target), config, this)
-})
+    Popup.jqueryInterface.call($(target), config, this);
+});
 
-$.fn[POPUP_NAME] = Popup.jqueryInterface
-$.fn[POPUP_NAME].constructor = Popup
+$.fn[POPUP_NAME] = Popup.jqueryInterface;
+$.fn[POPUP_NAME].constructor = Popup;
 
 
 /*
@@ -1352,21 +1620,15 @@ LISTVIEW
 =========================================================
 */
 
-const LISTVIEW_NAME = 'listview'
-const LISTVIEW_EVENT_KEY = `${DATA_KEY}.${LISTVIEW_NAME}`
+const LISTVIEW_NAME = 'listview';
+const LISTVIEW_EVENT_KEY = `${ZYK_DATA_KEY}.${LISTVIEW_NAME}`;
 
 const LISTVIEW_CLASSNAME = {
-    CONTROL: 'list-control',
-    HEADER: 'list-header',
-    BODY: 'list-body',
-    FOOTER: 'list-footer',
+
 }
 
 const LISTVIEW_SELECTOR = {
-    CONTROL: `.${LISTVIEW_CLASSNAME.CONTROL}`,
-    HEADER: `.${LISTVIEW_CLASSNAME.HEADER}`,
-    BODY: `.${LISTVIEW_CLASSNAME.BODY}`,
-    FOOTER: `.${LISTVIEW_CLASSNAME.FOOTER}`,
+    TOGGLE: '[data-toggle="listview"]'
 }
 
 const LISTVIEW_VIEW_OPTIONS = {
@@ -1375,51 +1637,67 @@ const LISTVIEW_VIEW_OPTIONS = {
 }
 
 const LISTVIEW_DEFAULT = {
-    view: 'list'
+    VIEW: 'list'
 }
 
 const LISTVIEW_EVENT = {
-    switch: `switch.${LISTVIEW_EVENT_KEY}`,
-    switched: `switched.${LISTVIEW_EVENT_KEY}`
+    CLICK: `click.${LISTVIEW_EVENT_KEY}`,
+
+    CHANGE: `change.${LISTVIEW_EVENT_KEY}`,
+    CHANGED: `changed.${LISTVIEW_EVENT_KEY}`
 }
 
 var Listview = function () {
     function Listview(element, config) {
-        this.element = element
+        this.element = element;
     }
 
-    const _proto = Listview.prototype
+    const _proto = Listview.prototype;
 
-    Listview.jqueryInterface = function jqueryInterface(config, target) {
+    _proto.change = function change(){
+        console.log('haha')
+    }
+
+    Listview.jqueryInterface = function jqueryInterface(config) {
         return this.each(function () {
-            let listviewId = $(this).attr('id')
-            let listviewMode = localStorage.getItem('listviewMode' + listviewId)
+            let data = $(this).data(LISTVIEW_EVENT_KEY);
 
-            if(!listviewMode){
-                listviewMode = LISTVIEW_VIEW_OPTIONS.LIST
-                localStorage.setItem('listviewMode' + listviewId, listviewMode)
-
-                $(this).addClass('view-' + listviewMode)
-            } else{
-                console.log('co cmnr con dau nua')
+            if(!data){
+                data = new Listview(this, config);
+                $(this).data(LISTVIEW_EVENT_KEY, data);
             }
-            console.log($(this))
+
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data.change();
+            }
         })
     }
 
-    return Listview
-}()
+    return Listview;
+}();
 
-$.fn[LISTVIEW_NAME] = Listview.jqueryInterface
-$.fn[LISTVIEW_NAME].constructor = Listview
+$(document).on(LISTVIEW_EVENT.CLICK, LISTVIEW_SELECTOR.TOGGLE, function(e){
+    e.preventDefault();
+
+    let config = $(this).data();
+
+    Listview.jqueryInterface.call($(this), config);
+})
+
+$.fn[LISTVIEW_NAME] = Listview.jqueryInterface;
+$.fn[LISTVIEW_NAME].constructor = Listview;
 
 /*
 =========================================================
 NAV HEADER
 =========================================================
 */
-const NAVHEADER_NAME = 'navheader'
-const NAVHEADER_EVENT_KEY = `${DATA_KEY}.${NAVHEADER_NAME}`
+const NAVHEADER_NAME = 'navheader';
+const NAVHEADER_EVENT_KEY = `${ZYK_DATA_KEY}.${NAVHEADER_NAME}`;
 
 const NAVHEADER_CLASSNAME = {
     NAV_MENU: '.nav-menu',
@@ -1446,24 +1724,24 @@ class Navheader{
 
         this.element = element
 
-        this.btnExpand = $(this.element).find(NAVHEADER_CLASSNAME.BTN_EXPAND)
-        this.navMenu = $(this.element).find(NAVHEADER_CLASSNAME.NAV_MENU)
+        this.btnExpand = $(this.element).find(NAVHEADER_CLASSNAME.BTN_EXPAND);
+        this.navMenu = $(this.element).find(NAVHEADER_CLASSNAME.NAV_MENU);
 
-        this.init()
+        this.init();
     }
 
     init(){
-        const _this = this
+        const _this = this;
 
         $(document).on(NAVHEADER_EVENTS.CLICK, $(_this.btnExpand), function (e) {
-            console.log(_this.btnExpand)
-            $(_this.navMenu).toggleClass(NAVHEADER_CLASSNAME.SHOW)
-            $(_this.btnExpand).toggleClass(NAVHEADER_CLASSNAME.ACTIVE)
+            console.log(_this.btnExpand);
+            $(_this.navMenu).toggleClass(NAVHEADER_CLASSNAME.SHOW);
+            $(_this.btnExpand).toggleClass(NAVHEADER_CLASSNAME.ACTIVE);
 
             if ($(_this.btnExpand).hasClass(NAVHEADER_CLASSNAME.ACTIVE)){
-                zykUtil.bodyBlock(true)
+                zykUtil.bodyBlock(true);
             } else {
-                zykUtil.bodyBlock()
+                zykUtil.bodyBlock();
             }
         })
     }
@@ -1471,75 +1749,72 @@ class Navheader{
 
 /*
 =========================================================
-SLIDER
+ZYKIDER
 =========================================================
 */
-const SLIDER_NAME = 'slider'
-const SLIDER_EVENT_KEY = `${DATA_KEY}.${SLIDER_NAME}`
+const ZYKIDER_NAME = 'zykider';
+const ZYKIDER_EVENT_KEY = `${ZYK_DATA_KEY}.${ZYKIDER_NAME}`;
 
-const SLIDER_CLASSNAME = {
+const ZYKIDER_CLASSNAME = {
     ACTIVE: 'active',
-    ITEM : 'slider-item',
-    ITEM_ACTIVE: 'slider-item.active',
-    ITEM_PREV: 'slider-item-prev',
-    ITEM_NEXT: 'slider-item-next',
-    ITEM_PREPARE: 'slider-item-prepare'
+    ITEM : 'zykider-item',
+    ITEM_ACTIVE: 'zykider-item.active',
+    ITEM_PREV: 'zykider-item-prev',
+    ITEM_NEXT: 'zykider-item-next',
+    ITEM_PREPARE: 'zykider-item-prepare'
 }
 
-const SLIDER_SELECTOR = {
-    SLIDER: `.zyk-${SLIDER_NAME}`,
+const ZYKIDER_SELECTOR = {
+    SLIDER: `.${ZYKIDER_NAME}`,
 
-    ITEM : `.${SLIDER_CLASSNAME.ITEM}`,
-    ITEM_ACTIVE: `.${SLIDER_CLASSNAME.ITEM_ACTIVE}`,
-    ITEM_NEXT: `.${SLIDER_CLASSNAME.ITEM_NEXT}`,
-    ITEM_PREV: `.${SLIDER_CLASSNAME.ITEM_PREV}`,
-    ITEM_FIRST: `.${SLIDER_CLASSNAME.ITEM}:first-child`,
-    ITEM_LAST: `.${SLIDER_CLASSNAME.ITEM}:last-child`,
+    ITEM : `.${ZYKIDER_CLASSNAME.ITEM}`,
+    ITEM_ACTIVE: `.${ZYKIDER_CLASSNAME.ITEM_ACTIVE}`,
+    ITEM_NEXT: `.${ZYKIDER_CLASSNAME.ITEM_NEXT}`,
+    ITEM_PREV: `.${ZYKIDER_CLASSNAME.ITEM_PREV}`,
+    ITEM_FIRST: `.${ZYKIDER_CLASSNAME.ITEM}:first-child`,
+    ITEM_LAST: `.${ZYKIDER_CLASSNAME.ITEM}:last-child`,
 
-    CONTROL_NEXT: `[data-slider-control="next"]`,
-    CONTROL_PREV: `[data-slider-control="prev"]`,
+    CONTROL_NEXT: `[data-zykider-control="next"]`,
+    CONTROL_PREV: `[data-zykider-control="prev"]`,
 }
 
-const SLIDER_MOVEMENT = {
+const ZYKIDER_MOVEMENT = {
     NEXT: 'next',
     PREV: 'prev'
 }
 
-const SLIDER_DEFAULT = {
+const ZYKIDER_DEFAULT = {
     transition: 1000,
     loop: true,
     autoplay: true,
     indicator: true
 }
 
-const SLIDER_EVENT = {
-    CLICK: `click.${SLIDER_EVENT_KEY}`,
+const ZYKIDER_EVENT = {
+    CLICK: `click.${ZYKIDER_EVENT_KEY}`,
 
-    SWITCH: `switch.${SLIDER_EVENT_KEY}`,
-    SWITCHED: `switched.${SLIDER_EVENT_KEY}`
+    SWITCH: `switch.${ZYKIDER_EVENT_KEY}`,
+    SWITCHED: `switched.${ZYKIDER_EVENT_KEY}`
 }
 
-var Slider = function () {
-    function Slider(element, config) {
-        this.config = this.getConfig(config)
-        this.element = element
-        this.slideLength = $(this.element).find(SLIDER_SELECTOR.ITEM).length
-
-        this.controlNext = $(this.element).find(SLIDER_SELECTOR.CONTROL_NEXT)
-        this.controlPrev = $(this.element).find(SLIDER_SELECTOR.CONTROL_PREV)
+var Zykider = function () {
+    function Zykider(element, config) {
+        this.config = this.getConfig(config);
+        this.element = element;
+        this.slideLength = $(this.element).find(ZYKIDER_SELECTOR.ITEM).length;
     }
 
-    const _proto = Slider.prototype
+    const _proto = Zykider.prototype;
 
     _proto.getConfig = function getConfig(config){
-        config = zykUtil.configSpread(SLIDER_DEFAULT, config)
+        config = zykUtil.configSpread(ZYKIDER_DEFAULT, config);
 
-        return config
+        return config;
     }
 
     _proto.getActiveSlide = function getActiveSlide() {
-        let activeSlide = $(this.element).find(SLIDER_SELECTOR.ITEM_ACTIVE)
-        return activeSlide
+        let activeSlide = $(this.element).find(ZYKIDER_SELECTOR.ITEM_ACTIVE);
+        return activeSlide;
     }
 
     _proto.autoplay = function autoplay(target){
@@ -1550,270 +1825,832 @@ var Slider = function () {
     }
 
     _proto.getPrepare = function getPrepare(movement){
-        const _this = this
+        const _this = this;
 
         if (typeof movement == 'string') {
-            if (movement == SLIDER_MOVEMENT.NEXT || movement == SLIDER_MOVEMENT.PREV) {
-                let activeSlide = this.getActiveSlide()
+            if (movement == ZYKIDER_MOVEMENT.NEXT || movement == ZYKIDER_MOVEMENT.PREV) {
+                let activeSlide = this.getActiveSlide();
 
-                if (movement == SLIDER_MOVEMENT.NEXT) {
+                if (movement == ZYKIDER_MOVEMENT.NEXT) {
                     if ($(activeSlide).index() < _this.slideLength - 1) {
                         $(activeSlide)
                             .next()
-                            .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
-                            .addClass(SLIDER_CLASSNAME.ITEM_NEXT)
+                            .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
+                            .addClass(ZYKIDER_CLASSNAME.ITEM_NEXT);
                     } else {
                         if (_this.config.loop == true) {
-                            $(_this.element).find(SLIDER_SELECTOR.ITEM_FIRST)
-                                .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
-                                .addClass(SLIDER_CLASSNAME.ITEM_NEXT)
+                            $(_this.element).find(ZYKIDER_SELECTOR.ITEM_FIRST)
+                                .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
+                                .addClass(ZYKIDER_CLASSNAME.ITEM_NEXT);
                         } else {
-                            return
+                            return;
                         }
                     }
 
                     setTimeout(function(){
-                        _this.switchSlide(SLIDER_MOVEMENT.NEXT)
+                        _this.switchSlide(ZYKIDER_MOVEMENT.NEXT);
                     }, 100)
-                } else if (movement == SLIDER_MOVEMENT.PREV) {
+                } else if (movement == ZYKIDER_MOVEMENT.PREV) {
                     if ($(activeSlide).index() > 0) {
                         $(activeSlide)
                             .prev()
-                            .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
-                            .addClass(SLIDER_CLASSNAME.ITEM_PREV)
+                            .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
+                            .addClass(ZYKIDER_CLASSNAME.ITEM_PREV);
                     } else if ($(activeSlide).index() == 0) {
                         if (_this.config.loop == true) {
-                            $(_this.element).find(SLIDER_SELECTOR.ITEM_LAST)
-                                .addClass(SLIDER_CLASSNAME.ITEM_PREPARE)
-                                .addClass(SLIDER_CLASSNAME.ITEM_PREV)
+                            $(_this.element).find(ZYKIDER_SELECTOR.ITEM_LAST)
+                                .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
+                                .addClass(ZYKIDER_CLASSNAME.ITEM_PREV);
                         } else {
-                            return
+                            return;
                         }
                     }
 
                     setTimeout(function () {
-                        _this.switchSlide(SLIDER_MOVEMENT.PREV)
-                    }, 100)
+                        _this.switchSlide(ZYKIDER_MOVEMENT.PREV);
+                    }, 100);
                 } else {
-                    throw new TypeError('Wrong Request')
+                    throw new TypeError('Wrong Request');
                 }
             }
         } else if (typeof movement == 'number') {
             if (movement < 0) {
-                throw new TypeError('Wrong Request')
+                throw new TypeError('Wrong Request');
             }
         }
     }
 
-    _proto.getSliderId = function getSliderId(element){
-        let sliderId = $(element).closest('.slider')
-        return sliderId
+    _proto.getZykiderId = function getZykiderId(element){
+        let sliderId = $(element).closest('.zykider');
+        return sliderId;
     }
 
     _proto.next = function next(target){
-        let switchEvent = $.Event(SLIDER_EVENT.SWITCH, {
+        let switchEvent = $.Event(ZYKIDER_EVENT.SWITCH, {
             target: target
         })
 
-        $(this.element).trigger(switchEvent)
+        $(this.element).trigger(switchEvent);
 
-        this.getPrepare(SLIDER_MOVEMENT.NEXT)
+        this.getPrepare(ZYKIDER_MOVEMENT.NEXT);
     }
 
     _proto.prev = function prev(target) {
-        let switchEvent = $.Event(SLIDER_EVENT.SWITCH, {
+        let switchEvent = $.Event(ZYKIDER_EVENT.SWITCH, {
             target: target
         })
 
-        $(this.element).trigger(switchEvent)
+        $(this.element).trigger(switchEvent);
 
-        this.getPrepare(SLIDER_MOVEMENT.PREV)
+        this.getPrepare(ZYKIDER_MOVEMENT.PREV);
     }
 
     _proto.switchSlide = function switchSlide(movement, target) {
-        let activeSlide = this.getActiveSlide()
-        activeSlide.removeClass(SLIDER_CLASSNAME.ACTIVE)
+        let activeSlide = this.getActiveSlide();
+        activeSlide.removeClass(ZYKIDER_CLASSNAME.ACTIVE);
 
         if (typeof movement == 'string') {
-            if (movement == SLIDER_MOVEMENT.NEXT) {
-                let $currentSlide = $(this.element).find(SLIDER_SELECTOR.ITEM_NEXT)
+            if (movement == ZYKIDER_MOVEMENT.NEXT) {
+                let $currentSlide = $(this.element).find(ZYKIDER_SELECTOR.ITEM_NEXT);
 
                 $currentSlide
-                    .removeClass(SLIDER_CLASSNAME.ITEM_NEXT)
-                    .removeClass(SLIDER_CLASSNAME.ITEM_PREPARE)
-                    .addClass(SLIDER_CLASSNAME.ACTIVE)
-            } else if (movement == SLIDER_MOVEMENT.PREV) {
-                let $currentSlide = $(this.element).find(SLIDER_SELECTOR.ITEM_PREV)
+                    .removeClass(ZYKIDER_CLASSNAME.ITEM_NEXT)
+                    .removeClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
+                    .addClass(ZYKIDER_CLASSNAME.ACTIVE);
+            } else if (movement == ZYKIDER_MOVEMENT.PREV) {
+                let $currentSlide = $(this.element).find(ZYKIDER_SELECTOR.ITEM_PREV);
 
                 $currentSlide
-                    .removeClass(SLIDER_CLASSNAME.ITEM_PREV)
-                    .removeClass(SLIDER_CLASSNAME.ITEM_PREPARE)
-                    .addClass(SLIDER_CLASSNAME.ACTIVE)
+                    .removeClass(ZYKIDER_CLASSNAME.ITEM_PREV)
+                    .removeClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
+                    .addClass(ZYKIDER_CLASSNAME.ACTIVE);
             }
         } else if (typeof movement == 'number') {
 
         }
 
-        let switchedEvent = $.Event(SLIDER_EVENT.SWITCHED, {
+        let switchedEvent = $.Event(ZYKIDER_EVENT.SWITCHED, {
             target: target
         })
 
-        $(this.element).trigger(switchedEvent)
+        $(this.element).trigger(switchedEvent);
 
-        this.setControlVisible()
+        this.setControlVisible();
     }
 
     _proto.setControlVisible = function setControlVisible(){
         if(this.config.loop === false){
             if ($(this.getActiveSlide()).index() == this.slideLength - 1) {
-                $(this.element).find(SLIDER_SELECTOR.CONTROL_NEXT).hide()
+                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_NEXT).hide();
             } else {
-                $(this.element).find(SLIDER_SELECTOR.CONTROL_NEXT).show()
+                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_NEXT).show();
             }
 
             if ($(this.getActiveSlide()).index() == 0) {
-                $(this.element).find(SLIDER_SELECTOR.CONTROL_PREV).hide()
+                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_PREV).hide();
             } else {
-                $(this.element).find(SLIDER_SELECTOR.CONTROL_PREV).show()
+                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_PREV).show();
             }
         }
     }
 
-    Slider.jqueryInterface = function jqueryInterface(config, target) {
+    Zykider.jqueryInterface = function jqueryInterface(config, target) {
         return this.each(function () {
-            let data = $(this).data(SLIDER_EVENT_KEY)
+            let data = $(this).data(ZYKIDER_EVENT_KEY);
 
-            let _config = zykUtil.configSpread(SLIDER_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {})
+            let _config = zykUtil.configSpread(ZYKIDER_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
 
             if(!data){
-                data = new Slider(this, _config)
-                $(this).data(SLIDER_EVENT_KEY, data)
+                data = new Zykider(this, _config);
+                $(this).data(ZYKIDER_EVENT_KEY, data);
             }
 
             if(typeof config == 'string'){
                 if(typeof data[config] == 'undefined'){
-                    throw new TypeError('No method named ' + '"' + config + '"')
+                    throw new TypeError('No method named ' + '"' + config + '"');
                 }
 
-                data[config](target)
+                data[config](target);
             } else if(data.config.autoplay){
-                data.autoplay(target)
+                data.autoplay(target);
             }
         })
     }
 
-    return Slider
+    return Zykider;
 }()
 
-$(document).on(SLIDER_EVENT.CLICK, SLIDER_SELECTOR.CONTROL_NEXT, function (e) {
-    let target = $(this).closest(SLIDER_SELECTOR.SLIDER)
+$(document).on(ZYKIDER_EVENT.CLICK, ZYKIDER_SELECTOR.CONTROL_NEXT, function (e) {
+    let target = $(this).data('target');
 
-    let config = $(target).data(SLIDER_EVENT_KEY) ? $(target).data(SLIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data())
+    let config = $(target).data(ZYKIDER_EVENT_KEY) ? $(target).data(ZYKIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data());
 
-    if(this.tagName == 'a'){
-        e.preventDefault()
+    if(this.tagName == 'A'){
+        e.preventDefault();
     }
 
-    let data = $(target).data(SLIDER_EVENT_KEY)
-    data.next(target)
+    let data = $(target).data(ZYKIDER_EVENT_KEY);
+    data.next(target);
 
-    Slider.jqueryInterface.call($(target), config, this)
+    Zykider.jqueryInterface.call($(target), config, this);
 })
 
-$(document).on(SLIDER_EVENT.CLICK, SLIDER_SELECTOR.CONTROL_PREV, function (e) {
-    let target = $(this).closest(SLIDER_SELECTOR.SLIDER)
+$(document).on(ZYKIDER_EVENT.CLICK, ZYKIDER_SELECTOR.CONTROL_PREV, function (e) {
+    let target = $(this).data('target');
 
-    let config = $(target).data(SLIDER_EVENT_KEY) ? $(target).data(SLIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data())
+    let config = $(target).data(ZYKIDER_EVENT_KEY) ? $(target).data(ZYKIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data());
 
-    if (this.tagName == 'a') {
-        e.preventDefault()
+    if (this.tagName == 'A') {
+        e.preventDefault();
     }
 
-    let data = $(target).data(SLIDER_EVENT_KEY)
-    data.prev(target)
+    let data = $(target).data(ZYKIDER_EVENT_KEY);
+    data.prev(target);
 
-    Slider.jqueryInterface.call($(target), config, this)
+    Zykider.jqueryInterface.call($(target), config, this);
 })
 
-$.fn[SLIDER_NAME] = Slider.jqueryInterface
-$.fn[SLIDER_NAME].constructor = Slider
+$.fn[ZYKIDER_NAME] = Zykider.jqueryInterface;
+$.fn[ZYKIDER_NAME].constructor = Zykider;
 
 /*
 =========================================================
-DATEPICKER
+CHECKBOX, RADIO, SWITCH
 =========================================================
 */
-// const DATEPICKER_NAME = 'datepicker'
-// const DATEPCIKER_EVENT_KEY = `${DATA_KEY}.${DATEPICKER_NAME}`
 
-// const DATEPICKER_SELECTOR = '.datepicker'
+const CHECK_NAME = 'check';
+const CHECK_EVENT_KEY = `${ZYK_DATA_KEY}.${CHECK_NAME}`;
 
-// const DATEPICKER_DEFAULT = {
-//     IS_SHOWN: false
-// }
+const CHECK_TYPE = {
+    CHECKBOX: 'checkbox',
+    RADIO: 'radio',
+    SWITCH: 'switch'
+};
 
-// const DATEPICKER_EVENT = {
-//     CLICK: `click.${DATEPCIKER_EVENT_KEY}`,
-//     FOCUS: `focus.${DATEPCIKER_EVENT_KEY}`,
-//     BLUR: `blue.${DATEPCIKER_EVENT_KEY}`
-// }
+const CHECK_EVENT = {
+    CLICK: `click.${CHECK_EVENT_KEY}`,
+    CHECK: `check.${CHECK_EVENT_KEY}`,
+    UNCHECK: `uncheck.${CHECK_EVENT_KEY}`,
+    CHANGE: `change.${CHECK_EVENT_KEY}`
+};
 
-// var Datepicker = function(){
-//     function Datepicker(element, options){
-//         this.config = this.getConfig(options)
+const CHECK_DEFAULT = {
 
-//         this.element = element
+};
 
-//         this.is_shown = DATEPICKER_DEFAULT.IS_SHOWN
-//     }
+const CHECK_ICONS = {
+    ICON_CHECKBOX_UNCHECK: 'elo el-lg el-square',
+    ICON_CHECKBOX_CHECK: 'els el-lg el-check-square',
+    ICON_RADIO_UNCHECK: 'elo el-lg el-circle',
+    ICON_RADIO_CHECK: 'els el-lg el-check-circle',
+};
 
-//     const _proto = Datepicker.prototype
+const CHECK_SELECTOR = {
+    TOGGLE: '[data-toggle="check"]'
+};
 
-//     _proto.getConfig = function getConfig(config){
-//         config = zykUtil.configSpread(DATEPICKER_DEFAULT, config)
+var Check = function () {
+    function Check(element, options) {
+        this.config = this.getConfig(options);
 
-//         return config
-//     }
+        this.element = element;
+    }
 
-//     _proto.show = function show(target){
-//         console.log('show')
-//     }
+    const _proto = Check.prototype;
 
-//     Datepicker.jqueryInterface = function jqueryInterface(config, target){
-//         return this.each(function(){
-//             let data = $(this).data(DATEPCIKER_EVENT_KEY)
+    _proto.getConfig = function getConfig(config) {
+        config = zykUtil.configSpread(CHECK_DEFAULT, config);
 
-//             let _config = zykUtil.configSpread(DATEPICKER_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {})
+        return config;
+    }
 
-//             if(!data){
-//                 data = new Datepicker(this, _config)
-//                 $(this).data(DATEPCIKER_EVENT_KEY, data)
-//             }
+    _proto.toggle = function toggle() {
+        const _this = this;
 
-//             if(typeof config == 'string'){
-//                 if(typeof data[config] == 'undefined'){
-//                     throw new TypeError('No method named ' + '"' + config + '"')
-//                 }
+        let type = $(_this.element).data('type');
+        let disabled = $(_this.element).attr('disabled');
 
-//                 data[config](targer)
-//             } else if (_config.datapicker){
-//                 data.show(target)
-//             }
+        const $input = $(_this.element).siblings('input');
+        let prop = $input.prop('checked');
 
-//             console.log(_config)
-//         })
-//     }
+        if (disabled) {
+            return;
+        } else {
+            if (type == CHECK_TYPE.CHECKBOX) {
+                if (prop == false) {
+                    $input.prop('checked', true);
+                    $(_this.element).find('i').removeClass(CHECK_ICONS.ICON_CHECKBOX_UNCHECK).addClass(CHECK_ICONS.ICON_CHECKBOX_CHECK);
 
-//     return Datepicker
-// }()
+                    $(_this.element).trigger(CHECK_EVENT.CHANGE);
+                    $(_this.element).trigger(CHECK_EVENT.CHECK);
+                } else {
+                    $input.prop('checked', false);
+                    $(_this.element).find('i').removeClass(CHECK_ICONS.ICON_CHECKBOX_CHECK).addClass(CHECK_ICONS.ICON_CHECKBOX_UNCHECK);
 
-// $(document).on(DATEPICKER_EVENT.CLICK, DATEPICKER_SELECTOR, function(e){
-//     let target = $(this)
+                    $(_this.element).trigger(CHECK_EVENT.CHANGE);
+                    $(_this.element).trigger(CHECK_EVENT.UNCHECK);
+                }
+            } else if (type == CHECK_TYPE.SWITCH) {
+                if (prop == false) {
+                    $(_this.element).find('.btn-switch').addClass('active');
+                    $input.prop('checked', true);
 
-//     let config = $(this).data(DATEPCIKER_EVENT_KEY)
+                    $(_this.element).trigger(CHECK_EVENT.CHANGE);
+                    $(_this.element).trigger(CHECK_EVENT.CHECK);
+                } else {
+                    $(_this.element).find('.btn-switch').removeClass('active');
+                    $input.prop('checked', false);
 
-//     Datepicker.jqueryInterface.call($(target), config, this)
-// })
+                    $(_this.element).trigger(CHECK_EVENT.CHANGE);
+                    $(_this.element).trigger(CHECK_EVENT.UNCHECK);
+                }
+            } else if (type == CHECK_TYPE.RADIO) {
+                if (prop == true) {
+                    return;
+                } else {
+                    $(_this.element).closest('.form-check-group').find('i').removeClass(CHECK_ICONS.ICON_RADIO_CHECK).addClass(CHECK_ICONS.ICON_RADIO_UNCHECK);
+                    $(_this.element).find('i').removeClass(CHECK_ICONS.ICON_RADIO_UNCHECK).addClass(CHECK_ICONS.ICON_RADIO_CHECK);
 
-// $.fn[DATEPICKER_NAME] = Datepicker.jqueryInterface
-// $.fn[DATEPICKER_NAME].constructor = Datepicker
+                    $(_this.element).closest('.form-check-group').find('input[type="radio"]').prop('checked', false);
+                    $input.prop('checked', true);
+
+                    $(_this.element).trigger(CHECK_EVENT.CHANGE);
+                    $(_this.element).trigger(CHECK_EVENT.CHECK);
+                }
+            }
+        }
+    }
+
+    Check.jqueryInterface = function jqueryInterface(config, target) {
+        return this.each(function () {
+            let data = $(this).data(CHECK_EVENT_KEY);
+
+            let _config = zykUtil.configSpread(CHECK_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+
+            if (!data) {
+                data = new Check(this, _config);
+                $(this).data(CHECK_EVENT_KEY, data);
+            }
+
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data[config]();
+            } else if (_config.toggle) {
+                data.toggle();
+            }
+        })
+    }
+
+    return Check;
+}();
+
+$(document).on(CHECK_EVENT.CLICK, CHECK_SELECTOR.TOGGLE, function (e) {
+    let config = $(this).data(CHECK_EVENT_KEY) ? 'toggle' : $(this).data();
+
+    if (this.tagName == 'A') {
+        e.preventDefault();
+    }
+
+    Check.jqueryInterface.call($(this), config, this);
+})
+
+$.fn[CHECK_NAME] = Check.jqueryInterface;
+$.fn[CHECK_NAME].constructor = Check;
+
+/*
+=========================================================
+LIST TREE
+=========================================================
+*/
+
+const LIST_TREE_NAME = 'listtree';
+const LIST_TREE_EVENT_KEY = `${ZYK_DATA_KEY}.${LIST_TREE_NAME}`;
+
+const LIST_TREE_EVENT = {
+    CLICK: `click.${LIST_TREE_EVENT_KEY}`,
+    SHOW: `show.${LIST_TREE_EVENT_KEY}`,
+    SHOWN: `shown.${LIST_TREE_EVENT_KEY}`,
+    HIDE: `hide.${LIST_TREE_EVENT_KEY}`,
+    HIDDEN: `hidden.${LIST_TREE_EVENT_KEY}`
+}
+
+const LIST_TREE_SELECTOR = {
+    TOGGLE: '[data-toggle="list-tree"]',
+    WRAPPER: '.item-wrapper-',
+    ROW: '.item-row',
+    ICON: 'i'
+}
+
+const LIST_TREE_CLASS = {
+    ROTATED: 'rotated'
+}
+
+const LIST_TREE_DEFAULT = {}
+
+var ListTree = function () {
+    function ListTree(element, options) {
+        this.config = this.getConfig(options);
+
+        this.element = element;
+        this.row = $(this.element).closest(LIST_TREE_SELECTOR.ROW);
+    }
+
+    const _proto = ListTree.prototype;
+
+    _proto.getConfig = function getConfig(config) {
+        config = zykUtil.configSpread(LIST_TREE_DEFAULT, config);
+
+        return config;
+    }
+
+    _proto.toggle = function toggle(){
+        const _this = this;
+
+        let level = $(_this.element).data('level');
+
+        $(_this.row).find(LIST_TREE_SELECTOR.WRAPPER + level).slideToggle();
+        $(_this.element).find(LIST_TREE_SELECTOR.ICON).toggleClass(LIST_TREE_CLASS.ROTATED);
+    }
+
+    ListTree.jqueryInterface = function jqueryInterface(config, target) {
+        return this.each(function () {
+            let data = $(this).data(LIST_TREE_EVENT_KEY);
+
+            let _config = zykUtil.configSpread(LIST_TREE_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+
+            if (!data) {
+                data = new ListTree(this, _config);
+                $(this).data(LIST_TREE_EVENT_KEY, data);
+            }
+
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data[config]();
+            } else if (_config.toggle) {
+                data.toggle();
+            }
+        })
+    }
+
+    return ListTree;
+}();
+
+$(document).on(LIST_TREE_EVENT.CLICK, LIST_TREE_SELECTOR.TOGGLE, function (e) {
+    let config = $(this).data(LIST_TREE_EVENT_KEY) ? 'toggle' : $(this).data();
+
+    if (this.tagName == 'A') {
+        e.preventDefault();
+    }
+
+    ListTree.jqueryInterface.call($(this), config, this);
+})
+
+$.fn[LIST_TREE_NAME] = ListTree.jqueryInterface;
+$.fn[LIST_TREE_NAME].constructor = ListTree;
+
+/*
+=========================================================
+COLLAPSE
+=========================================================
+*/
+
+const COLLAPSE_NAME = 'collapse';
+const COLLAPSE_EVENT_KEY = `${ZYK_DATA_KEY}.${COLLAPSE_NAME}`;
+
+const COLLAPSE_EVENT = {
+    CLICK: `click.${COLLAPSE_EVENT_KEY}`,
+    SHOW: `show.${COLLAPSE_EVENT_KEY}`,
+    SHOWN: `shown.${COLLAPSE_EVENT_KEY}`,
+    HIDE: `hide.${COLLAPSE_EVENT_KEY}`,
+    HIDDEN: `hidden.${COLLAPSE_EVENT_KEY}`
+}
+
+const COLLAPSE_SELECTOR = {
+    TOGGLE: '[data-toggle="collapse"]',
+    COLLAPSE: '.collapse',
+    ICON: 'i',
+}
+
+const COLLAPSE_CLASS = {
+    ROTATED: 'rotated',
+
+    SHOW: 'show'
+}
+
+const COLLAPSE_DEFAULT = {
+    DURATION: 300
+}
+
+var Collapse = function () {
+    function Collapse(element, options) {
+        this.config = this.getConfig(options);
+
+        this.element = element;
+
+        this.accordion = $(this.element).data('parent');
+
+        this.isShown = '';
+    }
+
+    const _proto = Collapse.prototype;
+
+    _proto.getConfig = function getConfig(config) {
+        config = zykUtil.configSpread(COLLAPSE_DEFAULT, config);
+
+        return config;
+    }
+
+    _proto.toggle = function toggle(target) {
+        if($(this.element).data('show')){
+            this.isShown = true;
+        } else {
+            this.isShown = false;
+        }
+
+        return this.isShown ? this.hide(target) : this.show(target);
+    }
+
+    _proto.show = function show(target){
+        const _this = this;
+
+        if(_this.isShown){
+            return;
+        }
+
+        _this.reset();
+
+        let targetId = $(target).data('target');
+
+        $(_this.element).trigger(COLLAPSE_EVENT.SHOW);
+
+        $(_this.accordion).find(targetId).slideDown(COLLAPSE_DEFAULT.DURATION);
+
+        setTimeout(function () {
+            $(_this.accordion).find(targetId).addClass(COLLAPSE_CLASS.SHOW);
+        }, COLLAPSE_DEFAULT.DURATION);
+
+        $(target).find(COLLAPSE_SELECTOR.ICON).addClass(COLLAPSE_CLASS.ROTATED);
+
+        $(_this.element).data('show', true);
+
+        $(_this.element).trigger(COLLAPSE_EVENT.SHOWN);
+    }
+
+    _proto.hide = function hide(target){
+        const _this = this;
+
+        let targetId = $(target).data('target');
+
+        $(_this.element).trigger(COLLAPSE_EVENT.HIDE);
+
+        $(_this.accordion).find(targetId).slideUp(COLLAPSE_DEFAULT.DURATION);
+
+        setTimeout(function () {
+            $(_this.accordion).find(targetId).removeClass(COLLAPSE_CLASS.SHOW);
+        }, COLLAPSE_DEFAULT.DURATION);
+
+        $(target).find(COLLAPSE_SELECTOR.ICON).removeClass(COLLAPSE_CLASS.ROTATED);
+
+        $(_this.element).data('show', false);
+
+        $(_this.element).trigger(COLLAPSE_EVENT.HIDDEN);
+    }
+
+    _proto.reset = function reset(){
+        $(this.accordion).find(COLLAPSE_SELECTOR.COLLAPSE).slideUp(COLLAPSE_DEFAULT.DURATION);
+
+        setTimeout(function(){
+            $(this.accordion).find(COLLAPSE_SELECTOR.COLLAPSE).removeClass(COLLAPSE_CLASS.SHOW);
+        }, COLLAPSE_DEFAULT.DURATION);
+
+        $(this.accordion).find(COLLAPSE_SELECTOR.ICON).removeClass(COLLAPSE_CLASS.ROTATED);
+
+        $(this.accordion).find(COLLAPSE_SELECTOR.COLLAPSE).data('show', false);
+    }
+
+    Collapse.jqueryInterface = function jqueryInterface(config, target) {
+        return this.each(function () {
+            let data = $(this).data(COLLAPSE_EVENT_KEY);
+
+            let _config = zykUtil.configSpread(COLLAPSE_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+
+            if (!data) {
+                data = new Collapse(this, _config);
+                $(this).data(COLLAPSE_EVENT_KEY, data);
+            }
+
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data[config](target);
+            } else if (_config.toggle) {
+                data.toggle(target);
+            }
+        })
+    }
+
+    return Collapse;
+}();
+
+$(document).on(COLLAPSE_EVENT.CLICK, COLLAPSE_SELECTOR.TOGGLE, function (e) {
+    let target = $(this).data('target');
+
+    let config = $(target).data(COLLAPSE_EVENT_KEY) ? 'toggle' : zykUtil.configSpread($(target).data(), $(this).data());
+
+    if (this.tagName == 'A') {
+        e.preventDefault();
+    }
+
+    Collapse.jqueryInterface.call($(target), config, this);
+})
+
+$.fn[COLLAPSE_NAME] = ListTree.jqueryInterface;
+$.fn[COLLAPSE_NAME].constructor = ListTree;
+
+/*
+=========================================================
+DROPDOWN
+=========================================================
+*/
+
+const DROPDOWN_NAME = 'collapse';
+const DROPDOWN_EVENT_KEY = `${ZYK_DATA_KEY}.${DROPDOWN_NAME}`;
+
+const DROPDOWN_EVENT = {
+    CLICK: `click.${DROPDOWN_EVENT_KEY}`,
+    SHOW: `show.${DROPDOWN_EVENT_KEY}`,
+    SHOWN: `shown.${DROPDOWN_EVENT_KEY}`,
+    HIDE: `hide.${DROPDOWN_EVENT_KEY}`,
+    HIDDEN: `hidden.${DROPDOWN_EVENT_KEY}`
+}
+
+const DROPDOWN_CLASS = {
+    MENU: 'dropdown-menu',
+    MENURIGHT: 'dropdown-menu-right',
+    SHOW: 'show',
+
+    DROPUP: 'dropup',
+    DROPLEFT: 'dropleft',
+    DROPRIGHT: 'dropright'
+}
+
+const DROPDOWN_SELECTOR = {
+    TOGGLE: '[data-toggle="dropdown"]',
+    MENU: `.${DROPDOWN_CLASS.MENU}`,
+}
+
+const DROPDOWN_PLACEMENT = {
+    DOWN: 'bottom-start',
+    DOWNEND: 'bottom-end',
+    UP: 'top-start',
+    UPEND: 'top-end',
+    LEFT: 'left-start',
+    RIGHT: 'right-start'
+}
+
+const DROPDOWN_DEFAULT = {
+    placement: DROPDOWN_PLACEMENT.DOWN,
+    flip: true,
+    offset: [0, 0]
+}
+
+var Dropdown = function () {
+    function Dropdown(element, options) {
+        this.config = this.getConfig(options);
+
+        this.element = element;
+        this.parent = this.element.parentElement;
+        this.menu = this.parent.querySelector(DROPDOWN_SELECTOR.MENU);
+        this.popper = null;
+
+        this.isShown = false;
+    }
+
+    const _proto = Dropdown.prototype;
+
+    _proto.getConfig = function getConfig(config) {
+        config = zykUtil.configSpread(DROPDOWN_DEFAULT, config);
+
+        return config;
+    }
+
+    _proto.toggle = function toggle(){
+        let isActive = $(this.menu).hasClass(DROPDOWN_CLASS.SHOW);
+
+        Dropdown.clearMenus();
+
+        if(isActive){
+            return;
+        }
+
+        this.show();
+    }
+
+    _proto.show = function show(){
+        const _this = this;
+
+        zykUtil.checkPopper();
+
+        _this.popper = Popper.createPopper(_this.element, _this.menu, _this.getPopperConfig());
+
+        $(_this.menu).addClass(DROPDOWN_CLASS.SHOW);
+        $(_this.parent).trigger(DROPDOWN_EVENT.SHOWN);
+
+        _this.isShown = true;
+    }
+
+    _proto.hide = function hide(){
+        const _this = this;
+
+        if(_this.popper){
+            _this.popper.destroy();
+        }
+
+        $(_this.menu).removeClass(DROPDOWN_CLASS.SHOW);
+        $(_this.parent).trigger(DROPDOWN_EVENT.HIDDEN);
+
+        _this.isShown = false;
+    }
+
+    _proto.getOffset = function getOffset(){
+        const _this = this;
+
+        let offset = _this.config.offset;
+
+        if(typeof offset == 'string'){
+            offset.replace(',', ' ');
+            offset = offset.split(',').map(Number);
+        }
+
+        return offset;
+    }
+
+    _proto.getPlacement = function getPlacement(){
+        const _this = this;
+
+        let placement = DROPDOWN_DEFAULT.placement;
+
+        if($(_this.parent).hasClass(DROPDOWN_CLASS.DROPUP)){
+            placement = DROPDOWN_PLACEMENT.UP;
+
+            if ($(_this.menu).hasClass(DROPDOWN_CLASS.MENURIGHT)) {
+                placement = DROPDOWN_PLACEMENT.UPEND;
+            }
+        }
+        else if($(_this.parent).hasClass(DROPDOWN_CLASS.DROPLEFT)) {
+            placement = DROPDOWN_PLACEMENT.LEFT;
+        }
+        else if ($(_this.parent).hasClass(DROPDOWN_CLASS.DROPRIGHT)) {
+            placement = DROPDOWN_PLACEMENT.RIGHT;
+        } else if ($(_this.menu).hasClass(DROPDOWN_CLASS.MENURIGHT)) {
+            placement = DROPDOWN_PLACEMENT.DOWNEND;
+        } else {
+            placement = _this.config.placement;
+        }
+
+        return placement;
+    }
+
+    _proto.getPopperConfig = function getPopperConfig(){
+        const _this = this;
+
+        let popperConfig = {
+            placement: _this.getPlacement(),
+            modifiers: [
+                {
+                    name: 'offset',
+                    options: {
+                        offset: _this.getOffset()
+                    }
+                },
+                {
+                    name: 'flip',
+                    enabled: _this.config.flip
+                }
+            ]
+        }
+
+        return popperConfig;
+    }
+
+    Dropdown.jqueryInterface = function jqueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DROPDOWN_EVENT_KEY);
+
+            let _config = $(this).data(DROPDOWN_EVENT_KEY) ? $(this).data(DROPDOWN_EVENT_KEY) : zykUtil.configSpread(DROPDOWN_DEFAULT, $(this).data())
+
+            if (!data) {
+                data = new Dropdown(this, _config);
+                $(this).data(DROPDOWN_EVENT_KEY, data);
+            }
+
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data[config]();
+            }
+        })
+    }
+
+    Dropdown.clearMenus = function clearMenus(event) {
+        let toggles = [].slice.call(document.querySelectorAll(DROPDOWN_SELECTOR.TOGGLE));
+
+        for(let i = 0; i < toggles.length; i++){
+            let parent = $(toggles[i]).parent();
+            let context = $(toggles[i]).data(DROPDOWN_EVENT_KEY);
+
+            if(!context){
+                continue;
+            }
+
+            let dropdownMenu = context.menu;
+
+            if(!$(dropdownMenu).hasClass(DROPDOWN_CLASS.SHOW)){
+                continue;
+            }
+
+            if(
+                event
+                &&
+                (event.type === 'click' && /input|textarea|select/i.test(event.target.tagName))
+
+            ){
+                continue;
+            }
+
+            if(context.popper){
+                context.popper.destroy();
+            }
+
+            context.isShown = false;
+
+            $(dropdownMenu).removeClass(DROPDOWN_CLASS.SHOW);
+            $(parent).trigger(DROPDOWN_EVENT.HIDDEN);
+        }
+    }
+
+    return Dropdown;
+}();
+
+$(document)
+    .on(DROPDOWN_EVENT.CLICK, Dropdown.clearMenus)
+    .on(DROPDOWN_EVENT.CLICK, DROPDOWN_SELECTOR.TOGGLE, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        Dropdown.jqueryInterface.call($(this), 'toggle');
+    });
+
+$.fn[DROPDOWN_NAME] = Dropdown.jqueryInterface;
+$.fn[DROPDOWN_NAME].constructor = Dropdown;

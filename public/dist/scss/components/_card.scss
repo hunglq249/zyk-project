@@ -1,24 +1,86 @@
 .card{
+    width: 100%;
+
     background-color: var(--bg-bw);
-    border: 1px solid var(--gray-1);
+
+    @include borderRadius();
+    @include boxShadowDf();
+
+    &.card-no-shadow{
+        box-shadow: none;
+    }
+
+    &.card-row{
+        @include d-flex(flex, normal, stretch);
+
+        .mask{
+            padding: 0;
+            
+            &:first-child{
+                @include borderRadiusCustom(top, left);
+                @include borderRadiusCustom(bottom, left);
+            }
+
+            &:last-child {
+                @include borderRadiusCustom(top, right);
+                @include borderRadiusCustom(bottom, right);
+            }
+        }
+    }
 
     .card-header{
-        padding: 0.5rem 1rem;
-
-        background-color: var(--gray-1);
-        border-bottom: 1px solid var(--gray-1);
+        padding: 0.75rem;
 
         @include d-flex(row, space-between, center);
+
+        .mask{
+            width: calc(100% + 1.5rem);
+
+            margin: -0.75rem;
+
+            @include borderRadiusCustom(top, left);
+            @include borderRadiusCustom(top, right);
+        }
     }
 
     .card-body{
-        padding: 1rem;
+        padding: 0.75rem;
     }
 
-    .card-footer{
-        padding: 0.75rem 1rem;
+    .card-actions{
+        @include d-flex(row, space-between, stretch);
 
-        background-color: transparent;
-        border-top: 1px solid var(--gray-1);
+        &:last-child{
+            border-top: 1px solid var(--border);
+
+            .btn{
+                &:first-child {
+                    @include borderRadiusCustom(bottom, left);
+                }
+
+                &:last-child {
+                    @include borderRadiusCustom(bottom, right);
+                }
+            }
+        }
+        
+        .btn{
+            max-width: 100%;
+            flex-grow: 1;
+
+            @include borderRadius(0);
+
+            &:not(:first-child) {
+                margin-left: -1px;
+            }
+        }
+
+        a {
+            @include d-flex(row, center, center);
+
+            i{
+                margin-right: 0.25rem;
+            }
+        }
     }
 }
