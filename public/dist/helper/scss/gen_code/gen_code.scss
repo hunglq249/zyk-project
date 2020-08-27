@@ -1,0 +1,101 @@
+@import '../../../scss/zayeki';
+
+.view-gen{
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    @include d-flex(row, normal, normal);
+    flex-wrap: wrap;
+
+    .quarter{
+        width: 50%;
+        height: 50%;
+
+        overflow-x: hidden;
+        @include overflow-y();
+
+        @include d-flex(column, normal, normal);
+
+        &:nth-child(odd){
+            border-right: 1px solid var(--border);
+        }
+
+        &:not(:nth-child(:odd)){
+            margin-left: -1px;
+        }
+
+        &:nth-child(1),
+        &:nth-child(2){
+            border-bottom: 1px solid var(--border);
+        }
+
+        &:not(:nth-child(1)),
+        &:not(:nth-child(2)){
+            margin-top: -1px;
+        }
+
+        &.quarter-code{
+            padding: 1.5rem;
+
+            background-color: var(--gray-1);
+
+            position: relative;
+
+            .btn{
+                &.btn-copy{
+                    position: absolute;
+                    top: 0.75rem;
+                    right: 0.75rem;
+                    z-index: 1;
+
+                    opacity: 0.5;
+
+                    &:hover{
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        &.quarter-demo{
+            @include d-flex(column, center, center);
+
+            > * {
+                max-width: 50%;
+            }
+        }
+
+        .quarter-header{
+            height: 40px;
+
+            flex-shrink: 1;
+
+            padding: 0 1.5rem;
+
+            border-bottom: 1px solid var(--border);
+
+            @include d-flex(row, space-between, center);
+        }
+
+        .quarter-body{
+            flex: 1 0 auto;
+
+            padding: 1.5rem;
+        }
+
+        .quarter-footer{
+            height: 50px;
+
+            flex-shrink: 1;
+
+            padding: 0 1.5rem;
+
+            border-top: 1px solid var(--border);
+
+            @include d-flex(row, space-between, center);
+            @include positionSticky(bottom, 0);
+        }
+    }
+}

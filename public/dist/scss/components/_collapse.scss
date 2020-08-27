@@ -1,0 +1,54 @@
+.accordion {
+    .card{
+        @include borderRadius(0);
+        
+        &:first-child{
+            @include borderRadiusCustom(top, left);
+            @include borderRadiusCustom(top, right);
+        }
+
+        &:last-child {
+            @include borderRadiusCustom(bottom, left);
+            @include borderRadiusCustom(bottom, right);
+        }
+
+        .card-header{
+            padding: 0;
+
+            display: block;
+
+            border-bottom: 1px solid var(--border);
+
+            a{
+                padding: 0.75rem;
+
+                color: var(--text-title);
+
+                @include d-flex(row, space-between, center);
+
+                i{
+                    @include transition();
+
+                    &.rotated{
+                        @include rotate(90deg);
+                        @include transition();
+                    }
+                }
+            }
+        }
+    }
+
+    .collapse{
+        flex: unset;
+        padding: 0;
+        margin-bottom: 0;
+
+        &:not(.show){
+            display: none;
+        }
+
+        .card-body{
+            background-color: var(--bg-bw);
+        }
+    }
+}

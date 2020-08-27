@@ -1,0 +1,58 @@
+$badge-colors: (
+    'primary': $color-primary,
+    'secondary': $color-secondary,
+    'success': $color-success,
+    'warning': $color-warning,
+    'danger': $color-danger,
+    'link': $color-link,
+    'default': #F8F9FC
+);
+
+.badge{
+    padding: 0.125rem 0.25rem;
+
+    font-family: var(--webfont-family);
+    font-size: 0.75rem;
+
+    border: 1px solid transparent;
+    @include borderRadius();
+
+    display: inline-block;
+
+    &.badge-light{
+        background-color: var(--bg-bw);
+        color: var(--text-title);
+    }
+
+    &.badge-dark {
+        background-color: var(--bg-bw-rv);
+        color: var(--bg-bw);
+    }
+
+    @each $key,
+    $value in $badge-colors {
+        &.badge-#{$key} {
+            background-color: #{$value};
+            color: var(--white);
+
+            @if($key == 'default'){
+                color: var(--text-paragraph);
+            }
+        }
+    }
+}
+
+a{
+    &.badge{
+        color: var(--text-paragraph);
+
+        @each $key,
+        $value in $badge-colors {
+            &.badge-#{$key} {
+                &:hover {
+                    background-color: lighten($value, 5%);
+                }
+            }
+        }
+    }
+}

@@ -1,31 +1,39 @@
-/*
-=========================================================
-EDULIVE STYLESHEET
+// REBOOT
+@import 'setup/reboot';
 
-Author: hungluong
-=========================================================
-*/
+// VARIABLES
+@import 'setup/var';
 
-// BASIC SETUP
-@import "settings/var";
-@import "settings/reboot";
-@import "settings/type";
-@import "settings/mixin";
-@import "settings/common";
+// TYPE
+@import 'setup/type';
 
-// COMPONENTS
-@import "components/buttons";
-@import "components/badges";
-@import "components/card";
-@import "components/dropdown";
-@import "components/form";
-@import "components/guide";
-@import "components/poal";
-@import "components/popover";
-@import "components/popup";
-@import "components/slider";
-@import "components/table";
+// ICONS
+@import 'setup/icons';
+
+// MIXINS
+@import 'setup/mixin';
+
+// CORE
+@import 'setup/grid';
+
+// UTILS
+@import 'setup/utils';
 
 // COMMON
-@import "components/header";
-@import "components/list_items";
+@import 'setup/common';
+
+// COMPONENTS
+@import 'components/badge';
+@import 'components/breadcrumb';
+@import 'components/buttons';
+@import 'components/card';
+@import 'components/calendar';
+@import 'components/collapse';
+@import 'components/dropdown';
+@import 'components/form';
+@import 'components/list_items';
+@import 'components/pagination';
+@import 'components/popup';
+@import 'components/progress';
+@import 'components/slider';
+@import 'components/tooltip';

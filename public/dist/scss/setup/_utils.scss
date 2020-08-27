@@ -1,0 +1,123 @@
+// TEXT COLORS
+$text-colors: (
+    'primary': $color-primary,
+    'secondary': $color-secondary,
+    'success': $color-success,
+    'warning': $color-warning,
+    'danger': $color-danger,
+    'link': $color-link,
+);
+
+@each $key, $value in $text-colors{
+    .text-#{$key}{
+        color: $value !important;
+    }
+}
+
+// TEXT ALIGN
+$text-align: (
+    left, center, right, justify
+);
+
+@each $value in $text-align {
+    .text-#{$value} {
+        text-align: $value !important;
+    }
+}
+
+// TEXT TRANSFORM
+$text-transform: (
+    lowercase, uppercase, capitalize
+);
+
+@each $value in $text-transform {
+    .text-#{$value} {
+        text-align: $value !important;
+    }
+}
+
+// TEXT BREAK
+.text-break{
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+}
+
+// PADDING/ MARGIN CLASSES
+@for $i from 0 through 8 {
+    @each $key, $value in $direction {
+        .p#{$key}-#{$i}{
+            padding-#{$value}: calc(#{$i} * 0.25rem);
+        }
+
+        .m#{$key}-#{$i} {
+            margin-#{$value}: calc(#{$i} * 0.25rem);
+        }
+    }
+}
+
+.mx-auto{
+    @include marginAutoX();
+}
+
+.ml-auto{
+    margin-left: auto;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
+// WIDTH
+$common-width: (10, 20, 25, 33, 50, 75, 100);
+
+@each $value in $common-width {
+    .w-#{$value}{
+        width: $value * 1% !important;
+    }
+}
+
+// DISPLAY
+$display: (block, none, flex, inline, inline-block);
+@each $value in $display {
+    .d-#{$value} {
+        display: $value !important;
+    }
+}
+
+$flex-justify: (
+    'start': flex-start,
+    'end': flex-end,
+    'center': center,
+    'between': space-between,
+    'around': space-around
+);
+@each $key,
+$value in $flex-justify {
+    .justify-content-#{$key}{
+        justify-content: $value !important;
+    }
+}
+
+$flex-align: (
+    'start': flex-start,
+    'end': flex-end,
+    'center': center,
+    'between': space-between,
+    'around': space-around,
+    'stretch': stretch
+);
+@each $key,
+$value in $flex-justify {
+    .align-items-#{$key} {
+        align-items: $value !important;
+    }
+}
+
+// ORDER
+$order-index: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+@each $value in $order-index{
+    .order-#{$value}{
+        order: $value !important;
+    }
+}

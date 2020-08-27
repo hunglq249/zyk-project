@@ -12,7 +12,7 @@ DOCUMENT ON READY
 */
 
 $(document).ready(function(){
-
+    
 });
 
 /*
@@ -20,10 +20,6 @@ $(document).ready(function(){
 FUNCTIONS
 ==================================================================
 */
-
-const Common = {
-    
-}
 
 // CHANGING THEME COLOR
 function changeTheme(themeName){

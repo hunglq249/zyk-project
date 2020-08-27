@@ -1,0 +1,43 @@
+.breadcrumb{
+	margin-bottom: 0;
+	padding: 0;
+	
+    background-color: transparent;
+    
+    list-style: none;
+
+	.breadcrumb-item{
+        font-size: 0.75rem;
+
+        text-transform: uppercase;
+
+        display: inline-block;
+        
+		&:first-of-type{
+			&:before{
+				display: none;
+			}
+		}
+
+		&:before{
+			font-family: 'elo';
+			font-size: 0.75rem;
+			font-weight: 900;
+			content: '\e95c';
+		}
+
+		&.breadcrumb-active{
+			a{
+				opacity: 0.75;
+
+				&:hover{
+					cursor: default;
+				}
+			}
+		}
+		
+		a{
+			color: var(--text-paragraph)
+		}
+	}
+}
