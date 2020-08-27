@@ -50,6 +50,14 @@
 	transform: scale($x, $y);
 }
 
+@mixin multiTransform($array){
+	-webkit-transform: #{$array};
+	-moz-transform: #{$array};
+	-ms-transform: #{$array};
+	-o-transform: #{$array};
+	transform: #{$array};
+}
+
 
 //
 //======================================================

@@ -1,0 +1,86 @@
+$progress-colors: (
+    'success': $color-success,
+    'warning': $color-warning,
+	'danger': $color-danger,
+	'light': $color-white,
+	'dark': $color-black
+);
+
+.progress-wrapper{
+	margin: 1rem 0 1.25rem;
+
+	@include d-flex(column, center, center);
+
+	.progress-header{
+		i{
+			font-size: 2rem;
+		}
+
+		img{
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	.progress-footer{
+		padding: 0.25rem 0 0.5rem;
+	}
+}
+
+.progress{
+	width: 100%;
+	min-width: 300px;
+	min-height: 12px;
+
+	margin: 0.5rem 0;
+
+	border: 2px solid var(--gray-3);
+	@include borderRadius(0.25rem);
+
+	position: relative;
+
+	overflow: hidden;
+
+	&.progress-primary{
+		&.progress-primary{
+			border-color: var(--primary);
+
+			.progress-bar{
+				background-color: var(--primary);
+			}
+		}
+	}
+
+	&.progress-secondary{
+		&.progress-secondary{
+			border-color: var(--secondary);
+
+			.progress-bar{
+				background-color: var(--secondary);
+			}
+		}
+	}
+
+	@each $key, $value in $progress-colors{
+		&.progress-#{$key}{
+			border-color: $value;
+
+			.progress-bar{
+				background-color: $value;
+			}
+		}
+	}
+
+	.progress-bar{
+		height: 100%;
+
+		background-color: var(--gray-3);
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+
+		display: block;
+	}
+}

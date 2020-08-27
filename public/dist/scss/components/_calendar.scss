@@ -2,9 +2,11 @@
     width: 100%;
     height: 100%;
 
-    background-color: #fff;
-
     padding: 0.5rem;
+
+    background-color: var(--bg-bw);
+
+    @include borderRadius();
 
     &.calendar-bordered{
         .calendar-body{

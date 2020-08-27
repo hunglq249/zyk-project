@@ -20,6 +20,11 @@ Route::get('/updateTest', function () {
     return response()->json(['html'=>$html]);
 });
 
+Route::group(['prefix' => 'gen-helper'], function () {
+    Route::get('/', 'GenHelperController@index')->name('gen_helper_index');
+    Route::get('/getComponentConfig', 'GenHelperController@getComponentConfig')->name('gen_helper_getComponentConfig');
+});
+
 Route::group(['prefix' => 'components'], function () {
     Route::get('/alerts', function(){
         return view('components.alerts');

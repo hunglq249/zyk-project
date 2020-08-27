@@ -1,0 +1,98 @@
+.tooltip{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: $zindex-tooltip;
+
+    &.tooltip-top{
+        .tooltip-inner{
+            @include translate(0, -12px);
+
+            &:before{
+                top: 100%;
+                left: 50%;
+
+                border-top: 8px solid var(--black);
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+
+                @include translate(-50%, 0);
+            }
+        }
+    }
+
+    &.tooltip-bottom{
+        .tooltip-inner{
+            @include translate(0, 12px);
+
+            &:before{
+                bottom: 100%;
+                left: 50%;
+
+                border-bottom: 8px solid var(--black);
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+
+                @include translate(-50%, 0);
+            }
+        }
+    }
+
+    &.tooltip-left{
+        .tooltip-inner{
+            @include translate(-12px, 0);
+
+            &:before{
+                top: 50%;
+                left: 100%;
+
+                border-left: 8px solid var(--black);
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+
+                @include translate(0, -50%);
+            }
+        }
+    }
+
+    &.tooltip-right{
+        .tooltip-inner{
+            @include translate(12px, 0);
+
+            &:before{
+                top: 50%;
+                right: 100%;
+
+                border-right: 8px solid var(--black);
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+
+                @include translate(0, -50%);
+            }
+        }
+    }
+
+    .tooltip-inner{
+        padding: 0.5rem 1rem;
+
+        background-color: var(--black);
+        color: var(--white);
+
+        font-size: 0.75rem;
+
+        @include borderRadius();
+
+        position: relative;
+        z-index: 1;
+
+        &:before{
+            content: '';
+
+            width: 12px;
+            height: 12px;
+
+            position: absolute;
+            z-index: -1;
+        }
+    }
+}

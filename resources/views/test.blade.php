@@ -79,7 +79,36 @@
         function initTest(){
             initCalendar();
 
-            new Zykowl('#zykowlDefault');
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('#tooltipManual').on('show.zyk.tooltip', function(){
+                console.log('show')
+            })
+
+            $('#tooltipManual').on('shown.zyk.tooltip', function(){
+                console.log('shown')
+            })
+
+            $('#tooltipManual').on('hide.zyk.tooltip', function(){
+                console.log('hide')
+            })
+
+            $('#tooltipManual').on('hidden.zyk.tooltip', function(){
+                console.log('hidden')
+            })
+
+            new Pagination('.pagination');
+
+            new Breadcrumb([
+                {
+                    text: 'Home',
+                    link: '/home/#',
+                },
+                {
+                    text: 'Link',
+                    link: '#',
+                }
+            ])
         }
 
         function initCalendar(){

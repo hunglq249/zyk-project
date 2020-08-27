@@ -82,25 +82,53 @@
             }
         }
 
+        &.popup-dialog-scroll{
+            @include overflow-y();
+
+            .popup-content{
+                overflow: visible;
+
+                .popup-body{
+                    overflow: visible;
+                }
+            }
+        }
+
         .popup-content {
             width: 100%;
             max-height: 100%;
 
             background-color: var(--bg-bw);
 
-            @include borderRadius(0.25rem);
             @include boxShadowDf();
 
             opacity: 0;
 
+            overflow: hidden;
+
+            @include borderRadius();
+            @include d-flex(column, normal, normal);
+
             @include transition(300ms);
 
-            .popup-header {
-                height: 48px;
+            > div {
+                &:first-child{
+                    @include borderRadiusCustom(top, left);
+                    @include borderRadiusCustom(top, right);
+                }
 
+                &:last-child{
+                    @include borderRadiusCustom(bottom, left);
+                    @include borderRadiusCustom(bottom, right);
+                }
+            }
+
+            .popup-header {
                 padding: 0 1rem;
 
                 @include d-flex(row, space-between, center);
+
+                flex-shrink: 1;
 
                 .container{
                     height: 100%;
@@ -110,18 +138,16 @@
             }
 
             .popup-body {
-                //height: calc(100% - 96px);
-
                 padding: 0 1rem 1rem;
 
                 background-color: var(--gray-1);
 
-                //@include overflow-y();
+                flex: 1 1 auto;
+
+                @include overflow-y();
 
                 .container{
                     height: 100%;
-
-                    //@include overflow-y();
                 }
 
                 .popup-loading{
@@ -151,6 +177,8 @@
                 height: 48px;
 
                 padding: 0.5rem 1rem;
+
+                flex-shrink: 1;
 
                 @include d-flex(row, flex-end, center);
 

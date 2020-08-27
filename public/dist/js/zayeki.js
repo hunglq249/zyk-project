@@ -8,13 +8,6 @@ Author: hungluong
 
 /*
 =========================================================
-REQUIRE CALENDAR LANG
-=========================================================
-*/
-document.write(`<script type="text/javascript" src="/dist/js/zayeki-calendar-lang.js"></script>`);
-
-/*
-=========================================================
 ZYK GLOBAL VARIABLES
 =========================================================
 */
@@ -29,6 +22,45 @@ UTIL
 
 const zykKeys = {
     escapeKey: 27
+}
+
+const zykVar = {
+    calendarLang: {
+        en: {
+            today: 'Today',
+
+            daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            daysOfWeekShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            daysOfWeekLetters: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
+            views: ['month', 'week', 'day'],
+        },
+        vi: {
+            today: 'Hôm nay',
+
+            daysOfWeek: ['Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy', 'Chủ nhật'],
+            daysOfWeekShort: ['Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'CN'],
+            daysOfWeekLetters: ['Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'CN'],
+
+            months: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            monthsShort: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', '12'],
+
+            views: ['Tháng', 'Tuần', 'Ngày'],
+        }
+    },
+    basicLang: {
+        en:{
+            next: 'Next',
+            prev: 'Prev',
+        },
+        vi: {
+            next: 'Next',
+            prev: 'Prev',
+        }
+    }
 }
 
 const zykUtil = {
@@ -304,7 +336,7 @@ class Calendar{
         this.currentMonth = this.getMonth();
         this.currentYear = this.getYear();
 
-        this.contentText = zayekiCalendarLang[this.config.lang];
+        this.contentText = zykVar.calendarLang[this.config.lang];
 
         this.target = target;
 
@@ -313,11 +345,6 @@ class Calendar{
 
     render(element){
         const _this = this;
-
-        // Require zayeki-calendar-lang.js for language in Calendar
-        if (typeof zayekiCalendarLang == 'undefined') {
-            throw new TypeError('Require zayeki-calendar-lang.js');
-        };
 
         // RESET CALENDAR INNER HTML
         $(element).html('');
@@ -810,14 +837,16 @@ class Calendar{
                         `);
                     }
                 }
-
-                $(this).unbind().on('click', function () {
-                    if (_this.config.eventOnClick) {
-                        _this.config.eventOnClick(this);
-                    }
-                })
             })
         }
+
+        $(_this.target).find('.calendar-table-day').each(function () {
+            $(this).unbind().on('click', function () {
+                if (_this.config.eventOnClick) {
+                    _this.config.eventOnClick(this);
+                }
+            })
+        })
     }
 
     initActions(){
@@ -966,105 +995,154 @@ class Pagination {
     constructor(element, options) {
         let defaultOptions = {
             current: 1,
-            limit: 2,
-            action: 'javascipt:void(0);'
-        }
+            limit: 10,
+            action: 'javascipt:void(0);',
+            extendParams: false
+        };
 
         this.config = {
             ...defaultOptions,
             ...options
-        }
+        };
 
-        this.element = element
+        this.lang = zykVar.basicLang.en;
 
-        this.render()
+        this.element = element;
+
+        this.render();
     }
 
     render() {
-        const _this = this
+        const _this = this;
 
-        $(this.element).html(_this.template())
+        $(this.element).html(_this.template());
     }
 
     template() {
-        const _this = this
+        const _this = this;
 
         let template = `
-            <a href="#" class="pagination-item pagination-item-first btn ${_this.config.current == 1 ? 'disabled' : ''}" role="button" onclick="${_this.config.action}(1)" ${_this.config.current == 1 ? 'disabled' : ''}>
-                <i class="els el-go-first"></i>
-            </a>
-            <a href="#" class="pagination-item pagination-item-prev btn ${_this.config.current == 1 ? 'disabled' : ''}" role="button" onclick="${_this.config.action}(${_this.config.current - 1})" ${_this.config.current == 1 ? 'disabled' : ''}>
-                <i class="els el-caret-left"></i>
+            <a href="#" class="pagination-item pagination-item-prev btn"
+                onclick="${_this.config.action}(${_this.config.current - 1}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                role="button" ${_this.config.current == 1 ? 'style="display: none;"' : ''}>
+                <i class="els el-lg el-caret-left"></i> ${_this.lang.next}
             </a>
 
             ${this.getListPages()}
 
-            <a href="#" class="pagination-item pagination-item-next btn ${_this.config.current == _this.config.limit ? 'disabled' : ''}" role="button" onclick="${_this.config.action}(${_this.config.current + 1})" ${_this.config.current == _this.config.limit ? 'disabled' : ''}>
-                <i class="els el-caret-right"></i>
+            <a href="#" class="pagination-item pagination-item-next btn"
+                onclick="${_this.config.action}(${_this.config.current + 1}, ${_this.config.extendParams ? _this.config.extendParams : ''})" 
+                role="button" ${_this.config.current == _this.config.limit ? 'style="display: none;"' : ''}>
+                ${_this.lang.prev} <i class="els el-lg el-caret-right"></i>
             </a>
-            <a href="#" class="pagination-item pagination-item-last btn ${_this.config.current == _this.config.limit ? 'disabled' : ''}" onclick="${_this.config.action}(${_this.config.limit})" role="button" ${_this.config.current == _this.config.limit ? 'disabled' : ''}>
-                <i class="els el-go-last"></i>
-            </a>
-        `
+        `;
 
-        return template
+        return template;
     }
 
     getListPages() {
-        const _this = this
+        const _this = this;
 
-        let range = 5
+        let range = 5;
 
-        let from = this.config.current - 2
-        let to = this.config.current + 2
+        let from = this.config.current - 2;
+        let to = this.config.current + 2;
 
-        let list = ''
+        let list = '';
 
         if (this.config.limit > range) {
             if (from <= 1) {
                 for (let i = 1; i <= to; i++) {
                     list += `
-                            <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button" onclick="${_this.config.action}(${i})" data-pagination-page="${i}">${i}</a>
+                            <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button"
+                                onclick="${_this.config.action}(${i}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                                data-pagination-page="${i}">
+                                ${i}
+                            </a>
                         `
-                }
+                };
 
                 list += `
                     <a href="#" class="pagination-item btn disabled" role="button" disabled>...</a>
-                `
+                `;
+
+                list += `
+                    <a href="#" class="pagination-item btn" role="button"
+                        onclick="${_this.config.action}(${_this.config.limit}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                        data-pagination-page="${_this.config.limit}">
+                        ${_this.config.limit}
+                    </a>
+                `;
             } else if (from > 1 && to < _this.config.limit) {
                 list += `
+                    <a href="#" class="pagination-item btn" role="button"
+                        onclick="${_this.config.action}(1, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                        data-pagination-page="1">
+                        1
+                    </a>
+                `;
+
+                list += `
                     <a href="#" class="pagination-item btn disabled" role="button" disabled>...</a>
-                `
+                `;
 
                 for (let i = from; i <= to; i++) {
                     list += `
-                            <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button" onclick="${_this.config.action}(${i})" data-pagination-page="${i}">${i}</a>
+                            <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button"
+                                onclick="${_this.config.action}(${i}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                                data-pagination-page="${i}">
+                                ${i}
+                            </a>
                         `
-                }
+                };
 
                 list += `
                     <a href="#" class="pagination-item btn disabled" role="button" disabled>...</a>
-                `
+                `;
+
+                list += `
+                    <a href="#" class="pagination-item btn" role="button"
+                        onclick="${_this.config.action}(${_this.config.limit}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                        data-pagination-page="${_this.config.limit}">
+                        ${_this.config.limit}
+                    </a>
+                `;
             } else if (to >= _this.config.limit) {
                 list += `
+                    <a href="#" class="pagination-item btn" role="button"
+                        onclick="${_this.config.action}(1, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                        data-pagination-page="1">
+                        1
+                    </a>
+                `;
+
+                list += `
                     <a href="#" class="pagination-item btn disabled" role="button" disabled>...</a>
-                `
+                `;
 
                 for (let i = from; i <= _this.config.limit; i++) {
                     list += `
-                            <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button" onclick="${_this.config.action}(${i})" data-pagination-page="${i}">${i}</a>
+                            <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button"
+                                onclick="${_this.config.action}(${i}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                                data-pagination-page="${i}">
+                                ${i}
+                            </a>
                         `
                 }
             }
         } else {
             for (let i = 1; i <= this.config.limit; i++) {
                 list += `
-                    <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button" onclick="${_this.config.action}(${i})" data-pagination-page="${i}">${i}</a>
-                `
+                    <a href="#" class="pagination-item btn ${(i == _this.config.current) ? 'active' : ''}" role="button"
+                        onclick="${_this.config.action}(${i}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
+                        data-pagination-page="${i}">
+                        ${i}
+                    </a>
+                `;
             }
         }
 
-        return list
+        return list;
     }
 }
 
@@ -1176,103 +1254,42 @@ class Chart {
 
 /*
 =========================================================
-ZYKOWL
+BREADCRUMB
 =========================================================
 */
 
-class Zykowl {
-    constructor(target, options){
+class Breadcrumb {
+    constructor(data, options) {
         let defaultOptions = {
-            loop: true,
-            transition: 1500,
-            autoplay: false,
-            indicator: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                768: {
-                    items: 3
-                },
-                1200: {
-                    items: 5
-                }
-            },
-            margin: 16
-        };
+
+        }
 
         this.config = {
             ...defaultOptions,
             ...options
-        };
+        }
 
-        this.target = target;
-
-        this.render(target);
+        this.render(data)
     }
 
-    render(element){
-        const _this = this;
+    render(data) {
+        const _this = this
 
-        $(element).children('div').each(function(){
-            $(this).addClass('zykowl-item');
+        $.each(data, (index, item) => {
+            $('#breadcrumb').append(_this.template(item))
         })
-
-        $(element).append(`<div class="zykowl-wrapper"></div>`);
-
-        const $wrapper = $(element).find('.zykowl-wrapper');
-
-        $(element).find('.zykowl-item').appendTo($wrapper);
-
-        let res = _this.checkResponsive();
-
-        if (res.result) {
-            $wrapper.find('.zykowl-item').each(function (k, item) {
-                _this.style(item, {
-                    flex: `1 0 ${$wrapper.width() / _this.config.responsive[res.breakpoint].items - _this.config.margin}px`,
-                    margin: `0 ${_this.config.margin / 2}px`
-                })
-            })
-        } else {
-            _this.style(item, {
-                flex: `1 0 ${$(item).width()}px`,
-                margin: `0 ${_this.config.margin / 2}px`
-            })
-        }
     }
 
-    style(element, style){
-        $(element).css(style);
-    }
+    template(dataItem) {
+        const href = window.location.href
 
-    checkResponsive(){
-        const _this = this;
-
-        let res = [];
-
-        if (_this.config.responsive) {
-            let resWidthArr = Object.keys(_this.config.responsive);
-            let breakpoint = resWidthArr[0];
-
-            for (let i = resWidthArr.length - 1; i >= 0 ; i--) {
-                if (
-                    resWidthArr[i] >= $(window).width()
-                    &&
-                    $(window).width() >= resWidthArr[i-1]
-                ) {
-                    breakpoint = resWidthArr[i];
-                }
-            }
-
-            res.result = true;
-            res.breakpoint = breakpoint;
-        }
-        else{
-            res.push({
-                result: false
-            })
-        }
-        return res;
+        return `
+            <li class="breadcrumb-item ${(dataItem.link == href || dataItem.link + '#' == href || href.indexOf(dataItem.link) > -1) ? 'breadcrumb-active' : ''}">
+                <a href="${(dataItem.link == href || dataItem.link + '#' == href || href.indexOf(dataItem.link) > -1) ? 'javascript:void(0);' : dataItem.link}">
+                    ${dataItem.text}
+                </a>
+            </li>
+        `
     }
 }
 
@@ -1749,272 +1766,6 @@ class Navheader{
 
 /*
 =========================================================
-ZYKIDER
-=========================================================
-*/
-const ZYKIDER_NAME = 'zykider';
-const ZYKIDER_EVENT_KEY = `${ZYK_DATA_KEY}.${ZYKIDER_NAME}`;
-
-const ZYKIDER_CLASSNAME = {
-    ACTIVE: 'active',
-    ITEM : 'zykider-item',
-    ITEM_ACTIVE: 'zykider-item.active',
-    ITEM_PREV: 'zykider-item-prev',
-    ITEM_NEXT: 'zykider-item-next',
-    ITEM_PREPARE: 'zykider-item-prepare'
-}
-
-const ZYKIDER_SELECTOR = {
-    SLIDER: `.${ZYKIDER_NAME}`,
-
-    ITEM : `.${ZYKIDER_CLASSNAME.ITEM}`,
-    ITEM_ACTIVE: `.${ZYKIDER_CLASSNAME.ITEM_ACTIVE}`,
-    ITEM_NEXT: `.${ZYKIDER_CLASSNAME.ITEM_NEXT}`,
-    ITEM_PREV: `.${ZYKIDER_CLASSNAME.ITEM_PREV}`,
-    ITEM_FIRST: `.${ZYKIDER_CLASSNAME.ITEM}:first-child`,
-    ITEM_LAST: `.${ZYKIDER_CLASSNAME.ITEM}:last-child`,
-
-    CONTROL_NEXT: `[data-zykider-control="next"]`,
-    CONTROL_PREV: `[data-zykider-control="prev"]`,
-}
-
-const ZYKIDER_MOVEMENT = {
-    NEXT: 'next',
-    PREV: 'prev'
-}
-
-const ZYKIDER_DEFAULT = {
-    transition: 1000,
-    loop: true,
-    autoplay: true,
-    indicator: true
-}
-
-const ZYKIDER_EVENT = {
-    CLICK: `click.${ZYKIDER_EVENT_KEY}`,
-
-    SWITCH: `switch.${ZYKIDER_EVENT_KEY}`,
-    SWITCHED: `switched.${ZYKIDER_EVENT_KEY}`
-}
-
-var Zykider = function () {
-    function Zykider(element, config) {
-        this.config = this.getConfig(config);
-        this.element = element;
-        this.slideLength = $(this.element).find(ZYKIDER_SELECTOR.ITEM).length;
-    }
-
-    const _proto = Zykider.prototype;
-
-    _proto.getConfig = function getConfig(config){
-        config = zykUtil.configSpread(ZYKIDER_DEFAULT, config);
-
-        return config;
-    }
-
-    _proto.getActiveSlide = function getActiveSlide() {
-        let activeSlide = $(this.element).find(ZYKIDER_SELECTOR.ITEM_ACTIVE);
-        return activeSlide;
-    }
-
-    _proto.autoplay = function autoplay(target){
-        // console.log('AUTOPLAY')
-
-        // this.getPrepare()
-        // this.next()
-    }
-
-    _proto.getPrepare = function getPrepare(movement){
-        const _this = this;
-
-        if (typeof movement == 'string') {
-            if (movement == ZYKIDER_MOVEMENT.NEXT || movement == ZYKIDER_MOVEMENT.PREV) {
-                let activeSlide = this.getActiveSlide();
-
-                if (movement == ZYKIDER_MOVEMENT.NEXT) {
-                    if ($(activeSlide).index() < _this.slideLength - 1) {
-                        $(activeSlide)
-                            .next()
-                            .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
-                            .addClass(ZYKIDER_CLASSNAME.ITEM_NEXT);
-                    } else {
-                        if (_this.config.loop == true) {
-                            $(_this.element).find(ZYKIDER_SELECTOR.ITEM_FIRST)
-                                .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
-                                .addClass(ZYKIDER_CLASSNAME.ITEM_NEXT);
-                        } else {
-                            return;
-                        }
-                    }
-
-                    setTimeout(function(){
-                        _this.switchSlide(ZYKIDER_MOVEMENT.NEXT);
-                    }, 100)
-                } else if (movement == ZYKIDER_MOVEMENT.PREV) {
-                    if ($(activeSlide).index() > 0) {
-                        $(activeSlide)
-                            .prev()
-                            .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
-                            .addClass(ZYKIDER_CLASSNAME.ITEM_PREV);
-                    } else if ($(activeSlide).index() == 0) {
-                        if (_this.config.loop == true) {
-                            $(_this.element).find(ZYKIDER_SELECTOR.ITEM_LAST)
-                                .addClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
-                                .addClass(ZYKIDER_CLASSNAME.ITEM_PREV);
-                        } else {
-                            return;
-                        }
-                    }
-
-                    setTimeout(function () {
-                        _this.switchSlide(ZYKIDER_MOVEMENT.PREV);
-                    }, 100);
-                } else {
-                    throw new TypeError('Wrong Request');
-                }
-            }
-        } else if (typeof movement == 'number') {
-            if (movement < 0) {
-                throw new TypeError('Wrong Request');
-            }
-        }
-    }
-
-    _proto.getZykiderId = function getZykiderId(element){
-        let sliderId = $(element).closest('.zykider');
-        return sliderId;
-    }
-
-    _proto.next = function next(target){
-        let switchEvent = $.Event(ZYKIDER_EVENT.SWITCH, {
-            target: target
-        })
-
-        $(this.element).trigger(switchEvent);
-
-        this.getPrepare(ZYKIDER_MOVEMENT.NEXT);
-    }
-
-    _proto.prev = function prev(target) {
-        let switchEvent = $.Event(ZYKIDER_EVENT.SWITCH, {
-            target: target
-        })
-
-        $(this.element).trigger(switchEvent);
-
-        this.getPrepare(ZYKIDER_MOVEMENT.PREV);
-    }
-
-    _proto.switchSlide = function switchSlide(movement, target) {
-        let activeSlide = this.getActiveSlide();
-        activeSlide.removeClass(ZYKIDER_CLASSNAME.ACTIVE);
-
-        if (typeof movement == 'string') {
-            if (movement == ZYKIDER_MOVEMENT.NEXT) {
-                let $currentSlide = $(this.element).find(ZYKIDER_SELECTOR.ITEM_NEXT);
-
-                $currentSlide
-                    .removeClass(ZYKIDER_CLASSNAME.ITEM_NEXT)
-                    .removeClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
-                    .addClass(ZYKIDER_CLASSNAME.ACTIVE);
-            } else if (movement == ZYKIDER_MOVEMENT.PREV) {
-                let $currentSlide = $(this.element).find(ZYKIDER_SELECTOR.ITEM_PREV);
-
-                $currentSlide
-                    .removeClass(ZYKIDER_CLASSNAME.ITEM_PREV)
-                    .removeClass(ZYKIDER_CLASSNAME.ITEM_PREPARE)
-                    .addClass(ZYKIDER_CLASSNAME.ACTIVE);
-            }
-        } else if (typeof movement == 'number') {
-
-        }
-
-        let switchedEvent = $.Event(ZYKIDER_EVENT.SWITCHED, {
-            target: target
-        })
-
-        $(this.element).trigger(switchedEvent);
-
-        this.setControlVisible();
-    }
-
-    _proto.setControlVisible = function setControlVisible(){
-        if(this.config.loop === false){
-            if ($(this.getActiveSlide()).index() == this.slideLength - 1) {
-                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_NEXT).hide();
-            } else {
-                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_NEXT).show();
-            }
-
-            if ($(this.getActiveSlide()).index() == 0) {
-                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_PREV).hide();
-            } else {
-                $(this.element).find(ZYKIDER_SELECTOR.CONTROL_PREV).show();
-            }
-        }
-    }
-
-    Zykider.jqueryInterface = function jqueryInterface(config, target) {
-        return this.each(function () {
-            let data = $(this).data(ZYKIDER_EVENT_KEY);
-
-            let _config = zykUtil.configSpread(ZYKIDER_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
-
-            if(!data){
-                data = new Zykider(this, _config);
-                $(this).data(ZYKIDER_EVENT_KEY, data);
-            }
-
-            if(typeof config == 'string'){
-                if(typeof data[config] == 'undefined'){
-                    throw new TypeError('No method named ' + '"' + config + '"');
-                }
-
-                data[config](target);
-            } else if(data.config.autoplay){
-                data.autoplay(target);
-            }
-        })
-    }
-
-    return Zykider;
-}()
-
-$(document).on(ZYKIDER_EVENT.CLICK, ZYKIDER_SELECTOR.CONTROL_NEXT, function (e) {
-    let target = $(this).data('target');
-
-    let config = $(target).data(ZYKIDER_EVENT_KEY) ? $(target).data(ZYKIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data());
-
-    if(this.tagName == 'A'){
-        e.preventDefault();
-    }
-
-    let data = $(target).data(ZYKIDER_EVENT_KEY);
-    data.next(target);
-
-    Zykider.jqueryInterface.call($(target), config, this);
-})
-
-$(document).on(ZYKIDER_EVENT.CLICK, ZYKIDER_SELECTOR.CONTROL_PREV, function (e) {
-    let target = $(this).data('target');
-
-    let config = $(target).data(ZYKIDER_EVENT_KEY) ? $(target).data(ZYKIDER_EVENT_KEY) : zykUtil.configSpread($(target).data(), $(this).data());
-
-    if (this.tagName == 'A') {
-        e.preventDefault();
-    }
-
-    let data = $(target).data(ZYKIDER_EVENT_KEY);
-    data.prev(target);
-
-    Zykider.jqueryInterface.call($(target), config, this);
-})
-
-$.fn[ZYKIDER_NAME] = Zykider.jqueryInterface;
-$.fn[ZYKIDER_NAME].constructor = Zykider;
-
-/*
-=========================================================
 CHECKBOX, RADIO, SWITCH
 =========================================================
 */
@@ -2460,7 +2211,8 @@ const DROPDOWN_PLACEMENT = {
 const DROPDOWN_DEFAULT = {
     placement: DROPDOWN_PLACEMENT.DOWN,
     flip: true,
-    offset: [0, 0]
+    offset: [0, 0],
+    boundary: 'viewport'
 }
 
 var Dropdown = function () {
@@ -2574,7 +2326,10 @@ var Dropdown = function () {
                 },
                 {
                     name: 'flip',
-                    enabled: _this.config.flip
+                    enabled: _this.config.flip,
+                    option: {
+                        boundary: _this.config.boundary
+                    }
                 }
             ]
         }
@@ -2654,3 +2409,308 @@ $(document)
 
 $.fn[DROPDOWN_NAME] = Dropdown.jqueryInterface;
 $.fn[DROPDOWN_NAME].constructor = Dropdown;
+
+
+/*
+=========================================================
+TOOLTIP
+=========================================================
+*/
+
+const TOOLTIP_NAME = 'tooltip';
+const TOOLTIP_EVENT_KEY = `${ZYK_DATA_KEY}.${TOOLTIP_NAME}`;
+
+const TOOLTIP_EVENT = {
+    MOUSEENTER: `mouseenter.${TOOLTIP_EVENT_KEY}`,
+    MOUSELEAVE: `mouseleave.${TOOLTIP_EVENT_KEY}`,
+    CLICK: `click.${TOOLTIP_EVENT_KEY}`,
+    SHOW: `show.${TOOLTIP_EVENT_KEY}`,
+    SHOWN: `shown.${TOOLTIP_EVENT_KEY}`,
+    HIDE: `hide.${TOOLTIP_EVENT_KEY}`,
+    HIDDEN: `hidden.${TOOLTIP_EVENT_KEY}`
+}
+
+const TOOLTIP_CLASS = {
+    TOOLTIP: 'tooltip',
+}
+
+const TOOLTIP_SELECTOR = {
+    TOGGLE: '[data-toggle="tooltip"]',
+    TOOLTIP: `.${TOOLTIP_CLASS.TOOLTIP}`,
+}
+
+const TOOLTIP_PLACEMENT = {
+    BOTTOM: 'bottom',
+    TOP: 'top',
+    LEFT: 'left',
+    RIGHT: 'right'
+}
+
+const TOOLTIP_TRIGGER = {
+    CLICK: 'click',
+    HOVER: 'hover',
+    MANUAL: 'manual'
+}
+
+const TOOLTIP_DEFAULT = {
+    placement: TOOLTIP_PLACEMENT.TOP,
+    flip: true,
+    offset: [0, 0],
+    trigger: TOOLTIP_TRIGGER.HOVER,
+    html: false,
+    template: `
+        <div class="tooltip" role="tooltip">
+            <div class="tooltip-inner"></div>
+        </div>
+    `,
+    boundary: 'viewport'
+}
+
+var Tooltip = function(){
+    function Tooltip(element, options){
+        this.config = this.getConfig(options);
+
+        this.element = element;
+
+        this.tip = null;
+
+        this.popper = null;
+        this.tooltip = null;
+
+        this.isEnabled = true;
+        this.isShown = false;
+
+        this.addListener();
+    };
+
+    const _proto = Tooltip.prototype;
+
+    _proto.getConfig = function getConfig(config) {
+        let dataAttributes = $(this.element).data();
+
+        config = zykUtil.configSpread(TOOLTIP_DEFAULT, dataAttributes, config);
+
+        return config;
+    };
+
+    _proto.enabled = function enabled(){
+        return this.isEnabled = true;
+    };
+
+    _proto.disabled = function disabled(){
+        return this.isEnabled = false;
+    };
+
+    _proto.addListener = function addListener(){
+        const _this = this;
+
+        let triggers = _this.getDataAttribute('trigger').split(' ');
+
+        $.each(triggers, function(index, trigger){
+            if(trigger == 'click'){
+                $(_this.element).on(TOOLTIP_EVENT.CLICK, function(e){
+                    if(_this.element.tagName == 'A'){
+                        e.preventDefault();
+                    }
+
+                    return _this.toggle();
+                })
+            } else if (trigger !== 'manual'){
+                let eventIn = TOOLTIP_EVENT.MOUSEENTER;
+                let eventOut = TOOLTIP_EVENT.MOUSELEAVE;
+
+                $(_this.element).on(eventIn, function(e){
+                    return _this.enter(e);
+                });
+
+                $(_this.element).on(eventOut, function (e) {
+                    return _this.leave(e);
+                });
+            }
+        })
+    };
+
+    _proto.getTipElement = function getTipElement(){
+        this.tip = this.tip || $(this.config.template)[0];
+        
+        return this.tip;
+    };
+
+    _proto.toggle = function toggle(){
+        if(!this.isShown){
+            return this.show();
+        } else {
+            return this.hide();
+        }
+    };
+
+    _proto.getTipTitle = function getTipTitle(){
+        const _this = this;
+
+        let title = $(_this.element).attr('title');
+
+        $(_this.element).attr('data-original-title', title);
+        $(_this.element).removeAttr('title');
+
+        return title;
+    };
+
+    _proto.fixTitle = function fixTitle(){
+        const _this = this;
+
+        if(typeof $(_this.element).attr('data-original-title') != 'undefined'){
+            let title = $(_this.element).attr('data-original-title');
+
+            $(_this.element).attr('title', title);
+            $(_this.element).removeAttr('data-original-title');
+        }
+    };
+
+    _proto.enter = function enter(){
+        return this.show();
+    };
+
+    _proto.leave = function leave(){
+        return this.hide();
+    };
+
+    _proto.show = function show(){
+        const _this = this;
+
+        if(!_this.isEnabled){
+            return;
+        }
+
+        _this.clearTooltips();
+
+        let text = _this.getTipTitle();
+        let tip = _this.getTipElement();
+        let placement = _this.getPlacement();
+
+        if (_this.getDataAttribute('html')) {
+            $(tip).find('.tooltip-inner').html(text);
+        } else {
+            $(tip).find('.tooltip-inner').text(text);
+        }
+
+        $(tip).addClass(`tooltip-${placement}`);
+
+        $(_this.element).trigger(TOOLTIP_EVENT.SHOW);
+
+        $(tip).appendTo('body');
+
+        _this.popper = Popper.createPopper(_this.element, tip, _this.getPopperConfig());
+
+        _this.isShown = true;
+
+        $(_this.element).trigger(TOOLTIP_EVENT.SHOWN);
+    };
+
+    _proto.hide = function hide() {
+        const _this = this;
+
+        $(_this.element).trigger(TOOLTIP_EVENT.HIDE);
+
+        _this.fixTitle();
+
+        $(_this.tip).remove();
+
+        _this.isShown = false;
+
+        $(_this.element).trigger(TOOLTIP_EVENT.HIDDEN);
+    };
+
+    _proto.getOffset = function getOffset() {
+        const _this = this;
+
+        let offset = _this.getDataAttribute('offset');
+
+        if (typeof offset == 'string') {
+            offset.replace(',', ' ');
+            offset = offset.split(',').map(Number);
+        }
+
+        return offset;
+    };
+
+    _proto.getPlacement = function getPlacement(){
+        const _this = this;
+
+        let placement = _this.getDataAttribute('placement') ? _this.getDataAttribute('placement') : _this.config.placement;
+
+        return placement;
+    };
+
+    _proto.getDataAttribute = function getDataAttribute(attribute){
+        const _this = this;
+
+        let dataAttrs = $(_this.element).data();
+
+        let result = '';
+
+        if(Object.keys(dataAttrs).indexOf(attribute) > -1){
+            result = $(_this.element).data(attribute);
+        }
+
+        return result;
+    };
+
+    _proto.getPopperConfig = function getPopperConfig() {
+        const _this = this;
+
+        let popperConfig = {
+            placement: _this.getPlacement(),
+            modifiers: [
+                {
+                    name: 'offset',
+                    options: {
+                        offset: _this.getOffset()
+                    }
+                },
+                {
+                    name: 'flip',
+                    enabled: _this.config.flip,
+                    option: {
+                        boundary: _this.config.boundary
+                    },
+                },
+            ]
+        }
+
+        return popperConfig;
+    };
+
+    _proto.clearTooltips = function clearTooltip(){
+        $('body').find(TOOLTIP_SELECTOR.TOOLTIP).remove();
+    };
+
+    Tooltip.jqueryInterface = function jqueryInterface(config){
+        return this.each(function(){
+            let data = $(this).data(TOOLTIP_EVENT_KEY);
+
+            let _config = typeof config === 'object' && config;
+
+            if (!data && /dispose|hide/.test(config)) {
+                return;
+            }
+
+            if(!data){
+                data = new Tooltip(this, _config);
+                $(this).data(TOOLTIP_EVENT_KEY, data);
+            }
+
+            if (typeof config == 'string') {
+                if (typeof data[config] == 'undefined') {
+                    throw new TypeError('No method named ' + '"' + config + '"');
+                }
+
+                data[config]();
+            }
+        });
+    };
+
+    return Tooltip;
+}();
+
+$.fn[TOOLTIP_NAME] = Tooltip.jqueryInterface;
+$.fn[TOOLTIP_NAME].constructor = Tooltip;

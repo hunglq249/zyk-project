@@ -1,6 +1,4 @@
 $btn-colors: (
-    'primary': $color-primary,
-    'secondary': $color-secondary,
     'success': $color-success,
     'warning': $color-warning,
     'danger': $color-danger
@@ -76,6 +74,38 @@ $btn-colors: (
         color: var(--bg-bw);
     }
 
+    &.btn-primary{
+		background-color: var(--primary);
+		border: 1px solid var(--primary);
+		color: $color-white;
+
+		&:hover {
+		    background-color: lighten($color-primary, 10%);
+		}
+
+		&:not(:disabled):active,
+		&:not(.disabled):active {
+		    background-color: var(--primary);
+		    border-color: var(--primary);
+		}
+	}
+
+	&.btn-secondary {
+	    background-color: var(--secondary);
+	    border: 1px solid var(--secondary);
+	    color: $color-white;
+
+	    &:hover {
+	        background-color: lighten($color-secondary, 10%);
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: var(--secondary);
+	        border-color: var(--secondary);
+	    }
+	}
+
     @each $key, $value in $btn-colors {
         &.btn-#{$key} {
             background-color: #{$value};
@@ -132,6 +162,42 @@ $btn-colors: (
         }
     }
 
+    &.btn-outline-primary {
+	    background-color: var(--bg-bw);
+	    border: 1px solid var(--primary);
+	    color: var(--primary);
+
+	    &:hover {
+	        background-color: var(--primary);
+	        color: var(--white);
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: var(--primary);
+			border-color: var(--primary);
+			color: var(--white);
+	    }
+	}
+
+	&.btn-outline-secondary {
+	    background-color: var(--bg-bw);
+	    border: 1px solid var(--secondary);
+	    color: var(--secondary);
+
+	    &:hover {
+			background-color: var(--secondary);
+			color: var(--white);
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: var(--secondary);
+			border-color: var(--secondary);
+			color: var(--white);
+	    }
+	}
+
     &.btn-outline-dark {
         border-color: var(--bg-bw-rv);
         color: var(--bg-bw-rv);
@@ -173,6 +239,46 @@ $btn-colors: (
             }
         }
     }
+
+    &.btn-dashed-primary {
+	    background-color: var(--bg-bw);
+	    border: 1px dashed var(--primary);
+	    color: var(--primary);
+
+	    &:hover {
+	        background-color: var(--primary);
+			color: var(--white);
+			
+			border-style: solid;
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: var(--primary);
+	        border-color: var(--primary);
+	        color: var(--white);
+	    }
+	}
+
+	&.btn-dashed-secondary {
+	    background-color: var(--bg-bw);
+	    border: 1px dashed var(--secondary);
+	    color: var(--secondary);
+
+	    &:hover {
+	        background-color: var(--secondary);
+			color: var(--white);
+			
+			border-style: solid;
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: var(--secondary);
+	        border-color: var(--secondary);
+	        color: var(--white);
+	    }
+	}
 }
 
 .btn-group{
