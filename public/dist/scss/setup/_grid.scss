@@ -28,16 +28,15 @@ $valueBreakpoint in $grid-breakpoints {
     &.row-no-gutters{
         margin: 0;
 
-        [class^="col"] {
-            padding: 0;
-            margin-bottom: 0;
+        [class^="col"]{
+            padding: 0 !important;
         }
     }
 }
 
 [class^="col"] {
-    width: 100%;
-    flex: 0 0 auto;
+    max-width: 100%;
+    flex: 1 0 0%;
 
     margin-bottom: $grid-gutter;
 
@@ -46,8 +45,8 @@ $valueBreakpoint in $grid-breakpoints {
 
 @each $value in $grid-index {
     .col-#{$value} {
-        width: calc(100% / 12 * #{$value});
-        flex: 0 0 auto;
+        max-width: calc(100% / 12 * #{$value});
+        flex: 1 0 0%;
     }
 }
 
@@ -58,19 +57,28 @@ $valueBreakpoint in $grid-breakpoints {
         @if($keyBreakpoint==$keyMaxWidth) {
             @media screen and (min-width: #{$valueBreakpoint}) {
                 .col {
-                    width: auto;
                     max-width: 100%;
+                    flex: 1 0 0%;
+
+                    padding: 0 $grid-gutter/2;
                 }
 
                 @each $value in $grid-index {
                     .col-#{$keyMaxWidth}-#{$value} {
                         width: calc(100% / 12 * #{$value});
-                        flex: 0 0 auto;
+                        flex: 1 0 auto;
 
                         padding: 0 $grid-gutter/2;
                     }
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    [class^="col"] {
+        width: 100%;
+        flex: 1 0 100%;
     }
 }

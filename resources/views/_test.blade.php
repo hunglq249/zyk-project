@@ -1,6 +1,6 @@
 <div class="container" style="min-height: 100vh; padding: 3rem 0">
     <div class="test-grid" style="margin: 3rem 0">
-        <div class="row">
+        <div class="row row-no-gutters">
             <div class="col-md-4" style="">
                 <div style="padding: 2rem 0; background-color: rgba(12, 78, 56, 0.5)">
                     Col 4
@@ -14,6 +14,24 @@
             <div class="col-md-2" style="">
                 <div style="padding: 2rem 0; background-color: rgba(78, 56, 34, 0.5)">
                     Col 2
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-no-gutters">
+            <div class="col" style="">
+                <div style="padding: 2rem 0; background-color: rgba(12, 78, 56, 0.5)">
+                    Col
+                </div>
+            </div>
+            <div class="col" style="">
+                <div style="padding: 2rem 0; background-color: rgba(34, 56, 78, 0.5)">
+                    Col
+                </div>
+            </div>
+            <div class="col" style="">
+                <div style="padding: 2rem 0; background-color: rgba(78, 56, 34, 0.5)">
+                    Col
                 </div>
             </div>
         </div>
