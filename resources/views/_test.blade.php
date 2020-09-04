@@ -633,10 +633,8 @@
         @for($i=0;$i<3;$i++)
             <div class="col-md-4">
                 <div class="card @if($i==2) card-no-shadow @endif">
-                    <div class="card-header">
-                        <div class="mask">
-                            <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
-                        </div>
+                    <div class="mask">
+                        <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
                     </div>
 
                     <div class="card-body">
