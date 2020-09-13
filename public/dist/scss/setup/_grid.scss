@@ -33,34 +33,37 @@ $valueBreakpoint in $grid-breakpoints {
             padding: 0 !important;
         }
     }
-}
 
-@each $value in $grid-index {
-    .col-#{$value} {
-        width: calc(100% / 12 * #{$value});
-        flex: 0 0 auto;
+    [class^="col"]{
+        width: 100%;
+        flex: 1 0 auto;
+
+        padding: 0 $grid-gutter/2;
     }
-}
 
-@each $keyBreakpoint,
-$valueBreakpoint in $grid-breakpoints {
-    @each $keyMaxWidth,
-    $valueMaxWidth in $container-max-widths {
-        @if($keyBreakpoint==$keyMaxWidth) {
-            @media screen and (min-width: #{$valueBreakpoint}) {
-                .col {
-                    width: 100%;
-                    flex: 1 0 0%;
+    @each $value in $grid-index {
+        .col-#{$value} {
+            width: calc(100% / 12 * #{$value});
+            flex: 1 0 auto;
+        }
+    }
 
-                    padding: 0 $grid-gutter/2;
-                }
+    @each $keyBreakpoint,
+    $valueBreakpoint in $grid-breakpoints {
+        @each $keyMaxWidth,
+        $valueMaxWidth in $container-max-widths {
+            @if($keyBreakpoint==$keyMaxWidth) {
+                @media screen and (min-width: #{$valueBreakpoint}) {
+                    .col {
+                        width: 100%;
+                        flex: 1 0 0%;
+                    }
 
-                @each $value in $grid-index {
-                    .col-#{$keyMaxWidth}-#{$value} {
-                        width: calc(100% / 12 * #{$value});
-                        flex: 0 0 auto;
-
-                        padding: 0 $grid-gutter/2;
+                    @each $value in $grid-index {
+                        .col-#{$keyMaxWidth}-#{$value} {
+                            width: calc(100% / 12 * #{$value});
+                            flex: 1 0 auto;
+                        }
                     }
                 }
             }
