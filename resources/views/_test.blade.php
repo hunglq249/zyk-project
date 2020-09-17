@@ -1,23 +1,150 @@
 <div class="container" style="min-height: 100vh; padding: 3rem 0">
     <div class="test-grid" style="margin: 3rem 0">
-        <div class="row">
-            <div class="col-md-4" style="">
-                <div style="padding: 2rem 0; background-color: rgba(12, 78, 56, 0.5)">
-                    Col 4
+        <div class="row" style="margin-bottom: 3rem">
+            <div class="col-md-2">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col md 2
+                        </h6>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6" style="">
-                <div style="padding: 2rem 0; background-color: rgba(34, 56, 78, 0.5)">
-                    Col 6
+            <div class="col-md-4">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col md 4
+                        </h6>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-2" style="">
-                <div style="padding: 2rem 0; background-color: rgba(78, 56, 34, 0.5)">
-                    Col 2
+            <div class="col-md-6">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col md 6
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-no-gutters" style="margin-bottom: 3rem">
+            <div class="col-md-2">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col md 2
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col md 4
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col md 6
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <h6 class="subtitle-md">
+                            Col
+                        </h6>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="test-text">
+        <h1>
+            Nunc gravida nunc in vestibulum volutpat. Proin eu mi nec justo pretium blandit sit amet quis neque. Sed eu aliquet massa.
+        </h1>
+        <h2>
+            Suspendisse potenti. Vivamus semper aliquet sem vel sollicitudin. Fusce at tempus sem. Duis a neque non mauris fermentum efficitur at id urna
+        </h2>
+        <p>
+            Vestibulum cursus tortor sit amet turpis feugiat euismod. Duis tristique ultricies massa vel mollis. Pellentesque quis orci ante. Nam varius sed lacus pulvinar tempor. Vivamus quis eleifend nulla. Sed sit amet varius libero, quis lacinia mauris. Nullam dictum nec arcu in elementum. Nam non sem in massa molestie convallis.
+        </p>
+
+        <p class="p-lg">
+            Vestibulum cursus tortor sit amet turpis feugiat euismod. Duis tristique ultricies massa vel mollis. Pellentesque quis orci ante. Nam varius sed lacus pulvinar tempor. Vivamus quis eleifend nulla. Sed sit amet varius libero, quis lacinia mauris. Nullam dictum nec arcu in elementum. Nam non sem in massa molestie convallis.
+        </p>
+
+        <br>
+
+        <button class="btn btn-lg btn-outline-default" type="button">
+            Button lg
+        </button>
+
+        <button class="btn btn-outline-default" type="button">
+            Button default
+        </button>
+
+        <button class="btn btn-sm btn-outline-default" type="button">
+            Button sm
+        </button>
+    </div>
+    
     <div class="test-progress" style="margin: 3rem 0">
         <div class="progress-wrapper">
             <div class="progress-header">
@@ -615,10 +742,8 @@
         @for($i=0;$i<3;$i++)
             <div class="col-md-4">
                 <div class="card @if($i==2) card-no-shadow @endif">
-                    <div class="card-header">
-                        <div class="mask">
-                            <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
-                        </div>
+                    <div class="mask">
+                        <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
                     </div>
 
                     <div class="card-body">
