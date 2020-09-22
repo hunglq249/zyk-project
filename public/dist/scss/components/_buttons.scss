@@ -5,7 +5,7 @@ $btn-colors: (
 );
 
 .btn{
-    padding: 1.125rem 2rem;
+    padding: 0.5rem 1rem;
     
     font-family: var(--webfont-family);
     font-size: 1rem;
@@ -38,23 +38,24 @@ $btn-colors: (
     }
 
     &.btn-sm{
-        padding: 0.75rem 1.5rem;
+        padding: 0.375rem .75rem;
 
         font-size: 0.875rem;
     }
 
     &.btn-lg {
-        padding: 1.5rem 2.125rem;
+        padding: 0.75rem 1.5rem;
         
         font-size: 1.25rem;
     }
 
     &.btn-default{
-        background-color: var(--gray-2);
+        background-color: var(--border);
+        border-color: var(--border);
         color: var(--text-paragraph);
 
         &:hover{
-            background-color: var(--gray-3);
+            background-color: var(--gray-1);
         }
     }
 
@@ -128,11 +129,11 @@ $btn-colors: (
     }
 
     &.btn-outline-default {
-        border-color: var(--gray-2);
+        border-color: var(--border);
         color: var(--text-paragraph);
 
         &:hover{
-            background-color: var(--gray-3);
+            background-color: var(--border);
         }
 
         &.disabled,
@@ -198,7 +199,27 @@ $btn-colors: (
 			border-color: var(--secondary);
 			color: var(--white);
 	    }
-	}
+    }
+    
+    &.btn-outline-light {
+        border-color: var(--bg-bw);
+        color: var(--bg-bw);
+
+        &:hover{
+            background-color: var(--bg-bw);
+            border-color: var(--bg-bw);
+            color: var(--bg-bw-rv);
+
+            &.disabled,
+            &:disabled {
+                &:hover {
+                    background-color: transparent;
+                    border-color: var(--bg-bw);
+                    color: var(--bg-bw);
+                }
+            }
+        }
+    }
 
     &.btn-outline-dark {
         border-color: var(--bg-bw-rv);
@@ -242,8 +263,27 @@ $btn-colors: (
         }
     }
 
+    &.btn-dashed-default {
+	    background-color: transparent;
+	    border: 1px dashed var(--border);
+	    color: var(--text-paragraph);
+
+	    &:hover {
+	        background-color: var(--border);
+			
+			border-style: solid;
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: var(--text-paragraph);
+	        border-color: var(--text-paragraph);
+	        color: var(--white);
+	    }
+	}
+
     &.btn-dashed-primary {
-	    background-color: var(--bg-bw);
+	    background-color: transparent;
 	    border: 1px dashed var(--primary);
 	    color: var(--primary);
 
@@ -263,7 +303,7 @@ $btn-colors: (
 	}
 
 	&.btn-dashed-secondary {
-	    background-color: var(--bg-bw);
+	    background-color: transparent;
 	    border: 1px dashed var(--secondary);
 	    color: var(--secondary);
 
@@ -280,7 +320,89 @@ $btn-colors: (
 	        border-color: var(--secondary);
 	        color: var(--white);
 	    }
-	}
+    }
+
+    &.btn-dashed-link {
+	    background-color: transparent;
+	    border: 1px dashed var(--link);
+	    color: var(--link);
+
+	    &:hover {
+	        background-color: var(--link);
+			color: var(--white);
+			
+			border-style: solid;
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: transparent;
+	        border-color: var(--link);
+	        color: var(--link);
+	    }
+    }
+
+    &.btn-dashed-light {
+	    background-color: transparent;
+	    border: 1px dashed var(--bg-bw);
+	    color: var(--bg-bw);
+
+	    &:hover {
+	        background-color: var(--bg-bw);
+			color: var(--bg-bw-rv);
+			
+			border-style: solid;
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: transparent;
+	        border-color: var(--bg-bw);
+	        color: var(--bg-bw);
+	    }
+    }
+
+    &.btn-dashed-dark {
+	    background-color: transparent;
+	    border: 1px dashed var(--bg-bw-rv);
+	    color: var(--bg-bw-rv);
+
+	    &:hover {
+	        background-color: var(--bg-bw-rv);
+			color: var(--bg-bw);
+			
+			border-style: solid;
+	    }
+
+	    &:not(:disabled):active,
+	    &:not(.disabled):active {
+	        background-color: transparent;
+	        border-color: var(--bg-bw-rv);
+	        color: var(--bg-bw-rv);
+	    }
+    }
+    
+    @each $key, $value in $btn-colors {
+        &.btn-dashed-#{$key} {
+            border: 1px dashed #{$value};
+            color: #{$value};
+
+            &:hover {
+                background-color: lighten($value, 5%);
+                border-color: lighten($value, 5%);
+                color: var(--white);
+            }
+
+            &.disabled,
+            &:disabled {
+                &:hover {
+                    background-color: transparent;
+                    border-color: #{$value};
+                    color: #{$value};
+                }
+            }
+        }
+    }
 }
 
 .btn-group{

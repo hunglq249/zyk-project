@@ -49,7 +49,7 @@ $valueBreakpoint in $grid-breakpoints {
 
     @each $value in $grid-index {
         .col-#{$value} {
-            width: calc(100% / 12 * #{$value});
+            max-width: calc(100% / 12 * #{$value});
             flex: 1 0 auto;
         }
     }
@@ -69,7 +69,7 @@ $valueBreakpoint in $grid-breakpoints {
 
                     @each $value in $grid-index {
                         .col-#{$keyMaxWidth}-#{$value} {
-                            width: calc(100% / 12 * #{$value});
+                            max-width: calc(100% / 12 * #{$value});
                             flex: 1 0 auto;
 
                             padding: 0 $grid-gutter/2;

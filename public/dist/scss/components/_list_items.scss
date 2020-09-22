@@ -154,8 +154,6 @@
     &.list-tree{
         .list-items-body{
             > .item-row{
-                background-color: var(--bg-bw);
-
                 @include positionSticky();
             }
 

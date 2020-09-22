@@ -99,13 +99,11 @@ $zindex-block:                                      2000;
     --gray-5:                                       #aeaeb2;
     --gray-6:                                       #8e8e93;
 
-    --bg-bw:                                        #f2f2f7;
+    --bg-body:                                      #fafafa;
+    --bg-bw:                                        #f6f6f9;
     --bg-bw-rv:                                     #1c1d1f;
 
-    --bg-body:                                      var(--gray-1);
-    --bg-element:                                   var(--gray-2);
-
-    --border:                                       var(--gray-3);
+    --border:                                       var(--gray-2);
 
     --text-title:                                   #1c1d1f;
     --text-subtitle:                                #3a3a3c;
@@ -124,13 +122,11 @@ $zindex-block:                                      2000;
     --gray-5:                                       #636366;
     --gray-6:                                       #8e8e93;
 
-    --bg-bw:                                        #1c1d1f;
+    --bg-body:                                      #0a0a0a;
+    --bg-bw:                                        #131414;
     --bg-bw-rv:                                     #f2f2f7;
 
-    --bg-body:                                      var(--gray-1);
-    --bg-element:                                   var(--gray-2);
-
-    --border:                                       var(--gray-3);
+    --border:                                       var(--gray-2);
 
     --text-title:                                   #f2f2f7;
     --text-subtitle:                                #d1d1d6;

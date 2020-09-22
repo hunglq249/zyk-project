@@ -1,10 +1,10 @@
 .form-control{
     width: 100%;
-    min-height: calc(0.875rem + 1.5rem + 2px);
+    min-height: calc(0.875rem + 1rem + 2px);
     
     margin-bottom: 0.5rem;
 
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
 
     background-color: var(--bg-bw);
     color: var(--text-paragraph);
@@ -23,15 +23,17 @@
     }
 
     &.form-control-sm{
-        height: calc(0.75rem + 0.75rem + 2px);
+        min-height: calc(0.75rem + 0.75rem + 2px);
 
-        padding: 0.375rem 0.5rem;
+        padding: 0.375rem 0.75rem;
 
         font-size: 0.75rem;
     }
 
     &.form-control-lg {
-        height: calc(1.25rem + 0.75rem + 2px);
+        min-height: calc(1.25rem + 1.5rem + 2px);
+
+        padding: 0.75rem 1.5rem;
 
         font-size: 1.25rem;
     }
@@ -237,14 +239,20 @@ textarea{
 .input-group{
     background-color: var(--bg-bw);
 
-    @include d-flex(row, normal, center);
+    @include d-flex(row, normal, stretch);
+
+    > * {
+        &:not(:first-child){
+            margin-left: -1px;
+        }
+    }
 
     .input-group-before,
     .input-group-after {
         @include d-flex(row, normal, center);
 
         .btn{
-            height: calc(0.875rem + 1rem + 2px);
+            height: 100%;
 
             padding: 0.5rem 0.75rem;
 
@@ -259,7 +267,7 @@ textarea{
         }
 
         .input-group-text{
-            height: calc(0.875rem + 1rem + 2px);
+            height: 100%;
 
             padding: 0.5rem 0.75rem;
 
@@ -276,8 +284,8 @@ textarea{
     .input-group-before{
         .btn,
         .input-group-text {
-            border-right-color: transparent;
-            border-right-width: 0;
+            // border-right-color: transparent;
+            // border-right-width: 0;
 
             @include borderRadiusCustom(top, right, 0);
             @include borderRadiusCustom(bottom, right, 0);
@@ -287,8 +295,8 @@ textarea{
     .input-group-after {
         .btn,
         .input-group-text {
-            border-left-color: transparent;
-            border-left-width: 0;
+            // border-left-color: transparent;
+            // border-left-width: 0;
 
             @include borderRadiusCustom(top, left, 0);
             @include borderRadiusCustom(bottom, left, 0);

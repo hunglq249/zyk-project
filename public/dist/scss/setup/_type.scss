@@ -12,7 +12,7 @@ body{
         font-size: $value;
         font-weight: 500;
 
-        line-height: calc($value * 1.5);
+        line-height: $value * 1.25;
 
         color: var(--text-title);
     }

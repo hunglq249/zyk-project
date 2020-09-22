@@ -1,6 +1,6 @@
-const utils = {};
+const zykUtils = {};
 
-utils.callAjax = function callAjax(options) {
+zykUtils.callAjax = function callAjax(options) {
 	var formData = new FormData();
 	formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 	$.each(options.data, function (key, value) {
@@ -36,7 +36,7 @@ utils.callAjax = function callAjax(options) {
 	});
 };
 
-utils.buildUrl = function (url, k, v) {
+zykUtils.buildUrl = function (url, k, v) {
 	let key = encodeURIComponent(k),
 		value = encodeURIComponent(v);
 
@@ -66,4 +66,14 @@ utils.buildUrl = function (url, k, v) {
 	}
 	params = params === '?' ? '' : params;
 	return baseUrl + params;
+};
+
+zykUtils.validateEmail = function(input){
+    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return res.test(String(input).toLowerCase());
+};
+
+zykUtils.validatePhone = function(input){
+    const res = /^(?=(?:\D*\d){10,15}\D*$)\+?[0-9]{1,3}[\s-]?(?:\(0?[0-9]{1,5}\)|[0-9]{1,5})[-\s]?[0-9][\d\s-]{5,7}\s?(?:x[\d-]{0,4})?$/;
+    return res.test(String(input).toLowerCase());
 };
