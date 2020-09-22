@@ -63,7 +63,7 @@ const zykVar = {
 	},
 };
 
-const zykUtil = {
+const zykApp = {
 	typeOf(obj) {
 		return {}.toString
 			.call(obj)
@@ -576,7 +576,7 @@ class Calendar {
                                             ${monthpickerButtons}
                                         </div>
                                     </div>
-                                    
+
                                     <input type="hidden" value="${_this.currentMonth}">
                                     <input type="hidden" value="${_this.currentYear}">
                                 </div>
@@ -1050,7 +1050,7 @@ class Pagination {
             ${this.getListPages()}
 
             <a href="#" class="pagination-item pagination-item-next btn"
-                onclick="${_this.config.action}(${_this.config.current + 1}, ${_this.config.extendParams ? _this.config.extendParams : ''})" 
+                onclick="${_this.config.action}(${_this.config.current + 1}, ${_this.config.extendParams ? _this.config.extendParams : ''})"
                 role="button" ${_this.config.current == _this.config.limit ? 'style="display: none;"' : ''}>
                 ${_this.lang.prev} <i class="els el-lg el-caret-right"></i>
             </a>
@@ -1380,7 +1380,7 @@ var Popup = (function () {
 	const _proto = Popup.prototype;
 
 	_proto.getConfig = function getConfig(config) {
-		config = zykUtil.configSpread(POPUP_DEFAULT, config);
+		config = zykApp.configSpread(POPUP_DEFAULT, config);
 
 		return config;
 	};
@@ -1397,7 +1397,7 @@ var Popup = (function () {
 		}
 
 		// Block body
-		zykUtil.bodyBlock(true);
+		zykApp.bodyBlock(true);
 
 		let showEvent = $.Event(POPUP_EVENT.SHOW, {
 			target: target,
@@ -1489,7 +1489,7 @@ var Popup = (function () {
 		$(this.element).trigger(POPUP_EVENT.HIDDEN);
 
 		// Unlock body
-		zykUtil.bodyBlock(false);
+		zykApp.bodyBlock(false);
 	};
 
 	_proto.showBackdrop = function showBackdrop(callback) {
@@ -1586,7 +1586,7 @@ var Popup = (function () {
 		return this.each(function () {
 			let data = $(this).data(POPUP_EVENT_KEY);
 
-			let _config = zykUtil.configSpread(POPUP_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+			let _config = zykApp.configSpread(POPUP_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
 
 			if (!data) {
 				data = new Popup(this, _config);
@@ -1613,7 +1613,7 @@ $(document).on(POPUP_EVENT.CLICK, POPUP_SELECTOR.TOGGLE, function (e) {
 
 	let target = $(this).data('target');
 
-	let config = $(target).data(POPUP_EVENT_KEY) ? 'toggle' : zykUtil.configSpread($(target).data(), $(this).data());
+	let config = $(target).data(POPUP_EVENT_KEY) ? 'toggle' : zykApp.configSpread($(target).data(), $(this).data());
 
 	if (this.tagName == 'A') {
 		e.preventDefault();
@@ -1759,9 +1759,9 @@ class Navheader {
 			$(_this.btnExpand).toggleClass(NAVHEADER_CLASSNAME.ACTIVE);
 
 			if ($(_this.btnExpand).hasClass(NAVHEADER_CLASSNAME.ACTIVE)) {
-				zykUtil.bodyBlock(true);
+				zykApp.bodyBlock(true);
 			} else {
-				zykUtil.bodyBlock();
+				zykApp.bodyBlock();
 			}
 		});
 	}
@@ -1812,7 +1812,7 @@ var Check = (function () {
 	const _proto = Check.prototype;
 
 	_proto.getConfig = function getConfig(config) {
-		config = zykUtil.configSpread(CHECK_DEFAULT, config);
+		config = zykApp.configSpread(CHECK_DEFAULT, config);
 
 		return config;
 	};
@@ -1878,7 +1878,7 @@ var Check = (function () {
 		return this.each(function () {
 			let data = $(this).data(CHECK_EVENT_KEY);
 
-			let _config = zykUtil.configSpread(CHECK_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+			let _config = zykApp.configSpread(CHECK_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
 
 			if (!data) {
 				data = new Check(this, _config);
@@ -1954,7 +1954,7 @@ var ListTree = (function () {
 	const _proto = ListTree.prototype;
 
 	_proto.getConfig = function getConfig(config) {
-		config = zykUtil.configSpread(LIST_TREE_DEFAULT, config);
+		config = zykApp.configSpread(LIST_TREE_DEFAULT, config);
 
 		return config;
 	};
@@ -1974,7 +1974,7 @@ var ListTree = (function () {
 		return this.each(function () {
 			let data = $(this).data(LIST_TREE_EVENT_KEY);
 
-			let _config = zykUtil.configSpread(LIST_TREE_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+			let _config = zykApp.configSpread(LIST_TREE_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
 
 			if (!data) {
 				data = new ListTree(this, _config);
@@ -2056,7 +2056,7 @@ var Collapse = (function () {
 	const _proto = Collapse.prototype;
 
 	_proto.getConfig = function getConfig(config) {
-		config = zykUtil.configSpread(COLLAPSE_DEFAULT, config);
+		config = zykApp.configSpread(COLLAPSE_DEFAULT, config);
 
 		return config;
 	};
@@ -2133,7 +2133,7 @@ var Collapse = (function () {
 		return this.each(function () {
 			let data = $(this).data(COLLAPSE_EVENT_KEY);
 
-			let _config = zykUtil.configSpread(COLLAPSE_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+			let _config = zykApp.configSpread(COLLAPSE_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
 
 			if (!data) {
 				data = new Collapse(this, _config);
@@ -2158,7 +2158,7 @@ var Collapse = (function () {
 $(document).on(COLLAPSE_EVENT.CLICK, COLLAPSE_SELECTOR.TOGGLE, function (e) {
 	let target = $(this).data('target');
 
-	let config = $(target).data(COLLAPSE_EVENT_KEY) ? 'toggle' : zykUtil.configSpread($(target).data(), $(this).data());
+	let config = $(target).data(COLLAPSE_EVENT_KEY) ? 'toggle' : zykApp.configSpread($(target).data(), $(this).data());
 
 	if (this.tagName == 'A') {
 		e.preventDefault();
@@ -2233,7 +2233,7 @@ var Dropdown = (function () {
 	const _proto = Dropdown.prototype;
 
 	_proto.getConfig = function getConfig(config) {
-		config = zykUtil.configSpread(DROPDOWN_DEFAULT, config);
+		config = zykApp.configSpread(DROPDOWN_DEFAULT, config);
 
 		return config;
 	};
@@ -2253,7 +2253,7 @@ var Dropdown = (function () {
 	_proto.show = function show() {
 		const _this = this;
 
-		zykUtil.checkPopper();
+		zykApp.checkPopper();
 
 		_this.popper = Popper.createPopper(_this.element, _this.menu, _this.getPopperConfig());
 
@@ -2342,7 +2342,7 @@ var Dropdown = (function () {
 		return this.each(function () {
 			let data = $(this).data(DROPDOWN_EVENT_KEY);
 
-			let _config = $(this).data(DROPDOWN_EVENT_KEY) ? $(this).data(DROPDOWN_EVENT_KEY) : zykUtil.configSpread(DROPDOWN_DEFAULT, $(this).data());
+			let _config = $(this).data(DROPDOWN_EVENT_KEY) ? $(this).data(DROPDOWN_EVENT_KEY) : zykApp.configSpread(DROPDOWN_DEFAULT, $(this).data());
 
 			if (!data) {
 				data = new Dropdown(this, _config);
@@ -2483,7 +2483,7 @@ var Tooltip = (function () {
 	_proto.getConfig = function getConfig(config) {
 		let dataAttributes = $(this.element).data();
 
-		config = zykUtil.configSpread(TOOLTIP_DEFAULT, dataAttributes, config);
+		config = zykApp.configSpread(TOOLTIP_DEFAULT, dataAttributes, config);
 
 		return config;
 	};

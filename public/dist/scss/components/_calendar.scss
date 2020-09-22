@@ -4,8 +4,6 @@
 
     padding: 0.5rem;
 
-    background-color: var(--bg-bw);
-
     @include borderRadius();
 
     &.calendar-bordered{
@@ -38,7 +36,7 @@
     }
 
     .calendar-header {
-        height: 50px;
+        height: 70px;
 
         @include d-flex(row, space-between, center);
 
@@ -159,8 +157,6 @@
             }
 
             .calendar-table-header {
-                background-color: #fff;
-
                 position: sticky;
                 position: -webkit-sticky;
                 top: 0;

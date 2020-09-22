@@ -1,4 +1,134 @@
 <div class="container" style="min-height: 100vh; padding: 3rem 0">
+    <div class="test-form" style="margin-bottom: 4rem">
+        <form action="">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label>Input text</label>
+                    <input type="text" class="form-control">
+                    <small class="form-text text-danger">Invalid</small>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Input email</label>
+                    <input type="email" class="form-control">
+                    <small class="form-text text-success">Valid</small>
+                </div>
+
+                <div class="form-group col-md-8">
+                    <label>Select</label>
+                    <select class="form-control">
+                        <optgroup value="Group 1">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </optgroup>
+                    </select>
+                    <small class="form-text text-warning">Warning</small>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label>Select</label>
+                    <div class="input-group">
+                        <div class="input-group-before">
+                            <span class="input-group-text">
+                                Input group
+                            </span>
+                        </div>
+                        <input type="text" class="form-control">
+                        <input type="email" class="form-control">
+                        <div class="input-group-after">
+                            <button class="btn btn-outline-primary" type="button">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                    <small class="form-text text-warning">Warning</small>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" style="margin-bottom: 3rem">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="mask">
+                    <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
+                </div>
+
+                <div class="card-body">
+                    <h6 class="subtitle-md">
+                        This is Card Title
+                    </h6>
+
+                    <p>
+                        This is Card Praragraph
+                    </p>
+                </div>
+
+                <div class="card-actions">
+                    <a href="#">
+                        Link
+                    </a>
+
+                    <button class="btn btn-primary" type="button">
+                        Button
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="mask">
+                    <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
+                </div>
+
+                <div class="card-body">
+                    <h6 class="subtitle-md">
+                        This is Card Title
+                    </h6>
+
+                    <p>
+                        This is Card Praragraph
+                    </p>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn" type="button">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" type="button">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        @for($i=0;$i<3;$i++)
+            <div class="card">
+                <div class="card-header">
+                    <a href="#" data-toggle="collapse" data-target="#collapse{{$i+1}}">
+                        <h6>
+                            Heading {{$i+1}}
+                        </h6>
+
+                        <i class="elo el-lg el-caret-right @if($i==0) rotated @endif"></i>
+                    </a>
+                </div>
+
+                <div class="collapse @if($i==0) show @endif" id="collapse{{$i+1}}" data-parent="#accordionExample" data-show="{{ $i==0 ? 'true' : 'false' }}">
+                    <div class="card-body">
+                        <p class="mb-4">
+                            Sed lacinia eleifend aliquet. Cras ac accumsan ipsum, nec imperdiet eros. Praesent diam nulla, cursus eget congue in, malesuada vitae nulla. Curabitur tempus nunc eget odio tempor accumsan et nec nibh. Fusce neque dolor, condimentum in massa et, sagittis ornare orci. Donec consectetur eu ex vitae egestas. Morbi orci sem, porta id porttitor vel, mattis a mi. Praesent et erat condimentum, feugiat purus quis, porta nunc. Donec vel consectetur metus. Nulla sed scelerisque risus. Pellentesque quis dapibus lorem, eget suscipit ipsum. Vestibulum pretium dui sed molestie dapibus. Quisque lobortis mi auctor dui suscipit porta. Nulla facilisi.
+                        </p>
+                        <p class="mb-4">
+                            Sed lacinia eleifend aliquet. Cras ac accumsan ipsum, nec imperdiet eros. Praesent diam nulla, cursus eget congue in, malesuada vitae nulla. Curabitur tempus nunc eget odio tempor accumsan et nec nibh. Fusce neque dolor, condimentum in massa et, sagittis ornare orci. Donec consectetur eu ex vitae egestas. Morbi orci sem, porta id porttitor vel, mattis a mi. Praesent et erat condimentum, feugiat purus quis, porta nunc. Donec vel consectetur metus. Nulla sed scelerisque risus. Pellentesque quis dapibus lorem, eget suscipit ipsum. Vestibulum pretium dui sed molestie dapibus. Quisque lobortis mi auctor dui suscipit porta. Nulla facilisi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endfor
+    </div>
+
     <div class="test-grid" style="margin: 3rem 0">
         <div class="row" style="margin-bottom: 3rem">
             <div class="col-md-2">
@@ -143,6 +273,42 @@
         <button class="btn btn-sm btn-outline-default" type="button">
             Button sm
         </button>
+
+        @php
+            $buttons = ['default', 'primary', 'secondary', 'success', 'warning', 'danger', 'link', 'light', 'dark'];
+        @endphp
+
+        <div class="row">
+            <div class="col">
+                <div class="buttons">
+                    @foreach ($buttons as $button)
+                        <button class="btn btn-{{ $button }}" type="button">
+                            Button {{ $button }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="buttons">
+                    @foreach ($buttons as $button)
+                        <button class="btn btn-outline-{{ $button }}" type="button">
+                            Button outline {{ $button }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="buttons">
+                    @foreach ($buttons as $button)
+                        <button class="btn btn-dashed-{{ $button }}" type="button">
+                            Button dashed {{ $button }}
+                        </button>
+                    @endforeach
+                </div>  
+            </div>
+        </div>
     </div>
     
     <div class="test-progress" style="margin: 3rem 0">
@@ -736,54 +902,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        @for($i=0;$i<3;$i++)
-            <div class="col-md-4">
-                <div class="card @if($i==2) card-no-shadow @endif">
-                    <div class="mask">
-                        <img src="https://images.unsplash.com/photo-1593854152006-6dbc3e036ed8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="Image">
-                    </div>
-
-                    <div class="card-body">
-                        <h6 class="subtitle-md">
-                            This is Card Title
-                        </h6>
-
-                        <p>
-                            This is Card Praragraph
-                        </p>
-                    </div>
-                </div>
-            </div>
-        @endfor
-    </div>
-
-    <div class="accordion" id="accordionExample">
-        @for($i=0;$i<3;$i++)
-            <div class="card">
-                <div class="card-header">
-                    <a href="#" data-toggle="collapse" data-target="#collapse{{$i+1}}">
-                        <h6>
-                            Heading {{$i+1}}
-                        </h6>
-
-                        <i class="elo el-lg el-caret-right @if($i==0) rotated @endif"></i>
-                    </a>
-                </div>
-
-                <div class="collapse @if($i==0) show @endif" id="collapse{{$i+1}}" data-parent="#accordionExample" data-show="{{ $i==0 ? 'true' : 'false' }}">
-                    <div class="card-body">
-                        <p class="mb-4">
-                            Sed lacinia eleifend aliquet. Cras ac accumsan ipsum, nec imperdiet eros. Praesent diam nulla, cursus eget congue in, malesuada vitae nulla. Curabitur tempus nunc eget odio tempor accumsan et nec nibh. Fusce neque dolor, condimentum in massa et, sagittis ornare orci. Donec consectetur eu ex vitae egestas. Morbi orci sem, porta id porttitor vel, mattis a mi. Praesent et erat condimentum, feugiat purus quis, porta nunc. Donec vel consectetur metus. Nulla sed scelerisque risus. Pellentesque quis dapibus lorem, eget suscipit ipsum. Vestibulum pretium dui sed molestie dapibus. Quisque lobortis mi auctor dui suscipit porta. Nulla facilisi.
-                        </p>
-                        <p class="mb-4">
-                            Sed lacinia eleifend aliquet. Cras ac accumsan ipsum, nec imperdiet eros. Praesent diam nulla, cursus eget congue in, malesuada vitae nulla. Curabitur tempus nunc eget odio tempor accumsan et nec nibh. Fusce neque dolor, condimentum in massa et, sagittis ornare orci. Donec consectetur eu ex vitae egestas. Morbi orci sem, porta id porttitor vel, mattis a mi. Praesent et erat condimentum, feugiat purus quis, porta nunc. Donec vel consectetur metus. Nulla sed scelerisque risus. Pellentesque quis dapibus lorem, eget suscipit ipsum. Vestibulum pretium dui sed molestie dapibus. Quisque lobortis mi auctor dui suscipit porta. Nulla facilisi.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        @endfor
     </div>
 </div>

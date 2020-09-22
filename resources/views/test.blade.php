@@ -27,7 +27,7 @@
         <title>Testing elements</title>
     </head>
 
-    <body style="background-color: var(--bg-body);">
+    <body class="theme-default" style="background-color: var(--bg-body)">
         <div id="appendUi">
             <!-- CONTENT APPENDS HERE -->
         </div>
