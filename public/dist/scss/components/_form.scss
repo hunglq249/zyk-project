@@ -1,6 +1,6 @@
 .form-control{
     width: 100%;
-    min-height: calc(0.875rem + 1rem + 2px);
+    min-height: calc(1rem + 1rem + 2px);
     
     margin-bottom: 0.5rem;
 
@@ -9,7 +9,8 @@
     background-color: var(--bg-bw);
     color: var(--text-paragraph);
 
-    font-size: 0.875rem;
+    font-family: var(--webfont-family);
+    font-size: 1rem;
 
     vertical-align: middle;
     
