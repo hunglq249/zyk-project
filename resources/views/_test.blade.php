@@ -2,18 +2,18 @@
     <div class="test-form" style="margin-bottom: 4rem">
         <form action="">
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-12">
                     <label>Input text</label>
                     <input type="text" class="form-control">
                     <small class="form-text text-danger">Invalid</small>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label>Input email</label>
                     <input type="email" class="form-control">
                     <small class="form-text text-success">Valid</small>
                 </div>
 
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-6">
                     <label>Select</label>
                     <select class="form-control">
                         <optgroup value="Group 1">
