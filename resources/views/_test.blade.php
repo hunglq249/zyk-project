@@ -1,4 +1,137 @@
 <div class="container" style="min-height: 100vh; padding: 3rem 0">
+    <div class="test-text-wrapper" style="margin-bottom: 4rem">
+        <div class="row">
+            <div class="col-md-2 d-md-none">
+                <p class="text-wrapper">
+                    Hello this is an example of text wrapper
+                </p>
+
+                <h6 class="text-wrapper">
+                    Hello this is an example of text wrapper
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="test-table" style="margin-bottom: 4rem">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Heading 1</th>
+                    <th>Heading 2</th>
+                    <th>Heading 3</th>
+                    <th>Heading 4 Heading 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Heading 1</th>
+                    <th>Heading 2</th>
+                    <th>Heading 3</th>
+                    <th>Heading 4 Heading 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Heading 1</th>
+                    <th>Heading 2</th>
+                    <th>Heading 3</th>
+                    <th>Heading 4 Heading 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Heading 1</th>
+                    <th>Heading 2</th>
+                    <th>Heading 3</th>
+                    <th>Heading 4 Heading 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>It's</td>
+                    <td>an example</td>
+                    <td>of</td>
+                    <td>Table</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="test-form" style="margin-bottom: 4rem">
         <form action="">
             <div class="row">
@@ -46,6 +179,26 @@
         </form>
     </div>
     <div class="row" style="margin-bottom: 3rem">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6>
+                        Card header
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6 class="subtitle-md">
+                        Card body
+                    </h6>
+                    <p>
+                        This is Card Praragraph
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Card footer
+                </div>
+            </div>
+        </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="mask">

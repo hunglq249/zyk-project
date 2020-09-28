@@ -2553,6 +2553,14 @@ p.p-overline {
   margin-right: auto;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+
 .w-10 {
   width: 10% !important;
 }
@@ -2734,6 +2742,43 @@ p.p-overline {
           order: 12 !important;
 }
 
+.text-wrapper {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 576px) {
+  .d-sm-none {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .d-md-none {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .d-lg-none {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .d-xl-none {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .d-xxl-none {
+    display: none;
+  }
+}
+
 body::-webkit-scrollbar, html::-webkit-scrollbar {
   width: 8px;
   background-color: transparent;
@@ -2907,6 +2952,7 @@ a.badge.badge-default:hover {
   padding: 0.5rem 1rem;
   font-family: var(--webfont-family);
   font-size: 1rem;
+  color: var(--text-paragraph);
   border: 1px solid transparent;
   border-radius: 0.5rem;
   display: inline-block;
@@ -3440,12 +3486,14 @@ a.badge.badge-default:hover {
   -o-border-top-right-radius: 0.5rem;
 }
 
-.card .card-body {
+.card .card-header,
+.card .card-body,
+.card .card-footer {
   padding: 0.75rem;
 }
 
+.card .card-header,
 .card .card-footer {
-  padding: 0.75rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5925,6 +5973,89 @@ textarea.form-control {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.table {
+  width: 100%;
+  caption-side: bottom;
+  border-collapse: collapse;
+}
+
+.table.table-bordered tr:last-of-type {
+  border-bottom: 1px solid var(--border);
+}
+
+.table.table-bordered tr th,
+.table.table-bordered tr td {
+  border-left: 1px solid var(--border);
+}
+
+.table.table-bordered tr th:last-child,
+.table.table-bordered tr td:last-child {
+  border-right: 1px solid var(--border);
+}
+
+.table.table-bordered tr th {
+  border-top: 1px solid var(--border);
+}
+
+.table.table-borderless tr {
+  border-bottom: none;
+}
+
+.table.table-borderless thead {
+  border-bottom: none;
+}
+
+.table.table-striped tr {
+  border-bottom: none;
+}
+
+.table.table-striped thead {
+  border-bottom: none;
+}
+
+.table.table-striped tbody tr:nth-child(odd) {
+  background-color: var(--gray-1);
+}
+
+.table thead,
+.table tbody,
+.table tfoot,
+.table tr,
+.table th,
+.table td {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+.table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.table tr:last-of-type {
+  border-bottom: none;
+}
+
+.table tr th,
+.table tr td {
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.table thead {
+  border-bottom: 2px solid var(--border);
+}
+
+.table thead tr th {
+  font-weight: 600;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tooltip {
