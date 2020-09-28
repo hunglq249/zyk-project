@@ -21,13 +21,14 @@
         @include borderRadiusCustom(top, right);
     }
 
-    .card-body{
+    .card-header,
+    .card-body,
+    .card-footer{
         padding: 0.75rem;
     }
 
+    .card-header,
     .card-footer{
-        padding: 0.75rem;
-
         @include d-flex(row, space-between, center);
     }
 
