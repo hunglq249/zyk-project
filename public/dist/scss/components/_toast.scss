@@ -1,0 +1,133 @@
+$toast-colors: (
+    'success': $color-success,
+    'warning': $color-warning,
+	'danger': $color-danger,
+	'link': $color-link
+);
+
+.toast{
+	margin-bottom: 0.75rem;
+
+	@include borderRadius();
+	@include boxShadowDf();
+
+	&.toast-primary{
+		.toast-header{
+			background-color: var(--primary);
+			color: var(--white);
+
+			h6,
+			p,
+			i,
+			.btn{
+				color: var(--white);
+			}
+		}
+
+		.toast-body{
+			background-color: transparentize($color-primary, 0.75);
+
+			p{
+				color: var(--primary);
+			}
+		}
+	}
+
+	&.toast-secondary{
+		.toast-header{
+			background-color: var(--secondary);
+			color: var(--white);
+
+			h6,
+			p,
+			i,
+			.btn{
+				color: var(--white);
+			}
+		}
+
+		.toast-body{
+			background-color: transparentize($color-secondary, 0.75);
+
+			p{
+				color: var(--secondary);
+			}
+		}
+	}
+
+	@each $key, $value in $toast-colors{
+		&.toast-#{$key}{
+			.toast-header{
+				background-color: $value;
+				color: var(--white);
+
+				h6,
+				p,
+				i,
+				.btn{
+					color: var(--white);
+				}
+			}
+
+			.toast-body{
+				background-color: transparentize($value, 0.75);
+
+				p{
+					color: $value;
+				}
+			}
+		}
+	}
+
+	.toast-header{
+		padding: 0.5rem;
+
+		background-color: var(--bg-body);
+
+		@include d-flex(row, space-between, center);
+
+		&:first-child{
+			@include borderRadiusCustom(top, left);
+			@include borderRadiusCustom(top, right);
+		}
+
+		.btn{
+			&[data-dismiss]{
+				padding: 0;
+			}
+		}
+
+		.toast-header-left{
+			@include d-flex(row, flex-start, center);
+
+			> * {
+				margin-right: 0.5rem;
+			}
+		}
+
+		.toast-header-right{
+			@include d-flex(row, flex-start, center);
+			
+			> * {
+				margin-left: 0.5rem;
+			}
+		}
+	}
+
+	.toast-body{
+		padding: 0.75rem 0.5rem;
+
+		background-color: var(--bg-bw);
+		backdrop-filter: blur(4px) opacity(50%);
+
+		&:first-child{
+			@include borderRadiusCustom(top, left);
+			@include borderRadiusCustom(top, right);
+		}
+
+		&:last-child{
+			@include borderRadiusCustom(bottom, left);
+			@include borderRadiusCustom(bottom, right);
+		}
+	}
+}

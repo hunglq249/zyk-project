@@ -1,7 +1,7 @@
 .form-control{
     width: 100%;
     min-height: calc(1rem + 1rem + 2px);
-    
+
     margin-bottom: 0.5rem;
 
     padding: 0.5rem 1rem;
@@ -13,7 +13,7 @@
     font-size: 1rem;
 
     vertical-align: middle;
-    
+
     border: 1px solid var(--border);
     @include borderRadius();
 
@@ -216,7 +216,7 @@ textarea{
                 @include transition();
             }
         }
-        
+
         .control{
             width: 16px;
             height: 16px;
@@ -255,9 +255,9 @@ textarea{
         .btn{
             height: 100%;
 
-            padding: 0.5rem 0.75rem;
+            padding: 0.5rem 1rem;
 
-            font-size: 0.875rem;
+            font-size: 1rem;
             line-height: 1;
 
             white-space: nowrap;
@@ -279,15 +279,14 @@ textarea{
             @include borderRadius();
 
             white-space: nowrap;
+
+            @include d-flex(row, center, center);
         }
     }
 
     .input-group-before{
         .btn,
         .input-group-text {
-            // border-right-color: transparent;
-            // border-right-width: 0;
-
             @include borderRadiusCustom(top, right, 0);
             @include borderRadiusCustom(bottom, right, 0);
         }
@@ -296,9 +295,6 @@ textarea{
     .input-group-after {
         .btn,
         .input-group-text {
-            // border-left-color: transparent;
-            // border-left-width: 0;
-
             @include borderRadiusCustom(top, left, 0);
             @include borderRadiusCustom(bottom, left, 0);
         }

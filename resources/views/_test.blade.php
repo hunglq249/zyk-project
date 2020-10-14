@@ -1,4 +1,142 @@
 <div class="container" style="min-height: 100vh; padding: 3rem 0">
+    <div class="input-group">
+				<div class="input-group-before">
+					<div class="input-group-text">
+						<i class="elo el-lg el-search"></i>
+					</div>
+				</div>
+				
+				<input type="search" class="form-control">
+
+				<div class="input-group-after">
+					<button class="btn btn-primary" type="button">
+						Search
+					</button>
+				</div>
+			</div>
+
+    <div class="test-toast" style="margin-bottom: 4rem; padding: 3rem 6rem;">
+        @php
+            $toasts = ['', 'primary', 'secondary', 'success', 'warning', 'danger', 'link'];
+        @endphp
+
+        @foreach ($toasts as $toast)
+            <div class="toast toast-{{$toast}}">
+                <div class="toast-header">
+                    <div class="toast-header-left">
+                        <i class="elo el-lg el-square"></i>
+
+                        <h6 class="subtitle-sm">
+                            Toast Notification
+                        </h6>
+                    </div>
+
+                    <div class="toast-header-right">
+                        <p class="p-overline">
+                            10 minutes ago
+                        </p>
+                        <button class="btn btn-sm" data-dismiss="toast" type="button">
+                            <i class="elo el-lg el-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="toast-body">
+                    <p>This is a toast message</p>
+                </div>
+            </div>
+        @endforeach
+    </div>
+    <div class="test-tabs" style="margin-bottom: 4rem">
+        <nav class="tab-controls">
+            @for ($i = 0; $i < 5; $i++)
+                <a href="#" class="tab-item {{ $i == 0 ? 'active' : '' }} {{ $i == 3 ? 'disabled' : '' }}" data-toggle="tab" data-target="#tab_1_{{ $i + 1 }}" {{ $i == 4 ? 'disabled' : '' }}>
+                    Tab#{{ $i + 1 }}
+                </a>
+            @endfor
+        </nav>
+        <div class="tab-content">
+            @for ($i = 0; $i < 5; $i++)
+                <div class="tab-pane fade {{ $i == 0 ? 'show' : ''}}" id="tab_1_{{ $i + 1}}">
+                    <h6>Tab 1.{{ $i + 1}}</h6>
+                    <p>Fusce congue nisi purus, auctor convallis ipsum congue at. In hac habitasse platea dictumst. Aenean at ex vulputate, hendrerit felis vitae, convallis sem. Integer sit amet vehicula eros. Mauris mattis nisi nec diam aliquet pellentesque. Suspendisse luctus magna mauris, fringilla ultricies leo ultrices vitae. Proin non tellus nunc. Suspendisse potenti. Morbi fermentum pulvinar velit, eget accumsan sem ultricies scelerisque. Quisque in lectus dolor. Suspendisse luctus ipsum a purus suscipit finibus cursus eu magna. Vestibulum facilisis enim libero, eget posuere sem porttitor non.</p>
+                </div>
+            @endfor
+        </div>
+    </div>
+    <div class="test-tabs" style="margin-bottom: 4rem">
+        <nav class="tab-controls">
+            @for ($i = 0; $i < 5; $i++)
+                <a href="#" class="tab-item {{ $i == 0 ? 'active' : '' }} {{ $i == 3 ? 'disabled' : '' }}" data-toggle="tab" data-target="#tab_2_{{ $i + 1 }}" {{ $i == 4 ? 'disabled' : '' }}>
+                    Tab#{{ $i + 1 }}
+                </a>
+            @endfor
+        </nav>
+        <div class="tab-content">
+            @for ($i = 0; $i < 5; $i++)
+                <div class="tab-pane {{ $i == 0 ? 'show' : ''}}" id="tab_2_{{ $i + 1}}">
+                    <h6>Tab 2.{{ $i + 1}}</h6>
+                    <p>Fusce congue nisi purus, auctor convallis ipsum congue at. In hac habitasse platea dictumst. Aenean at ex vulputate, hendrerit felis vitae, convallis sem. Integer sit amet vehicula eros. Mauris mattis nisi nec diam aliquet pellentesque. Suspendisse luctus magna mauris, fringilla ultricies leo ultrices vitae. Proin non tellus nunc. Suspendisse potenti. Morbi fermentum pulvinar velit, eget accumsan sem ultricies scelerisque. Quisque in lectus dolor. Suspendisse luctus ipsum a purus suscipit finibus cursus eu magna. Vestibulum facilisis enim libero, eget posuere sem porttitor non.</p>
+                </div>
+            @endfor
+        </div>
+    </div>
+    <div class="test-tabs" style="margin-bottom: 4rem">
+        <nav class="tab-controls tab-pills">
+            @for ($i = 0; $i < 5; $i++)
+                <a href="#" class="tab-item {{ $i == 0 ? 'active' : '' }} {{ $i == 3 ? 'disabled' : '' }}" data-toggle="tab" data-target="#tab_3_{{ $i + 1 }}" {{ $i == 4 ? 'disabled' : '' }}>
+                    Tab#{{ $i + 1 }}
+                </a>
+            @endfor
+        </nav>
+        <div class="tab-content">
+            @for ($i = 0; $i < 5; $i++)
+                <div class="tab-pane {{ $i == 0 ? 'show' : ''}}" id="tab_3_{{ $i + 1}}">
+                    <h6>Tab 3.{{ $i + 1}}</h6>
+                    <p>Fusce congue nisi purus, auctor convallis ipsum congue at. In hac habitasse platea dictumst. Aenean at ex vulputate, hendrerit felis vitae, convallis sem. Integer sit amet vehicula eros. Mauris mattis nisi nec diam aliquet pellentesque. Suspendisse luctus magna mauris, fringilla ultricies leo ultrices vitae. Proin non tellus nunc. Suspendisse potenti. Morbi fermentum pulvinar velit, eget accumsan sem ultricies scelerisque. Quisque in lectus dolor. Suspendisse luctus ipsum a purus suscipit finibus cursus eu magna. Vestibulum facilisis enim libero, eget posuere sem porttitor non.</p>
+                </div>
+            @endfor
+        </div>
+    </div>
+    <div class="test-tabs" style="margin-bottom: 4rem">
+        <nav class="tab-controls tab-underline">
+            @for ($i = 0; $i < 5; $i++)
+                <a href="#" class="tab-item {{ $i == 0 ? 'active' : '' }} {{ $i == 3 ? 'disabled' : '' }}" data-toggle="tab" data-target="#tab_4_{{ $i + 1 }}" {{ $i == 4 ? 'disabled' : '' }}>
+                    Tab#{{ $i + 1 }}
+                </a>
+            @endfor
+        </nav>
+        <div class="tab-content">
+            @for ($i = 0; $i < 5; $i++)
+                <div class="tab-pane fade {{ $i == 0 ? 'show' : ''}}" id="tab_4_{{ $i + 1}}">
+                    <h6>Tab 4.{{ $i + 1}}</h6>
+                    <p>Fusce congue nisi purus, auctor convallis ipsum congue at. In hac habitasse platea dictumst. Aenean at ex vulputate, hendrerit felis vitae, convallis sem. Integer sit amet vehicula eros. Mauris mattis nisi nec diam aliquet pellentesque. Suspendisse luctus magna mauris, fringilla ultricies leo ultrices vitae. Proin non tellus nunc. Suspendisse potenti. Morbi fermentum pulvinar velit, eget accumsan sem ultricies scelerisque. Quisque in lectus dolor. Suspendisse luctus ipsum a purus suscipit finibus cursus eu magna. Vestibulum facilisis enim libero, eget posuere sem porttitor non.</p>
+                </div>
+            @endfor
+        </div>
+    </div>
+    <div class="test-tabs" style="margin-bottom: 4rem">
+        <div class="row">
+            <div class="col-md-3">
+                <nav class="tab-controls tab-column tab-underline">
+                    @for ($i = 0; $i < 5; $i++)
+                        <a href="#" class="tab-item {{ $i == 0 ? 'active' : '' }} {{ $i == 3 ? 'disabled' : '' }}" data-toggle="tab" data-target="#tab_5_{{ $i + 1 }}" {{ $i == 4 ? 'disabled' : '' }}>
+                            Tab#{{ $i + 1 }}
+                        </a>
+                    @endfor
+                </nav>
+            </div>
+            <div class="col-md-9">
+                <div class="tab-content">
+            @for ($i = 0; $i < 5; $i++)
+                <div class="tab-pane fade {{ $i == 0 ? 'show' : ''}}" id="tab_5_{{ $i + 1}}">
+                    <h6>Tab 5.{{ $i + 1}}</h6>
+                    <p>Fusce congue nisi purus, auctor convallis ipsum congue at. In hac habitasse platea dictumst. Aenean at ex vulputate, hendrerit felis vitae, convallis sem. Integer sit amet vehicula eros. Mauris mattis nisi nec diam aliquet pellentesque. Suspendisse luctus magna mauris, fringilla ultricies leo ultrices vitae. Proin non tellus nunc. Suspendisse potenti. Morbi fermentum pulvinar velit, eget accumsan sem ultricies scelerisque. Quisque in lectus dolor. Suspendisse luctus ipsum a purus suscipit finibus cursus eu magna. Vestibulum facilisis enim libero, eget posuere sem porttitor non.</p>
+                </div>
+            @endfor
+        </div>  
+            </div>
+        </div>
+    </div>
     <div class="test-text-wrapper" style="margin-bottom: 4rem">
         <div class="row">
             <div class="col-md-2 d-md-none">

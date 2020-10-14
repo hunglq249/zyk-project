@@ -124,7 +124,7 @@
             }
 
             .popup-header {
-                padding: 0 1rem;
+                padding: 0.75rem 1.5rem;
 
                 @include d-flex(row, space-between, center);
 
@@ -138,7 +138,7 @@
             }
 
             .popup-body {
-                padding: 0 1rem 1rem;
+                padding: 1.5rem;
 
                 background-color: var(--gray-1);
 
@@ -174,9 +174,7 @@
             }
 
             .popup-footer {
-                height: 48px;
-
-                padding: 0.5rem 1rem;
+                padding: 0.75rem 1.5rem;
 
                 flex-shrink: 1;
 

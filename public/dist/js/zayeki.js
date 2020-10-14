@@ -1105,6 +1105,88 @@ class Breadcrumb {
 
 /*
 =========================================================
+TOAST
+=========================================================
+*/
+
+class Toast {
+	constructor(options) {
+		let defaultOptions = {
+			placement: {
+				y: 'top',
+				x: 'center'
+			},
+			animation: true,
+			autohide: true,
+			delay: 1000
+		};
+
+		this.config = {
+			...defaultOptions,
+			...options
+		};
+
+		this.wrapper = $('.toast-wrapper');
+
+		this.render();
+	}
+
+	render() {
+		const _this = this;
+
+		this.checkWrapperExist();
+	}
+
+	checkWrapperExist() {
+		const _this = this;
+
+		// if (_this.wrapper.length > 0) {
+		// 	_this.wrapper.remove();
+		// }
+
+		_this.renderWrapper();
+	}
+
+	renderWrapper() {
+		const _this = this;
+
+		const wrapper = '<div class="toast-wrapper" style="position: fixed; z-index: 1030"></div>';
+
+		let position = {
+			top: 'auto',
+			bottom: 'auto',
+			left: 'auto',
+			right: 'auto'
+		};
+
+		if (_this.config.placement.y == 'top') {
+			position.top = 0;
+		} else if (_this.config.placement.y == 'center') {
+			position.top = '50%';
+		} else if (_this.placement.y == 'bottom') {
+			position.bottom = 0;
+		}
+
+		if (_this.config.placement.x == 'left') {
+			position.left = 0;
+		} else if (_this.config.placement.x == 'center') {
+			position.left = '50%';
+		} else if (_this.placement.x == 'right') {
+			position.right = 0;
+		}
+
+		console.log(position, $(wrapper));
+		$(wrapper).css({
+			top: position.top,
+			bottom: position.bottom
+		});
+
+		$(wrapper).appendTo('body');
+	}
+}
+
+/*
+=========================================================
 POPUP
 =========================================================
 */
@@ -2381,3 +2463,139 @@ var Tooltip = (function () {
 
 $.fn[TOOLTIP_NAME] = Tooltip.jqueryInterface;
 $.fn[TOOLTIP_NAME].constructor = Tooltip;
+
+/*
+=========================================================
+TAB
+=========================================================
+*/
+
+const TAB_NAME = 'tab';
+const TAB_EVENT_KEY = `${ZYK_DATA_KEY}.${TAB_NAME}`;
+
+const TAB_CLASS = {
+	CONTROL: 'tab-controls',
+	ITEM: 'tab-item',
+	CONTENT: 'tab-content',
+	PANE: 'tab-pane',
+	ACTIVE: 'active',
+	SHOW: 'show',
+	FADE: 'fade',
+	DISABLED: 'disabled'
+};
+
+const TAB_SELECTOR = {
+	TOGGLE: '[data-toggle="tab"]',
+	CONTROL: `.${TAB_CLASS.CONTROL}`,
+	ITEM: `.${TAB_CLASS.ITEM}`,
+	CONTENT: `.${TAB_CLASS.CONTENT}`,
+	PANE: `.${TAB_CLASS.PANE}`,
+	PANECURRENT: `.${TAB_CLASS.PANE}.${TAB_CLASS.SHOW}`
+};
+
+const TAB_EVENT = {
+	CLICK: `click.${TAB_EVENT_KEY}`,
+	SHOW: `show.${TAB_EVENT_KEY}`,
+	SHOWN: `shown.${TAB_EVENT_KEY}`,
+	HIDE: `hide.${TAB_EVENT_KEY}`,
+	HIDDEN: `hidden.${TAB_EVENT_KEY}`
+};
+
+const TAB_DEFAULT = {};
+
+var Tab = (function () {
+	function Tab(element) {
+		this.element = element;
+
+		this.current = this.getCurrent();
+	}
+
+	const _proto = Tab.prototype;
+
+	_proto.toggle = function toggle(target) {
+		if ($(target).hasClass(TAB_CLASS.DISABLED) || $(target).attr('disabled') || $(target).hasClass(TAB_CLASS.ACTIVE)) {
+			return;
+		}
+
+		this.show(target);
+	};
+
+	_proto.show = function show(target) {
+		const _this = this;
+
+		let paneId = $(target).data('target');
+
+		$(paneId).trigger(TAB_EVENT.SHOW);
+
+		_this.hide(_this.current);
+
+		if ($(paneId).hasClass(TAB_CLASS.FADE)) {
+			$(paneId).fadeIn();
+		} else {
+			$(paneId).show();
+		}
+		$(paneId).addClass(TAB_CLASS.SHOW);
+
+		$(paneId).trigger(TAB_EVENT.SHOWN);
+
+		$(target).parent().find(TAB_SELECTOR.ITEM).removeClass(TAB_CLASS.ACTIVE);
+		$(target).addClass(TAB_CLASS.ACTIVE);
+	};
+
+	_proto.hide = function hide(target) {
+		$(target).trigger(TAB_EVENT.HIDE);
+
+		$(target).parent().find(TAB_SELECTOR.PANE).removeClass(TAB_CLASS.SHOW);
+		$(target).parent().find(TAB_SELECTOR.PANE).removeAttr('style');
+
+		$(target).trigger(TAB_EVENT.HIDDEN);
+	};
+
+	_proto.getCurrent = function gerCurrent() {
+		const _this = this;
+
+		let current = $(_this.element).parent().find(TAB_SELECTOR.PANECURRENT);
+
+		return current;
+	};
+
+	Tab.jqueryInterface = function jqueryInterface(config, target) {
+		return this.each(function () {
+			let data = $(this).data(TAB_EVENT_KEY);
+
+			let _config = zykApp.configSpread(TAB_DEFAULT, $(this).data(), typeof config == 'object' && config ? config : {});
+
+			if (!data) {
+				data = new Tab(this, _config);
+				$(this).data(TAB_EVENT_KEY, data);
+			}
+
+			if (typeof config == 'string') {
+				if (typeof data[config] == 'undefined') {
+					throw new TypeError('No method named ' + '"' + config + '"');
+				}
+
+				data[config](target);
+			} else if (_config.toggle) {
+				data.toggle(target);
+			}
+		});
+	};
+
+	return Tab;
+})();
+
+$(document).on(TAB_EVENT.CLICK, TAB_SELECTOR.TOGGLE, function (e) {
+	let target = $(this).data('target');
+
+	let config = $(target).data(TAB_EVENT_KEY) ? 'toggle' : zykApp.configSpread($(target).data(), $(this).data());
+
+	if (this.tagName == 'A') {
+		e.preventDefault();
+	}
+
+	Tab.jqueryInterface.call($(target), config, this);
+});
+
+$.fn[TAB_NAME] = Tab.jqueryInterface;
+$.fn[TAB_NAME].constructor = Tab;

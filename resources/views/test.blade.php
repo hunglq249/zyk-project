@@ -32,20 +32,24 @@
             <!-- CONTENT APPENDS HERE -->
         </div>
 
-        <button class="btn btn-primary"
-            onclick="updateTest()"
-            type="button"
-            style="position: fixed; top: 45%; left: 0; z-index: 2000; transform: translateY(-50%)"
-        >
-            <i class="fas fa-undo"></i>
-        </button>
-        <button class="btn btn-secondary"
-            onclick="window.location.reload();"
-            type="button"
-            style="position: fixed; top: 55%; left: 0; z-index: 2000; transform: translateY(-50%)"
-        >
-            <i class="fas fa-undo"></i>
-        </button>
+        <div class="d-flex flex-column" style="position: fixed; top:50%; left: 0; z-index: 1030">
+            <button class="btn btn-primary"
+                onclick="updateTest()"
+                type="button">
+                <i class="fas fa-undo"></i>
+            </button>
+            <button class="btn btn-secondary"
+                onclick="window.location.reload();"
+                type="button">
+                <i class="fas fa-undo"></i>
+            </button>
+
+            <button class="btn btn-secondary"
+                onclick="switchTheme();"
+                type="button">
+                <i class="fas fa-lightbulb"></i>
+            </button>
+        </div>
     </body>
 
     <script>
@@ -94,6 +98,22 @@
             })
 
             $('#tooltipManual').on('hidden.zyk.tooltip', function(){
+                console.log('hidden')
+            })
+
+            $('#tab_1_2').on('show.zyk.tab', function(){
+                console.log('show')
+            })
+
+            $('#tab_1_2').on('shown.zyk.tab', function(){
+                console.log('shown')
+            })
+
+            $('#tab_1_2').on('hide.zyk.tab', function(){
+                console.log('hide')
+            })
+
+            $('#tab_1_2').on('hidden.zyk.tab', function(){
                 console.log('hidden')
             })
 

@@ -1,12 +1,18 @@
 // TEXT COLORS
 $text-colors: (
-    'primary': $color-primary,
-    'secondary': $color-secondary,
     'success': $color-success,
     'warning': $color-warning,
     'danger': $color-danger,
     'link': $color-link,
 );
+
+.text-primary{
+    color: var(--primary);
+}
+
+.text-secondary{
+    color: var(--secondary);
+}
 
 @each $key, $value in $text-colors{
     .text-#{$key}{
@@ -118,6 +124,13 @@ $flex-align: (
 $value in $flex-justify {
     .align-items-#{$key} {
         align-items: $value !important;
+    }
+}
+
+$flex-direction: (row, column, row-reverse, column-reverse);
+@each $value in $flex-direction{
+    .flex-#{$value}{
+        flex-direction: #{$value};
     }
 }
 
