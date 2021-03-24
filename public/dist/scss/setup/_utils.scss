@@ -48,6 +48,16 @@ $text-transform: (
     word-break: break-word !important;
 }
 
+// TEXT WRAP
+.text-wrap{
+    width: 100%;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
 // PADDING/ MARGIN CLASSES
 @for $i from 0 through 8 {
     @each $key, $value in $direction {

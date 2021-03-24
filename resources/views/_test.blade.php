@@ -1,19 +1,450 @@
 <div class="container" style="min-height: 100vh; padding: 3rem 0">
-    <div class="input-group">
-				<div class="input-group-before">
-					<div class="input-group-text">
-						<i class="elo el-lg el-search"></i>
-					</div>
-				</div>
-				
-				<input type="search" class="form-control">
+    {{-- <div class="list-table-responsive" style="margin-bottom: 2rem">
+        <div class="list-items list-table" id="testTableData"></div>
+    </div>
 
-				<div class="input-group-after">
-					<button class="btn btn-primary" type="button">
-						Search
-					</button>
-				</div>
-			</div>
+    <div class="list-table-responsive" style="margin-bottom: 2rem">
+        <div class="list-items list-table" id="testTableData1"></div>
+    </div> --}}
+
+    <div style="margin-bottom: 2rem">
+        <div class="list-items list-table list-table-tree">
+            <div class="list-table-control-v">
+                <div class="list-table-control-wrapper">
+                    <div class="control"></div>
+                </div>
+            </div>
+
+            <div class="list-items-body">
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-col-3"></div>
+                        <div class="item-col-9 item-col-nowrap">
+                            <div class="list-table-control-h">
+                                <div class="list-table-control-wrapper">
+                                    <div class="control"></div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-col">
+                                    <div class="item-row">
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 1
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="item-row">
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 1.1
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 1.2
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item-col">
+                                    <div class="item-row">
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 2
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="item-row">
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 2.1
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 2.2
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 2.3
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item-col">
+                                    <div class="item-row">
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="item-row">
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3.1
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3.2
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3.3
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3.4
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3.5
+                                            </p>
+                                        </div>
+                                        <div class="item-col v-align-center">
+                                            <p class="p-overline">
+                                                Group 3.6
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-col-12">
+                            <h6 class="subtitle-sm">
+                                Group heading
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="item-row-wrapper" style="--level: 1">
+                        <div class="item">
+                            <div class="item-row">
+                                <div class="item-col-3">
+                                    <p class="p-sm">
+                                        Group child
+                                    </p>
+                                </div>
+                                <div class="item-col-9` item-col-nowrap">
+                                    <div class="item-row">
+                                        <div class="item-col">
+                                            <div class="item-row">
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="item-col">
+                                            <div class="item-row">
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        2
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="item-col">
+                                            <div class="item-row">
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        2
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        2
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-row">
+                                <div class="item-col-3">
+                                    <p class="p-sm">
+                                        Group child
+                                    </p>
+                                </div>
+                                <div class="item-col-9 item-col-nowrap">
+                                    <div class="item-row">
+                                        <div class="item-col">
+                                            <div class="item-row">
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="item-col">
+                                            <div class="item-row">
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        2
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="item-col">
+                                            <div class="item-row">
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        2
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        0
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        2
+                                                    </p>
+                                                </div>
+                                                <div class="item-col v-align-center">
+                                                    <p class="p-sm">
+                                                        1
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="list-table-responsive" style="margin-bottom: 2rem">
+        <div class="list-items list-table list-table-bordered">
+            <div class="list-items-header">
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-col-1">
+                            <p class="p-overline">
+                                #
+                            </p>
+                        </div>
+                        <div class="item-col-2">
+                            <p class="p-overline">
+                                Title 1
+                            </p>
+                        </div>
+                        <div class="item-col-2">
+                            <p class="p-overline">
+                                Somthing more
+                            </p>
+                        </div>
+                        <div class="item-col-3">
+                            <div class="item-row">
+                                <div class="item-col-12">
+                                    <p class="p-overline text-center">
+                                        Title 2
+                                    </p>
+                                </div>
+                                <div class="item-col">
+                                    <p class="p-overline text-center">
+                                        Option 1
+                                    </p>
+                                </div>
+                                <div class="item-col">
+                                    <p class="p-overline text-center">
+                                        Option 2
+                                    </p>
+                                </div>
+                                <div class="item-col">
+                                    <p class="p-overline text-center">
+                                        Option 3
+                                    </p>
+                                </div>
+                                <div class="item-col">
+                                    <p class="p-overline text-center">
+                                        Option 4
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-col-2">
+                            <p class="p-overline">
+                                Title 3
+                            </p>
+                        </div>
+                        <div class="item-col-2 item-actions"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-items-body">
+                @for($i=0;$i<15;$i++)
+                    <div class="item">
+                        <div class="item-row">
+                            <div class="item-col-1">
+                                <p>
+                                    {{$i+1}}
+                                </p>
+                            </div>
+                            <div class="item-col-2">
+                                <div class="d-flex align-items-center">
+                                    <h6 class="subtitle-md">
+                                        Title 1
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="item-col-2">
+                                <div class="d-flex align-items-center">
+                                    <p>
+                                        Title {{$i+1}}
+                                    </p>
+                                    <a href="#" style="margin-left: 0.5rem; font-size: 0.875rem">
+                                        <i class="elo el-lg el-circle"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item-col-3">
+                                <div class="item-row">
+                                    <div class="item-col">
+                                        <p class="p-sm text-center">
+                                            Option 1 with email hahahahahahahahahah@gmeooooooo.com
+                                        </p>
+                                    </div>
+                                    <div class="item-col">
+                                        <p class="p-sm text-center">
+                                            Option 2 but very long content
+                                        </p>
+                                    </div>
+                                    <div class="item-col">
+                                        <p class="p-sm text-center">
+                                            Option 3
+                                        </p>
+                                    </div>
+                                    <div class="item-col">
+                                        <p class="p-sm text-center">
+                                            Option 4
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-col-2">
+                                <p>
+                                    Title 3
+                                </p>
+                            </div>
+                            <div class="item-col-2 item-actions">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm" type="button">
+                                        <i class="elo el-lg el-pencil-alt"></i>
+                                    </button>
+                                    <button class="btn btn-sm" type="button">
+                                        <i class="elo el-lg el-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endfor
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <div class="input-group-before">
+            <div class="input-group-text">
+                <i class="elo el-lg el-search"></i>
+            </div>
+        </div>
+        
+        <input type="search" class="form-control">
+
+        <div class="input-group-after">
+            <button class="btn btn-primary" type="button">
+                Search
+            </button>
+        </div>
+    </div>
 
     <div class="test-toast" style="margin-bottom: 4rem; padding: 3rem 6rem;">
         @php
@@ -619,267 +1050,6 @@
                     Loading...
                 </p>
             </div>
-        </div>
-    </div>
-
-    <div class="list-table-responsive" style="margin-bottom: 2rem">
-        <div class="list-items list-table list-table-bordered">
-            <div class="list-items-header">
-                <div class="item-row">
-                    <div class="item-col-1">
-                        <p class="p-overline">
-                            #
-                        </p>
-                    </div>
-                    <div class="item-col-2">
-                        <p class="p-overline">
-                            Title 1
-                        </p>
-                    </div>
-                    <div class="item-col-2">
-                        <p class="p-overline">
-                            Somthing more
-                        </p>
-                    </div>
-                    <div class="item-col-3">
-                        <div class="item-row">
-                            <div class="item-col-12">
-                                <p class="p-overline text-center">
-                                    Title 2
-                                </p>
-                            </div>
-                            <div class="item-col">
-                                <p class="p-overline text-center">
-                                    Option 1
-                                </p>
-                            </div>
-                            <div class="item-col">
-                                <p class="p-overline text-center">
-                                    Option 2
-                                </p>
-                            </div>
-                            <div class="item-col">
-                                <p class="p-overline text-center">
-                                    Option 3
-                                </p>
-                            </div>
-                            <div class="item-col">
-                                <p class="p-overline text-center">
-                                    Option 4
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-col-2 item-before-actions">
-                        <p class="p-overline">
-                            Title 3
-                        </p>
-                    </div>
-                    <div class="item-col-2 item-actions"></div>
-                </div>
-            </div>
-            <div class="list-items-body">
-                @for($i=0;$i<15;$i++)
-                    <div class="item-row">
-                        <div class="item-col-1">
-                            <p>
-                                {{$i+1}}
-                            </p>
-                        </div>
-                        <div class="item-col-2">
-                            <div class="d-flex align-items-center">
-                                <h6 class="subtitle-md">
-                                    Title 1
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="item-col-2">
-                            <div class="d-flex align-items-center">
-                                <p>
-                                    Title {{$i+1}}
-                                </p>
-                                <a href="#" style="margin-left: 0.5rem; font-size: 0.875rem">
-                                    <i class="elo el-lg el-circle"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item-col-3">
-                            <div class="item-row">
-                                <div class="item-col">
-                                    <p class="text-center">
-                                        Option 1
-                                    </p>
-                                </div>
-                                <div class="item-col">
-                                    <p class="text-center">
-                                        Option 2
-                                    </p>
-                                </div>
-                                <div class="item-col">
-                                    <p class="text-center">
-                                        Option 3
-                                    </p>
-                                </div>
-                                <div class="item-col">
-                                    <p class="text-center">
-                                        Option 4
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-col-2 item-before-actions">
-                            <p>
-                                Title 3
-                            </p>
-                        </div>
-                        <div class="item-col-2 item-actions">
-                            <div class="btn-group">
-                                <button class="btn btn-sm" type="button">
-                                    <i class="elo el-lg el-pencil-alt"></i>
-                                </button>
-                                <button class="btn btn-sm" type="button">
-                                    <i class="elo el-lg el-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endfor
-            </div>
-        </div>
-    </div>
-
-    <div class="list-items list-tree" style="margin-bottom: 2rem">
-        <div class="list-items-header">
-            <div class="item-row">
-                <div class="item-col-7 item-wrapper-control">
-                    <p class="p-overline">
-                        Title
-                    </p>
-                </div>
-                <div class="item-col-4">
-                    <p class="p-overline">
-                        Description
-                    </p>
-                </div>
-                <div class="item-col-1"></div>
-            </div>
-        </div>
-
-        <div class="list-items-body">
-            @for($i=0;$i<13;$i++)
-            <div class="item-row">
-                <div class="item-col-7 item-wrapper-control">
-                    <h6 class=" subtitle-md">
-                        <a href="#" data-toggle="list-tree" data-level="1">
-                            <i class="elo el-lg el-caret-right"></i>
-                        </a>
-                        <a href="#">
-                            Title I
-                        </a>
-                    </h6>
-                </div>
-                <div class="item-col-4">
-                    <p>
-                        Description
-                    </p>
-                </div>
-                <div class="item-col-1 item-actions">
-                    <div class="form-check-group">
-                        <div class="form-check">
-                            <input type="radio">
-                            <label data-toggle="check" data-type="radio">
-                                <i class="elo el-lg el-circle"></i>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item-wrapper item-wrapper-1">
-                    <div class="item-row">
-                        <div class="item-col-7 item-wrapper-control">
-                            <h6 class=" subtitle-md">
-                                <a href="#" data-toggle="list-tree" data-level="2">
-                                    <i class="elo el-lg el-caret-right"></i>
-                                </a>
-                                <a href="#">
-                                    Title II
-                                </a>
-                            </h6>
-                        </div>
-                        <div class="item-col-4">
-                            <p>
-                                Description
-                            </p>
-                        </div>
-                        <div class="item-col-1 item-actions">
-                            <div class="form-check-group">
-                                <div class="form-check">
-                                    <input type="radio">
-                                    <label data-toggle="check" data-type="radio">
-                                        <i class="elo el-lg el-circle"></i>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-wrapper item-wrapper-2">
-                            <div class="item-row">
-                                <div class="item-col-7 item-wrapper-control">
-                                    <h6 class=" subtitle-md">
-                                        <a href="#" data-toggle="list-tree" data-level="3">
-                                            <i class="elo el-lg el-caret-right"></i>
-                                        </a>
-                                        <a href="#">
-                                            Title III
-                                        </a>
-                                    </h6>
-                                </div>
-                                <div class="item-col-4">
-                                    <p>
-                                        Description
-                                    </p>
-                                </div>
-                                <div class="item-col-1 item-actions">
-                                    <div class="form-check-group">
-                                        <div class="form-check">
-                                            <input type="radio">
-                                            <label data-toggle="check" data-type="radio">
-                                                <i class="elo el-lg el-circle"></i>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="item-wrapper item-wrapper-3">
-                                    <div class="item-row">
-                                        <div class="item-col-7 item-wrapper-control">
-                                            <h6 class=" subtitle-md">
-                                                Title IV
-                                            </h6>
-                                        </div>
-                                        <div class="item-col-4">
-                                            <p>
-                                                Description
-                                            </p>
-                                        </div>
-                                        <div class="item-col-1 item-actions">
-                                            <div class="form-check-group">
-                                                <div class="form-check">
-                                                    <input type="radio">
-                                                    <label data-toggle="check" data-type="radio">
-                                                        <i class="elo el-lg el-circle"></i>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endfor
         </div>
     </div>
 

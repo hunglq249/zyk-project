@@ -129,6 +129,89 @@
                     link: '#',
                 }
             ])
+
+            // new TableData('#testTableData', {
+            //     border: true,
+            //     columns: [
+            //         {
+            //             label: 'Index',
+            //             size: 1
+            //         },
+            //         {
+            //             label: 'Name',
+            //             size: 3
+            //         },
+            //         {
+            //             label: 'Date of Birth',
+            //             size: '25%'
+            //         },
+            //         {
+            //             label: 'Prop',
+            //             size: '33.33%',
+            //             textAlign: 'center',
+            //             children:[
+            //                 {
+            //                     label: 'Weight',
+            //                     size: 'auto',
+            //                     textAlign: 'center',
+            //                 },
+            //                 {
+            //                     label: 'Height',
+            //                     size: 'auto',
+            //                     textAlign: 'center',
+            //                 }
+            //             ]
+            //         }
+            //     ],
+            //     data: [
+            //         {
+            //             index: 1,
+            //             name: 'Nguyen Van A',
+            //             dob: '12-02-1993',
+            //             prop: {
+            //                 weight: '80kg',
+            //                 height: '170cm'
+            //             }
+            //         },
+            //         {
+            //             index: 2,
+            //             name: 'Nguyen Van B',
+            //             dob: '24-05-1994',
+            //             prop: {
+            //                 weight: '84kg',
+            //                 height: '167cm'
+            //             }
+            //         },
+            //     ],
+            //     actions: {
+            //         label: 'Actions',
+            //         showLabel: true,
+            //         edit: `
+            //             <button class="btn btn-sm" type="button">
+            //                 <i class="elo el-lg el-pencil"></i>
+            //             </button>
+            //         `,
+            //         remove: `
+            //             <button class="btn btn-sm" type="button">
+            //                 <i class="elo el-lg el-trash"></i>
+            //             </button>
+            //         `,
+            //     }
+            // });
+
+            // new TableData('#testTableData1', {
+            //     border: true,
+            //     columns: [
+            //         {
+            //             label: 'Col 1',
+            //             size: 4
+            //         },
+            //         {
+            //             label: 'Col 2',
+            //             size: 8
+            //         }
+            //     ]
+            // });
         }
 
         function initCalendar(){
